@@ -1,15 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
   TERMINALS,
   ORARI_SLOT,
   generaSlot,
-  SPEDIZIONI,
   vettoreById,
   type Slot,
   type SlotStato,
 } from "@/lib/data";
+import { useOperations } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, X, CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -28,6 +28,7 @@ const STATO_STYLE: Record<SlotStato, string> = {
 };
 
 export function CalendarioClient() {
+  const { spedizioni, confermaAppuntamento } = useOperations();
   const [giornoIdx, setGiornoIdx] = useState(1); // default: martedì 26, giorno con più slot liberi
   const giorno = GIORNI[giornoIdx];
   const [slotsPerGiorno, setSlotsPerGiorno] = useState<Record<string, Slot[]>>(() => {
@@ -40,11 +41,7 @@ export function CalendarioClient() {
   const [confermaVisibile, setConfermaVisibile] = useState<string | null>(null);
 
   const slots = slotsPerGiorno[giorno];
-
-  const spedizioniNonPianificate = useMemo(
-    () => SPEDIZIONI.filter((s) => s.stato !== "confermato"),
-    []
-  );
+  const spedizioniNonPianificate = spedizioni.filter((s) => s.stato !== "confermato");
 
   function apriSlot(terminalId: string, ora: string, stato: SlotStato) {
     if (stato === "pieno") return;
@@ -63,6 +60,7 @@ export function CalendarioClient() {
       );
       return copia;
     });
+    confermaAppuntamento(spedizioneSel, dialogSlot.ora, giorno);
     setConfermaVisibile(spedizioneSel);
     setDialogSlot(null);
     setTimeout(() => setConfermaVisibile(null), 3500);
@@ -74,7 +72,7 @@ export function CalendarioClient() {
         <p className="text-xs font-semibold uppercase tracking-wider text-accent">Appuntamenti</p>
         <h1 className="mt-1 text-2xl font-bold text-navy">Calendario multi-terminal</h1>
         <p className="mt-1 text-sm text-muted">
-          Un'unica vista su Genova Porto Vecchio, PSA Prà e Savona-Vado — invece di tre piattaforme separate.
+          Un&apos;unica vista su Genova Porto Vecchio, PSA Prà e Savona-Vado — invece di tre piattaforme separate.
         </p>
       </header>
 
@@ -121,7 +119,7 @@ export function CalendarioClient() {
             <div className="flex items-center px-4 py-2.5 text-sm font-medium text-muted">{ora}</div>
             {TERMINALS.map((t) => {
               const slot = slots.find((s) => s.terminalId === t.id && s.ora === ora)!;
-              const spedizione = slot.spedizioneId ? SPEDIZIONI.find((s) => s.id === slot.spedizioneId) : undefined;
+              const spedizione = slot.spedizioneId ? spedizioni.find((s) => s.id === slot.spedizioneId) : undefined;
               return (
                 <div key={t.id} className="border-l border-border px-2 py-1.5">
                   <button
@@ -176,7 +174,7 @@ export function CalendarioClient() {
               <div className="mb-5 rounded-lg bg-[#F7F9FA] p-3 text-xs text-muted">
                 Vettore assegnato:{" "}
                 <span className="font-medium text-foreground">
-                  {vettoreById(SPEDIZIONI.find((s) => s.id === spedizioneSel)!.vettoreId)?.nome}
+                  {vettoreById(spedizioni.find((s) => s.id === spedizioneSel)!.vettoreId)?.nome}
                 </span>{" "}
                 — riceverà una notifica automatica con orario e istruzioni gate.
               </div>
