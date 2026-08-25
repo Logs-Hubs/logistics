@@ -1,0 +1,130 @@
+{
+  "project": {
+    "name": "Port Trucking OS - MVP Demo",
+    "one_liner": "Piattaforma per spedizionieri doganali genovesi per coordinare appuntamenti multi-terminal, tracking spedizioni e container vuoti, sostituendo telefono/email/WhatsApp.",
+    "stage": "MVP dimostrativo per design partner (demo 'wow effect', non produzione)",
+    "language_ui": "Italiano",
+    "target_user": "Spedizioniere doganale genovese, 5-30 dipendenti, gestisce import/export container su Genova/Savona-Vado, coordina più vettori terzi (non ha flotta propria integrata)"
+  },
+  "context_for_claude": {
+    "problem": [
+      "Il Port Community System (PCS) di Genova ha 'coni d'ombra': traccia la merce ma non i mezzi/targhe.",
+      "Container vuoti e transiti interni tra terminal sono gestiti manualmente, fuori piattaforma.",
+      "Ogni terminal (Genova Porto Vecchio, PSA Prà, Savona-Vado) ha un proprio sistema di appuntamenti: nessuna vista unificata.",
+      "Gli spedizionieri coordinano oggi tutto questo via telefono, email, WhatsApp con i vettori che gestiscono per conto dei clienti."
+    ],
+    "goal_of_this_build": "Costruire una demo cliccabile e visivamente curata che mostri chiaramente il 'prima vs dopo': cosa succede oggi (frammentato) vs cosa potrebbe fare questa piattaforma (unificato). Deve generare un effetto wow in una call di 15 minuti con un potenziale design partner, e servire a raccogliere feedback, non a essere già production-ready.",
+    "explicitly_out_of_scope_for_now": [
+      "Integrazione reale con le API del PCS di Liguria Digitale (non documentate pubblicamente, richiede negoziazione diretta - fuori scope MVP)",
+      "Integrazione reale con i sistemi proprietari dei singoli terminal",
+      "Autenticazione multi-tenant reale / gestione utenti avanzata",
+      "App mobile nativa (basta una vista mobile-responsive nel browser)",
+      "Fatturazione, pagamenti, compliance documentale reale"
+    ]
+  },
+  "tech_stack": {
+    "framework": "Next.js (App Router) + React + TypeScript",
+    "styling": "Tailwind CSS + shadcn/ui per i componenti (card, tabella, calendario, dialog, badge)",
+    "icons": "lucide-react",
+    "charts": "recharts, se servono grafici nella dashboard",
+    "data": "Dati mock in un file JSON/TypeScript locale (nessun backend/database reale richiesto per l'MVP). Struttura i dati come se venissero da un'API, cosi' e' facile collegare un backend vero in futuro.",
+    "deploy_target": "Vercel (deve essere facilmente deployabile con un comando, per avere un link condivisibile in call)"
+  },
+  "design_guidelines": {
+    "tone": "Professionale, marittimo/industriale ma moderno - non deve sembrare un gestionale anni 2000",
+    "palette": {
+      "primary_navy": "#0B3D5C",
+      "secondary_teal": "#1C7293",
+      "accent_orange": "#E8873A",
+      "background": "#FFFFFF / #F7F9FA per le card",
+      "text": "#1B2A32"
+    },
+    "principles": [
+      "Ogni schermata deve avere dati realistici (nomi terminal veri, nomi vettori/clienti plausibili in italiano), non 'Lorem Ipsum' o 'Test 1'",
+      "Usare stati vuoti, badge di stato (confermato/in attesa/in ritardo) con colori semantici",
+      "Mobile-responsive, ma l'uso primario e' desktop/tablet (l'utente e' uno spedizioniere in ufficio)",
+      "Curare le micro-interazioni (hover, transizioni, feedback visivo al click) per l'effetto wow in demo"
+    ]
+  },
+  "screens": [
+    {
+      "id": "dashboard",
+      "name": "Dashboard spedizioniere",
+      "priority": 1,
+      "description": "Colpo d'occhio su tutte le spedizioni gestite oggi.",
+      "must_have": [
+        "Contatori in evidenza: spedizioni attive, appuntamenti da confermare oggi, container in scadenza (rischio demurrage)",
+        "Tabella/lista spedizioni con: cliente, container, terminal, stato appuntamento, vettore assegnato, scadenza",
+        "Filtro rapido per terminal (Genova Porto Vecchio / PSA Pra' / Savona-Vado)",
+        "Badge colorati per stato: confermato (verde), da pianificare (giallo/arancio), in ritardo (rosso)"
+      ]
+    },
+    {
+      "id": "calendario-appuntamenti",
+      "name": "Calendario appuntamenti multi-terminal",
+      "priority": 1,
+      "description": "La schermata piu' importante per il 'wow effect': un'unica vista calendario che aggrega gli slot disponibili di piu' terminal, invece delle piattaforme separate usate oggi.",
+      "must_have": [
+        "Vista calendario (giorno/settimana) con colonne o filtri per terminal",
+        "Slot orari cliccabili, con indicazione di disponibilita' (libero/pieno/quasi pieno)",
+        "Flusso di prenotazione: click su slot -> dialog con selezione container/vettore -> conferma",
+        "Dopo la conferma, lo slot appare come prenotato con i dettagli visibili al hover"
+      ]
+    },
+    {
+      "id": "tracking-spedizione",
+      "name": "Timeline tracking spedizione",
+      "priority": 2,
+      "description": "Vista dettaglio di una singola spedizione con timeline degli eventi, incluso il tracciamento del container vuoto al rientro (oggi un buco del PCS).",
+      "must_have": [
+        "Timeline verticale con step: arrivo nave -> sdoganamento -> appuntamento gate -> ritiro -> consegna -> rientro container vuoto",
+        "Stato attuale evidenziato chiaramente",
+        "Dati del mezzo/targa associato (colma esplicitamente il gap 'PCS traccia la merce non il mezzo')"
+      ]
+    },
+    {
+      "id": "vista-driver",
+      "name": "Vista mobile driver (mockup)",
+      "priority": 3,
+      "description": "Una vista mobile-responsive che simula cosa vedrebbe l'autista sul suo telefono: prossimo appuntamento, notifica push simulata, istruzioni per il gate.",
+      "must_have": [
+        "Card con prossimo appuntamento: terminal, orario, container, istruzioni",
+        "Simulazione di una notifica push (toast/banner) quando cambia lo stato",
+        "Design ottimizzato per schermo piccolo, leggibile alla guida (font grande, poco testo)"
+      ]
+    }
+  ],
+  "data_model_hint": {
+    "shipment": ["id", "cliente", "container_id", "terminal", "stato_appuntamento", "vettore", "scadenza_demurrage", "targa_mezzo"],
+    "terminal": ["id", "nome (es. 'PSA Genova Pra', 'Genova Porto Vecchio', 'Savona-Vado')", "slot_disponibili"],
+    "appointment": ["id", "shipment_id", "terminal_id", "data_ora", "stato (confermato/da_pianificare/in_ritardo)"],
+    "vettore": ["id", "nome_azienda", "autista", "telefono"]
+  },
+  "milestones": [
+    {
+      "step": 1,
+      "goal": "Setup progetto Next.js + Tailwind + shadcn/ui, struttura dati mock, deploy iniziale su Vercel (anche vuoto) per validare la pipeline"
+    },
+    {
+      "step": 2,
+      "goal": "Dashboard spedizioniere completa con dati mock realistici"
+    },
+    {
+      "step": 3,
+      "goal": "Calendario appuntamenti multi-terminal con flusso di prenotazione funzionante (anche se i dati non persistono su backend reale)"
+    },
+    {
+      "step": 4,
+      "goal": "Timeline tracking spedizione + vista mobile driver"
+    },
+    {
+      "step": 5,
+      "goal": "Rifinitura visiva, transizioni, responsive check, deploy finale per la demo"
+    }
+  ],
+  "success_criteria": [
+    "Un potenziale design partner, guardando la demo per 10-15 minuti, capisce immediatamente il valore senza bisogno di spiegazioni lunghe",
+    "La demo gira fluida su un link condiviso in call (Vercel), senza bisogno di setup locale",
+    "I dati mock sono abbastanza realistici da sembrare 'i loro dati', non dati di esempio generici"
+  ]
+}
