@@ -82,6 +82,13 @@ export function vettoreById(vettori: Vettore[], id: string): Vettore | undefined
   return vettori.find((v) => v.id === id);
 }
 
+const OGGI_DEMO = new Date("2026-08-25T00:00:00");
+
+export function daysUntil(dateStr: string): number {
+  const target = new Date(dateStr + "T00:00:00");
+  return Math.round((target.getTime() - OGGI_DEMO.getTime()) / (1000 * 60 * 60 * 24));
+}
+
 export type EventoTimeline = {
   step: string;
   label: string;

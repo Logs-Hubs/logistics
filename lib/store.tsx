@@ -4,6 +4,7 @@ import { createContext, useCallback, useContext, useState, type ReactNode } from
 import type { FaseOperativa, Spedizione, StatoAppuntamento, Terminal, Vettore } from "./data";
 import {
   prenotaAppuntamento as confermaAppuntamentoAction,
+  annullaAppuntamento as annullaAppuntamentoAction,
   segnalaRitiro as segnalaRitiroAction,
   segnalaRientroVuoto as segnalaRientroVuotoAction,
 } from "@/app/actions";
@@ -20,6 +21,7 @@ type OperationsContextValue = {
   /** Id dell'ultima spedizione aggiornata, per far pulsare la card giusta per ~6s */
   ultimoAggiornatoId: string | null;
   confermaAppuntamento: (spedizioneId: string, oraAppuntamento: string, dataAppuntamento: string) => void;
+  annullaAppuntamento: (spedizioneId: string) => void;
   segnalaRitiro: (spedizioneId: string, ora: string) => void;
   segnalaRientroVuoto: (spedizioneId: string, ora: string) => void;
 };
@@ -61,6 +63,20 @@ export function OperationsProvider({
     [applyOverride]
   );
 
+  const annullaAppuntamento = useCallback(
+    (spedizioneId: string) => {
+      applyOverride(spedizioneId, {
+        stato: "da_pianificare" as StatoAppuntamento,
+        oraAppuntamento: undefined,
+        dataAppuntamento: undefined,
+      });
+      annullaAppuntamentoAction(spedizioneId).catch((err) =>
+        console.error("Errore nell'annullamento dell'appuntamento su Supabase:", err)
+      );
+    },
+    [applyOverride]
+  );
+
   const segnalaRitiro = useCallback(
     (spedizioneId: string, ora: string) => {
       applyOverride(spedizioneId, { faseOperativa: "ritirato" as FaseOperativa, oraRitiro: ora });
@@ -85,7 +101,16 @@ export function OperationsProvider({
 
   return (
     <OperationsContext.Provider
-      value={{ spedizioni, terminals, vettori, ultimoAggiornatoId, confermaAppuntamento, segnalaRitiro, segnalaRientroVuoto }}
+      value={{
+        spedizioni,
+        terminals,
+        vettori,
+        ultimoAggiornatoId,
+        confermaAppuntamento,
+        annullaAppuntamento,
+        segnalaRitiro,
+        segnalaRientroVuoto,
+      }}
     >
       {children}
     </OperationsContext.Provider>

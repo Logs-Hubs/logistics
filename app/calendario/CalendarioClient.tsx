@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { ORARI_SLOT, generaSlot, vettoreById, type Slot, type SlotStato } from "@/lib/data";
+import { ORARI_SLOT, daysUntil, generaSlot, terminalNome, vettoreById, type Slot, type SlotStato } from "@/lib/data";
 import { useOperations } from "@/lib/store";
 import { cn } from "@/lib/utils";
-import { CheckCircle2, X, CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
+import { AlertTriangle, CheckCircle2, X, CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
 
 const GIORNI = ["2026-08-25", "2026-08-26", "2026-08-27", "2026-08-28"];
 const GIORNI_LABEL: Record<string, string> = {
@@ -21,7 +21,7 @@ const STATO_STYLE: Record<SlotStato, string> = {
 };
 
 export function CalendarioClient() {
-  const { spedizioni, terminals, vettori, confermaAppuntamento } = useOperations();
+  const { spedizioni, terminals, vettori, confermaAppuntamento, annullaAppuntamento } = useOperations();
   const [giornoIdx, setGiornoIdx] = useState(1); // default: martedì 26, giorno con più slot liberi
   const giorno = GIORNI[giornoIdx];
   const [slotsPerGiorno, setSlotsPerGiorno] = useState<Record<string, Slot[]>>(() => {
@@ -31,13 +31,22 @@ export function CalendarioClient() {
   });
   const [dialogSlot, setDialogSlot] = useState<{ terminalId: string; ora: string } | null>(null);
   const [spedizioneSel, setSpedizioneSel] = useState<string>("");
+  const [dettaglioSpedizioneId, setDettaglioSpedizioneId] = useState<string | null>(null);
   const [confermaVisibile, setConfermaVisibile] = useState<string | null>(null);
+  const [annullatoVisibile, setAnnullatoVisibile] = useState<string | null>(null);
 
   const slots = slotsPerGiorno[giorno];
-  const spedizioniNonPianificate = spedizioni.filter((s) => s.stato !== "confermato");
+  const spedizioniNonPianificate = [...spedizioni]
+    .filter((s) => s.stato !== "confermato")
+    .sort((a, b) => daysUntil(a.scadenzaDemurrage) - daysUntil(b.scadenzaDemurrage));
+  const spedizioniUrgenti = spedizioniNonPianificate.filter((s) => daysUntil(s.scadenzaDemurrage) <= 2);
+  const dettaglioSpedizione = dettaglioSpedizioneId ? spedizioni.find((s) => s.id === dettaglioSpedizioneId) : undefined;
 
-  function apriSlot(terminalId: string, ora: string, stato: SlotStato) {
-    if (stato === "pieno") return;
+  function apriSlot(terminalId: string, ora: string, stato: SlotStato, spedizioneId: string | undefined) {
+    if (stato === "pieno") {
+      if (spedizioneId) setDettaglioSpedizioneId(spedizioneId);
+      return;
+    }
     setSpedizioneSel("");
     setDialogSlot({ terminalId, ora });
   }
@@ -57,6 +66,22 @@ export function CalendarioClient() {
     setConfermaVisibile(spedizioneSel);
     setDialogSlot(null);
     setTimeout(() => setConfermaVisibile(null), 3500);
+  }
+
+  function annullaPrenotazione() {
+    if (!dettaglioSpedizione) return;
+    const spedizioneId = dettaglioSpedizione.id;
+    setSlotsPerGiorno((prev) => {
+      const copia = { ...prev };
+      copia[giorno] = copia[giorno].map((s) =>
+        s.spedizioneId === spedizioneId ? { ...s, stato: "libero" as SlotStato, spedizioneId: undefined } : s
+      );
+      return copia;
+    });
+    annullaAppuntamento(spedizioneId);
+    setDettaglioSpedizioneId(null);
+    setAnnullatoVisibile(spedizioneId);
+    setTimeout(() => setAnnullatoVisibile(null), 3500);
   }
 
   return (
@@ -97,6 +122,33 @@ export function CalendarioClient() {
         </div>
       </div>
 
+      {/* alert scadenze demurrage */}
+      {spedizioniUrgenti.length > 0 && (
+        <div className="mb-5 rounded-xl border border-rose-200 bg-rose-50 p-4">
+          <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-rose-700">
+            <AlertTriangle className="h-4 w-4" />
+            {spedizioniUrgenti.length === 1
+              ? "1 spedizione rischia la scadenza demurrage"
+              : `${spedizioniUrgenti.length} spedizioni rischiano la scadenza demurrage`}
+          </div>
+          <ul className="space-y-1 text-xs text-rose-700/90">
+            {spedizioniUrgenti.map((s) => {
+              const gg = daysUntil(s.scadenzaDemurrage);
+              return (
+                <li key={s.id} className="flex items-center justify-between gap-3">
+                  <span>
+                    <span className="font-medium">{s.id}</span> · {s.cliente} · {s.containerId}
+                  </span>
+                  <span className="whitespace-nowrap font-medium">
+                    {gg < 0 ? "scaduta" : gg === 0 ? "scade oggi" : `scade tra ${gg}gg`}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+
       {/* griglia calendario */}
       <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <div className="grid grid-cols-[100px_repeat(3,1fr)] border-b border-border bg-[#F7F9FA] text-xs font-semibold uppercase tracking-wide text-muted">
@@ -116,13 +168,14 @@ export function CalendarioClient() {
               return (
                 <div key={t.id} className="border-l border-border px-2 py-1.5">
                   <button
-                    onClick={() => apriSlot(t.id, ora, slot.stato)}
+                    onClick={() => apriSlot(t.id, ora, slot.stato, slot.spedizioneId)}
                     disabled={slot.stato === "pieno" && !spedizione}
                     className={cn(
                       "flex w-full items-center justify-center rounded-md border px-2 py-2 text-xs font-medium transition-colors",
-                      STATO_STYLE[slot.stato]
+                      STATO_STYLE[slot.stato],
+                      spedizione && "cursor-pointer opacity-100 hover:bg-rose-100"
                     )}
-                    title={spedizione ? `${spedizione.id} · ${spedizione.cliente}` : undefined}
+                    title={spedizione ? `${spedizione.id} · ${spedizione.cliente} · clicca per modificare` : undefined}
                   >
                     {spedizione ? spedizione.id : slot.stato === "pieno" ? "Pieno" : slot.stato === "quasi_pieno" ? "1 posto" : "Libero"}
                   </button>
@@ -156,11 +209,16 @@ export function CalendarioClient() {
               className="mb-5 w-full rounded-lg border border-border px-3 py-2.5 text-sm focus:border-teal focus:outline-none"
             >
               <option value="">Seleziona una spedizione da pianificare…</option>
-              {spedizioniNonPianificate.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.id} · {s.cliente} · {s.containerId}
-                </option>
-              ))}
+              {spedizioniNonPianificate.map((s) => {
+                const gg = daysUntil(s.scadenzaDemurrage);
+                const urgenza = gg <= 2 ? ` · ${gg < 0 ? "scaduta" : gg === 0 ? "scade oggi" : `scade tra ${gg}gg`}` : "";
+                return (
+                  <option key={s.id} value={s.id}>
+                    {s.id} · {s.cliente} · {s.containerId}
+                    {urgenza}
+                  </option>
+                );
+              })}
             </select>
 
             {spedizioneSel && (
@@ -192,11 +250,66 @@ export function CalendarioClient() {
         </div>
       )}
 
+      {/* dialog dettaglio/annullamento appuntamento confermato */}
+      {dettaglioSpedizione && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy-dark/40 px-4">
+          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+            <div className="mb-4 flex items-start justify-between">
+              <div>
+                <h3 className="text-base font-semibold text-navy">Appuntamento confermato</h3>
+                <p className="mt-0.5 text-sm text-muted">
+                  {terminalNome(terminals, dettaglioSpedizione.terminalId)} · ore {dettaglioSpedizione.oraAppuntamento}
+                </p>
+              </div>
+              <button onClick={() => setDettaglioSpedizioneId(null)} className="text-muted hover:text-foreground">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="mb-5 rounded-lg bg-[#F7F9FA] p-3 text-xs text-muted">
+              <div className="mb-1 text-sm font-medium text-foreground">
+                {dettaglioSpedizione.id} · {dettaglioSpedizione.cliente}
+              </div>
+              Container {dettaglioSpedizione.containerId} · Vettore{" "}
+              {vettoreById(vettori, dettaglioSpedizione.vettoreId)?.nome}
+            </div>
+
+            <p className="mb-5 text-xs text-muted">
+              Per spostarlo su un altro orario o terminal, annulla l&apos;appuntamento e riprenotalo sullo slot
+              giusto: il vettore riceverà la nuova notifica automatica.
+            </p>
+
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setDettaglioSpedizioneId(null)}
+                className="rounded-lg px-4 py-2 text-sm font-medium text-muted hover:bg-[#F7F9FA]"
+              >
+                Chiudi
+              </button>
+              <button
+                onClick={annullaPrenotazione}
+                className="rounded-lg bg-rose-600 px-4 py-2 text-sm font-medium text-white hover:bg-rose-700"
+              >
+                Annulla appuntamento
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* toast conferma */}
       {confermaVisibile && (
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-lg bg-navy px-4 py-3 text-sm font-medium text-white shadow-lg">
           <CheckCircle2 className="h-4.5 w-4.5 text-emerald-400" />
           Appuntamento confermato per {confermaVisibile}, notifica inviata al vettore.
+        </div>
+      )}
+
+      {/* toast annullamento */}
+      {annullatoVisibile && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-lg bg-navy px-4 py-3 text-sm font-medium text-white shadow-lg">
+          <AlertTriangle className="h-4.5 w-4.5 text-amber-400" />
+          Appuntamento annullato per {annullatoVisibile}, torna tra le spedizioni da pianificare.
         </div>
       )}
     </div>

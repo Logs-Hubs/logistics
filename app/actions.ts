@@ -20,6 +20,17 @@ export async function prenotaAppuntamento(spedizioneId: string, giorno: string, 
   revalidateSpedizione(spedizioneId);
 }
 
+export async function annullaAppuntamento(spedizioneId: string) {
+  const supabase = getSupabaseServer();
+  const { error } = await supabase
+    .from("spedizioni")
+    .update({ stato: "da_pianificare", data_appuntamento: null, ora_appuntamento: null })
+    .eq("id", spedizioneId);
+  if (error) throw error;
+
+  revalidateSpedizione(spedizioneId);
+}
+
 export async function segnalaRitiro(spedizioneId: string, ora: string) {
   const supabase = getSupabaseServer();
   const { error } = await supabase

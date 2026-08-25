@@ -2,18 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { terminalNome, vettoreById } from "@/lib/data";
+import { daysUntil, terminalNome, vettoreById } from "@/lib/data";
 import { StatoBadge } from "@/components/StatoBadge";
 import { DriverPhonePreview } from "@/components/DriverPhonePreview";
 import { useOperations } from "@/lib/store";
 import { AlertTriangle, Ship, Clock3, CheckCircle2, Smartphone, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-function daysUntil(dateStr: string) {
-  const target = new Date(dateStr + "T00:00:00");
-  const today = new Date("2026-08-25T00:00:00");
-  return Math.round((target.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-}
 
 export function DashboardClient() {
   const { spedizioni, terminals, vettori, ultimoAggiornatoId } = useOperations();
