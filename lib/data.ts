@@ -27,6 +27,8 @@ export const VETTORI: Vettore[] = [
   { id: "v4", nome: "Sestri Log Trans", autista: "Andrei Popescu", telefono: "+39 351 220 9081", targa: "GE EF330" },
 ];
 
+export type FaseOperativa = "in_attesa_ritiro" | "ritirato" | "rientro_vuoto";
+
 export type Spedizione = {
   id: string;
   cliente: string;
@@ -39,6 +41,11 @@ export type Spedizione = {
   dataAppuntamento?: string; // giorno se confermato, YYYY-MM-DD
   tipo: "import" | "export";
   merce: string;
+  // Tracking del mezzo oggi fuori dal Port Community System: il gate reale segnala solo il ritiro
+  // del container pieno, il rientro del vuoto resta un buco gestito a telefono.
+  faseOperativa?: FaseOperativa; // assente = ancora in attesa del ritiro
+  oraRitiro?: string; // HH:mm, valorizzato quando il driver segnala il ritiro dal terminal
+  oraRientroVuoto?: string; // HH:mm, valorizzato quando il driver segnala il rientro del vuoto
 };
 
 export const SPEDIZIONI: Spedizione[] = [
@@ -184,6 +191,8 @@ export type EventoTimeline = {
 };
 
 export function timelineSpedizione(s: Spedizione): EventoTimeline[] {
+  const ritirato = s.faseOperativa === "ritirato" || s.faseOperativa === "rientro_vuoto";
+  const vuotoRientrato = s.faseOperativa === "rientro_vuoto";
   return [
     { step: "arrivo_nave", label: "Arrivo nave in porto", dataOra: "24/08/2026 · 06:40", completato: true },
     { step: "scarico", label: "Scarico container", dataOra: "24/08/2026 · 11:20", completato: true },
@@ -196,8 +205,26 @@ export function timelineSpedizione(s: Spedizione): EventoTimeline[] {
       attuale: s.stato !== "confermato",
       note: s.stato === "in_ritardo" ? "Nessuno slot ancora prenotato — rischio demurrage" : undefined,
     },
-    { step: "ritiro", label: "Ritiro container dal terminal", dataOra: "—", completato: false },
+    {
+      step: "ritiro",
+      label: "Ritiro container dal terminal",
+      dataOra: ritirato ? `Oggi · ${s.oraRitiro}` : "—",
+      completato: ritirato,
+      attuale: s.stato === "confermato" && !ritirato,
+      note: ritirato ? `Targa mezzo tracciata al gate` : undefined,
+    },
     { step: "consegna", label: "Consegna al cliente", dataOra: "—", completato: false },
-    { step: "rientro_vuoto", label: "Rientro container vuoto al terminal", dataOra: "—", completato: false, note: "Flusso oggi non tracciato dal PCS" },
+    {
+      step: "rientro_vuoto",
+      label: "Rientro container vuoto al terminal",
+      dataOra: vuotoRientrato ? `Oggi · ${s.oraRientroVuoto}` : "—",
+      completato: vuotoRientrato,
+      attuale: ritirato && !vuotoRientrato,
+      note: vuotoRientrato
+        ? "Flusso che il PCS oggi non traccia — qui invece sì"
+        : ritirato
+          ? "Flusso oggi non tracciato dal PCS: nessuna visibilità finché il driver non lo segnala qui"
+          : undefined,
+    },
   ];
 }

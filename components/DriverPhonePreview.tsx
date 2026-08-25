@@ -1,9 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Bell, MapPin, Package, Navigation, CheckCircle2, Clock3 } from "lucide-react";
+import { Bell, MapPin, Package, Navigation, CheckCircle2, Clock3, Undo2 } from "lucide-react";
 import { terminalNome, type Spedizione, type Vettore } from "@/lib/data";
+import { useOperations } from "@/lib/store";
 import { cn } from "@/lib/utils";
+
+function oraCorrente() {
+  return new Date().toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" });
+}
 
 export function DriverPhonePreview({
   spedizione,
@@ -14,9 +19,15 @@ export function DriverPhonePreview({
   vettore: Vettore;
   justUpdated?: boolean;
 }) {
+  const { segnalaRitiro, segnalaRientroVuoto } = useOperations();
   const [notificaMostrata, setNotificaMostrata] = useState(false);
-  const [arrivato, setArrivato] = useState(false);
+  const [arrivatoLocale, setArrivatoLocale] = useState(false);
   const confermato = spedizione.stato === "confermato";
+  const ritirato = spedizione.faseOperativa === "ritirato" || spedizione.faseOperativa === "rientro_vuoto";
+  const vuotoRientrato = spedizione.faseOperativa === "rientro_vuoto";
+  // se lo stato condiviso è già oltre il gate (ritirato/rientro vuoto), l'arrivo è implicito:
+  // evita che un remount (es. cambio pagina) rimostri "segnala arrivo" per uno step già passato
+  const arrivato = arrivatoLocale || ritirato;
 
   // Aggiustamenti di stato durante il render (pattern consigliato da React al posto di un Effect
   // per "adjusting state when a prop changes"): evitano un giro di render extra e il lint
@@ -25,7 +36,7 @@ export function DriverPhonePreview({
   const [chiavePrecedente, setChiavePrecedente] = useState(chiaveSpedizione);
   if (chiavePrecedente !== chiaveSpedizione) {
     setChiavePrecedente(chiaveSpedizione);
-    setArrivato(false); // cambio spedizione mostrata (o ri-conferma con nuovo orario)
+    setArrivatoLocale(false); // cambio spedizione mostrata (o ri-conferma con nuovo orario)
   }
 
   // inizializzato a false (non a justUpdated) così un mount con justUpdated già true
@@ -85,18 +96,46 @@ export function DriverPhonePreview({
                 {spedizione.containerId}
               </div>
 
-              {!arrivato ? (
+              {!arrivato && (
                 <button
-                  onClick={() => setArrivato(true)}
+                  onClick={() => setArrivatoLocale(true)}
                   className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3 text-sm font-semibold text-white"
                 >
                   <Navigation className="h-4 w-4" />
                   Segnala arrivo al gate
                 </button>
-              ) : (
+              )}
+
+              {arrivato && !ritirato && (
+                <button
+                  onClick={() => segnalaRitiro(spedizione.id, oraCorrente())}
+                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3 text-sm font-semibold text-white"
+                >
+                  <Package className="h-4 w-4" />
+                  Segnala ritiro container
+                </button>
+              )}
+
+              {ritirato && !vuotoRientrato && (
+                <div className="mt-4 space-y-2">
+                  <div className="flex items-center justify-center gap-2 rounded-xl bg-emerald-500/20 py-2.5 text-xs font-semibold text-emerald-300">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    Ritirato alle {spedizione.oraRitiro} — in consegna al cliente
+                  </div>
+                  <button
+                    onClick={() => segnalaRientroVuoto(spedizione.id, oraCorrente())}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3 text-sm font-semibold text-white"
+                  >
+                    <Undo2 className="h-4 w-4" />
+                    Segnala rientro container vuoto
+                  </button>
+                </div>
+              )}
+
+              {vuotoRientrato && (
                 <div className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-emerald-500/20 py-3 text-sm font-semibold text-emerald-300">
                   <CheckCircle2 className="h-4 w-4" />
-                  Arrivo segnalato — spedizioniere avvisato
+                  Vuoto rientrato alle {spedizione.oraRientroVuoto} — ciclo completato
                 </div>
               )}
             </div>
@@ -133,10 +172,7 @@ export function DriverPhonePreview({
             </div>
             <div className="flex-1">
               <p className="text-xs font-semibold text-navy">Port Trucking OS</p>
-              <p className="mt-0.5 text-[11px] text-muted">
-                Appuntamento confermato alle {spedizione.oraAppuntamento} presso {terminalNome(spedizione.terminalId)}. Container{" "}
-                {spedizione.containerId}.
-              </p>
+              <p className="mt-0.5 text-[11px] text-muted">{testoNotifica(spedizione)}</p>
             </div>
             <button onClick={() => setNotificaMostrata(false)} className="text-[10px] text-muted">
               ✕
@@ -146,4 +182,16 @@ export function DriverPhonePreview({
       )}
     </div>
   );
+}
+
+// Riflette lo stato più avanzato raggiunto dalla spedizione: gli stadi sono monotoni
+// (confermato -> ritirato -> rientro vuoto), quindi basta guardare quello più recente.
+function testoNotifica(s: Spedizione): string {
+  if (s.faseOperativa === "rientro_vuoto") {
+    return `Rientro container vuoto registrato alle ${s.oraRientroVuoto} presso ${terminalNome(s.terminalId)}.`;
+  }
+  if (s.faseOperativa === "ritirato") {
+    return `Ritiro container confermato alle ${s.oraRitiro} presso ${terminalNome(s.terminalId)}.`;
+  }
+  return `Appuntamento confermato alle ${s.oraAppuntamento} presso ${terminalNome(s.terminalId)}. Container ${s.containerId}.`;
 }
