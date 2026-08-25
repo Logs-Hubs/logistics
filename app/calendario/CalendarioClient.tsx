@@ -1,18 +1,8 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
-import {
-  ORARI_SLOT,
-  generaSlot,
-  vettoreById,
-  type Slot,
-  type SlotStato,
-  type Spedizione,
-  type Terminal,
-  type Vettore,
-} from "@/lib/data";
-import { prenotaAppuntamento } from "@/app/actions";
+import { useState } from "react";
+import { ORARI_SLOT, generaSlot, vettoreById, type Slot, type SlotStato } from "@/lib/data";
+import { useOperations } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, X, CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -30,21 +20,13 @@ const STATO_STYLE: Record<SlotStato, string> = {
   pieno: "bg-rose-50 text-rose-500 border-rose-200 cursor-not-allowed opacity-80",
 };
 
-type Props = {
-  spedizioni: Spedizione[];
-  terminals: Terminal[];
-  vettori: Vettore[];
-};
-
-export function CalendarioClient({ spedizioni: spedizioniIniziali, terminals, vettori }: Props) {
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
-  const [spedizioni, setSpedizioni] = useState(spedizioniIniziali);
+export function CalendarioClient() {
+  const { spedizioni, terminals, vettori, confermaAppuntamento } = useOperations();
   const [giornoIdx, setGiornoIdx] = useState(1); // default: martedì 26, giorno con più slot liberi
   const giorno = GIORNI[giornoIdx];
   const [slotsPerGiorno, setSlotsPerGiorno] = useState<Record<string, Slot[]>>(() => {
     const init: Record<string, Slot[]> = {};
-    GIORNI.forEach((g) => (init[g] = generaSlot(g, spedizioniIniziali, terminals)));
+    GIORNI.forEach((g) => (init[g] = generaSlot(g, spedizioni, terminals)));
     return init;
   });
   const [dialogSlot, setDialogSlot] = useState<{ terminalId: string; ora: string } | null>(null);
@@ -52,11 +34,7 @@ export function CalendarioClient({ spedizioni: spedizioniIniziali, terminals, ve
   const [confermaVisibile, setConfermaVisibile] = useState<string | null>(null);
 
   const slots = slotsPerGiorno[giorno];
-
-  const spedizioniNonPianificate = useMemo(
-    () => spedizioni.filter((s) => s.stato !== "confermato"),
-    [spedizioni]
-  );
+  const spedizioniNonPianificate = spedizioni.filter((s) => s.stato !== "confermato");
 
   function apriSlot(terminalId: string, ora: string, stato: SlotStato) {
     if (stato === "pieno") return;
@@ -66,33 +44,19 @@ export function CalendarioClient({ spedizioni: spedizioniIniziali, terminals, ve
 
   function confermaPrenotazione() {
     if (!dialogSlot || !spedizioneSel) return;
-    const { terminalId, ora } = dialogSlot;
-    const idSelezionata = spedizioneSel;
-
-    setSpedizioni((prev) =>
-      prev.map((s) =>
-        s.id === idSelezionata
-          ? { ...s, stato: "confermato" as const, dataAppuntamento: giorno, oraAppuntamento: ora }
-          : s
-      )
-    );
     setSlotsPerGiorno((prev) => {
       const copia = { ...prev };
       copia[giorno] = copia[giorno].map((s) =>
-        s.terminalId === terminalId && s.ora === ora
-          ? { ...s, stato: "pieno" as SlotStato, spedizioneId: idSelezionata }
+        s.terminalId === dialogSlot.terminalId && s.ora === dialogSlot.ora
+          ? { ...s, stato: "pieno" as SlotStato, spedizioneId: spedizioneSel }
           : s
       );
       return copia;
     });
-    setConfermaVisibile(idSelezionata);
+    confermaAppuntamento(spedizioneSel, dialogSlot.ora, giorno);
+    setConfermaVisibile(spedizioneSel);
     setDialogSlot(null);
     setTimeout(() => setConfermaVisibile(null), 3500);
-
-    startTransition(async () => {
-      await prenotaAppuntamento(idSelezionata, giorno, ora);
-      router.refresh();
-    });
   }
 
   return (
@@ -101,7 +65,7 @@ export function CalendarioClient({ spedizioni: spedizioniIniziali, terminals, ve
         <p className="text-xs font-semibold uppercase tracking-wider text-accent">Appuntamenti</p>
         <h1 className="mt-1 text-2xl font-bold text-navy">Calendario multi-terminal</h1>
         <p className="mt-1 text-sm text-muted">
-          Un'unica vista su Genova Porto Vecchio, PSA Prà e Savona-Vado — invece di tre piattaforme separate.
+          Un&apos;unica vista su Genova Porto Vecchio, PSA Prà e Savona-Vado — invece di tre piattaforme separate.
         </p>
       </header>
 
@@ -218,7 +182,7 @@ export function CalendarioClient({ spedizioni: spedizioniIniziali, terminals, ve
               </button>
               <button
                 onClick={confermaPrenotazione}
-                disabled={!spedizioneSel || isPending}
+                disabled={!spedizioneSel}
                 className="rounded-lg bg-navy px-4 py-2 text-sm font-medium text-white hover:bg-navy-dark disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Conferma prenotazione

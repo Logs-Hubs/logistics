@@ -29,6 +29,14 @@ create table if not exists spedizioni (
   merce text not null
 );
 
+-- Tracking ritiro / rientro container vuoto (il gap che il PCS oggi non copre).
+-- `alter ... add column if not exists` cosi' e' sicuro da rieseguire sia su un DB
+-- appena creato sia su uno gia' inizializzato con lo schema precedente.
+alter table spedizioni add column if not exists fase_operativa text
+  check (fase_operativa in ('ritirato', 'rientro_vuoto'));
+alter table spedizioni add column if not exists ora_ritiro text;
+alter table spedizioni add column if not exists ora_rientro_vuoto text;
+
 -- RLS abilitata senza policy: solo la secret key lato server (che bypassa RLS)
 -- puo' leggere/scrivere. La publishable/anon key non ha accesso a queste tabelle.
 alter table terminals enable row level security;

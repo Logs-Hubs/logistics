@@ -1,6 +1,6 @@
 import "server-only";
 import { getSupabaseServer } from "@/lib/supabase/server";
-import type { Spedizione, Terminal, Vettore } from "@/lib/data";
+import type { FaseOperativa, Spedizione, Terminal, Vettore } from "@/lib/data";
 
 type SpedizioneRow = {
   id: string;
@@ -14,6 +14,9 @@ type SpedizioneRow = {
   data_appuntamento: string | null;
   tipo: Spedizione["tipo"];
   merce: string;
+  fase_operativa: FaseOperativa | null;
+  ora_ritiro: string | null;
+  ora_rientro_vuoto: string | null;
 };
 
 function mapSpedizione(row: SpedizioneRow): Spedizione {
@@ -29,6 +32,9 @@ function mapSpedizione(row: SpedizioneRow): Spedizione {
     dataAppuntamento: row.data_appuntamento ?? undefined,
     tipo: row.tipo,
     merce: row.merce,
+    faseOperativa: row.fase_operativa ?? undefined,
+    oraRitiro: row.ora_ritiro ?? undefined,
+    oraRientroVuoto: row.ora_rientro_vuoto ?? undefined,
   };
 }
 
