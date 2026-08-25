@@ -1,19 +1,23 @@
-import { SPEDIZIONI, terminalNome, vettoreById, timelineSpedizione } from "@/lib/data";
+import { terminalNome, vettoreById, timelineSpedizione } from "@/lib/data";
+import { getSpedizione, getSpedizioni, getTerminals, getVettori } from "@/lib/queries";
 import { StatoBadge } from "@/components/StatoBadge";
 import { notFound } from "next/navigation";
 import { CheckCircle2, Circle, Truck, Package, AlertCircle } from "lucide-react";
 import Link from "next/link";
 
-export function generateStaticParams() {
-  return SPEDIZIONI.map((s) => ({ id: s.id }));
-}
+export const dynamic = "force-dynamic";
 
 export default async function SpedizionePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const spedizione = SPEDIZIONI.find((s) => s.id === id);
+  const [spedizione, SPEDIZIONI, TERMINALS, VETTORI] = await Promise.all([
+    getSpedizione(id),
+    getSpedizioni(),
+    getTerminals(),
+    getVettori(),
+  ]);
   if (!spedizione) notFound();
 
-  const vettore = vettoreById(spedizione.vettoreId);
+  const vettore = vettoreById(VETTORI, spedizione.vettoreId);
   const timeline = timelineSpedizione(spedizione);
 
   return (
@@ -24,7 +28,7 @@ export default async function SpedizionePage({ params }: { params: Promise<{ id:
         <StatoBadge stato={spedizione.stato} />
       </div>
       <p className="mt-1 text-sm text-muted">
-        {spedizione.cliente} · {terminalNome(spedizione.terminalId)}
+        {spedizione.cliente} · {terminalNome(TERMINALS, spedizione.terminalId)}
       </p>
 
       {/* selettore rapido altre spedizioni */}

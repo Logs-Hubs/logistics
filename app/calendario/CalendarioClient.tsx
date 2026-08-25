@@ -1,15 +1,18 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import {
-  TERMINALS,
   ORARI_SLOT,
   generaSlot,
-  SPEDIZIONI,
   vettoreById,
   type Slot,
   type SlotStato,
+  type Spedizione,
+  type Terminal,
+  type Vettore,
 } from "@/lib/data";
+import { prenotaAppuntamento } from "@/app/actions";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, X, CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -27,12 +30,21 @@ const STATO_STYLE: Record<SlotStato, string> = {
   pieno: "bg-rose-50 text-rose-500 border-rose-200 cursor-not-allowed opacity-80",
 };
 
-export function CalendarioClient() {
+type Props = {
+  spedizioni: Spedizione[];
+  terminals: Terminal[];
+  vettori: Vettore[];
+};
+
+export function CalendarioClient({ spedizioni: spedizioniIniziali, terminals, vettori }: Props) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [spedizioni, setSpedizioni] = useState(spedizioniIniziali);
   const [giornoIdx, setGiornoIdx] = useState(1); // default: martedì 26, giorno con più slot liberi
   const giorno = GIORNI[giornoIdx];
   const [slotsPerGiorno, setSlotsPerGiorno] = useState<Record<string, Slot[]>>(() => {
     const init: Record<string, Slot[]> = {};
-    GIORNI.forEach((g) => (init[g] = generaSlot(g)));
+    GIORNI.forEach((g) => (init[g] = generaSlot(g, spedizioniIniziali, terminals)));
     return init;
   });
   const [dialogSlot, setDialogSlot] = useState<{ terminalId: string; ora: string } | null>(null);
@@ -42,8 +54,8 @@ export function CalendarioClient() {
   const slots = slotsPerGiorno[giorno];
 
   const spedizioniNonPianificate = useMemo(
-    () => SPEDIZIONI.filter((s) => s.stato !== "confermato"),
-    []
+    () => spedizioni.filter((s) => s.stato !== "confermato"),
+    [spedizioni]
   );
 
   function apriSlot(terminalId: string, ora: string, stato: SlotStato) {
@@ -54,18 +66,33 @@ export function CalendarioClient() {
 
   function confermaPrenotazione() {
     if (!dialogSlot || !spedizioneSel) return;
+    const { terminalId, ora } = dialogSlot;
+    const idSelezionata = spedizioneSel;
+
+    setSpedizioni((prev) =>
+      prev.map((s) =>
+        s.id === idSelezionata
+          ? { ...s, stato: "confermato" as const, dataAppuntamento: giorno, oraAppuntamento: ora }
+          : s
+      )
+    );
     setSlotsPerGiorno((prev) => {
       const copia = { ...prev };
       copia[giorno] = copia[giorno].map((s) =>
-        s.terminalId === dialogSlot.terminalId && s.ora === dialogSlot.ora
-          ? { ...s, stato: "pieno" as SlotStato, spedizioneId: spedizioneSel }
+        s.terminalId === terminalId && s.ora === ora
+          ? { ...s, stato: "pieno" as SlotStato, spedizioneId: idSelezionata }
           : s
       );
       return copia;
     });
-    setConfermaVisibile(spedizioneSel);
+    setConfermaVisibile(idSelezionata);
     setDialogSlot(null);
     setTimeout(() => setConfermaVisibile(null), 3500);
+
+    startTransition(async () => {
+      await prenotaAppuntamento(idSelezionata, giorno, ora);
+      router.refresh();
+    });
   }
 
   return (
@@ -110,7 +137,7 @@ export function CalendarioClient() {
       <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <div className="grid grid-cols-[100px_repeat(3,1fr)] border-b border-border bg-[#F7F9FA] text-xs font-semibold uppercase tracking-wide text-muted">
           <div className="px-4 py-3">Orario</div>
-          {TERMINALS.map((t) => (
+          {terminals.map((t) => (
             <div key={t.id} className="border-l border-border px-4 py-3">
               {t.nome}
             </div>
@@ -119,9 +146,9 @@ export function CalendarioClient() {
         {ORARI_SLOT.map((ora) => (
           <div key={ora} className="grid grid-cols-[100px_repeat(3,1fr)] border-b border-border last:border-0">
             <div className="flex items-center px-4 py-2.5 text-sm font-medium text-muted">{ora}</div>
-            {TERMINALS.map((t) => {
+            {terminals.map((t) => {
               const slot = slots.find((s) => s.terminalId === t.id && s.ora === ora)!;
-              const spedizione = slot.spedizioneId ? SPEDIZIONI.find((s) => s.id === slot.spedizioneId) : undefined;
+              const spedizione = slot.spedizioneId ? spedizioni.find((s) => s.id === slot.spedizioneId) : undefined;
               return (
                 <div key={t.id} className="border-l border-border px-2 py-1.5">
                   <button
@@ -150,7 +177,7 @@ export function CalendarioClient() {
               <div>
                 <h3 className="text-base font-semibold text-navy">Prenota appuntamento</h3>
                 <p className="mt-0.5 text-sm text-muted">
-                  {TERMINALS.find((t) => t.id === dialogSlot.terminalId)?.nome} · ore {dialogSlot.ora}
+                  {terminals.find((t) => t.id === dialogSlot.terminalId)?.nome} · ore {dialogSlot.ora}
                 </p>
               </div>
               <button onClick={() => setDialogSlot(null)} className="text-muted hover:text-foreground">
@@ -176,7 +203,7 @@ export function CalendarioClient() {
               <div className="mb-5 rounded-lg bg-[#F7F9FA] p-3 text-xs text-muted">
                 Vettore assegnato:{" "}
                 <span className="font-medium text-foreground">
-                  {vettoreById(SPEDIZIONI.find((s) => s.id === spedizioneSel)!.vettoreId)?.nome}
+                  {vettoreById(vettori, spedizioni.find((s) => s.id === spedizioneSel)!.vettoreId)?.nome}
                 </span>{" "}
                 — riceverà una notifica automatica con orario e istruzioni gate.
               </div>
@@ -191,7 +218,7 @@ export function CalendarioClient() {
               </button>
               <button
                 onClick={confermaPrenotazione}
-                disabled={!spedizioneSel}
+                disabled={!spedizioneSel || isPending}
                 className="rounded-lg bg-navy px-4 py-2 text-sm font-medium text-white hover:bg-navy-dark disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Conferma prenotazione

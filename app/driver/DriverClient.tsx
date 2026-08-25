@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { SPEDIZIONI, terminalNome, vettoreById } from "@/lib/data";
+import type { Spedizione, Vettore } from "@/lib/data";
 import { Bell, MapPin, Package, Navigation, CheckCircle2 } from "lucide-react";
 
-const spedizione = SPEDIZIONI.find((s) => s.id === "SP-2464")!; // confermata, terminal PSA Prà
-const vettore = vettoreById(spedizione.vettoreId)!;
+type Props = {
+  spedizione: Spedizione;
+  vettore: Vettore;
+  terminalNome: string;
+};
 
-export function DriverClient() {
+export function DriverClient({ spedizione, vettore, terminalNome }: Props) {
   const [notificaMostrata, setNotificaMostrata] = useState(false);
   const [arrivato, setArrivato] = useState(false);
 
@@ -47,7 +50,7 @@ export function DriverClient() {
               <p className="mt-1 text-2xl font-bold">{spedizione.oraAppuntamento}</p>
               <div className="mt-3 flex items-center gap-2 text-sm text-teal-light">
                 <MapPin className="h-4 w-4" />
-                {terminalNome(spedizione.terminalId)}
+                {terminalNome}
               </div>
               <div className="mt-1.5 flex items-center gap-2 text-sm text-teal-light">
                 <Package className="h-4 w-4" />
@@ -97,7 +100,7 @@ export function DriverClient() {
             <div className="flex-1">
               <p className="text-sm font-semibold text-navy">Port Trucking OS</p>
               <p className="mt-0.5 text-xs text-muted">
-                Appuntamento confermato alle {spedizione.oraAppuntamento} presso {terminalNome(spedizione.terminalId)}. Container {spedizione.containerId}.
+                Appuntamento confermato alle {spedizione.oraAppuntamento} presso {terminalNome}. Container {spedizione.containerId}.
               </p>
             </div>
             <button onClick={() => setNotificaMostrata(false)} className="text-xs text-muted">

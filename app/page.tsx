@@ -1,7 +1,10 @@
-import { SPEDIZIONI, terminalNome, vettoreById, TERMINALS } from "@/lib/data";
+import { terminalNome, vettoreById } from "@/lib/data";
+import { getSpedizioni, getTerminals, getVettori } from "@/lib/queries";
 import { StatoBadge } from "@/components/StatoBadge";
 import { AlertTriangle, Ship, Clock3, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
+
+export const dynamic = "force-dynamic";
 
 function daysUntil(dateStr: string) {
   const target = new Date(dateStr + "T00:00:00");
@@ -9,7 +12,9 @@ function daysUntil(dateStr: string) {
   return Math.round((target.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 }
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const [SPEDIZIONI, TERMINALS, VETTORI] = await Promise.all([getSpedizioni(), getTerminals(), getVettori()]);
+
   const attive = SPEDIZIONI.length;
   const daPianificare = SPEDIZIONI.filter((s) => s.stato === "da_pianificare" || s.stato === "in_ritardo").length;
   const inScadenza = SPEDIZIONI.filter((s) => daysUntil(s.scadenzaDemurrage) <= 2).length;
@@ -53,7 +58,7 @@ export default function DashboardPage() {
           </thead>
           <tbody>
             {SPEDIZIONI.map((s) => {
-              const vettore = vettoreById(s.vettoreId);
+              const vettore = vettoreById(VETTORI, s.vettoreId);
               const gg = daysUntil(s.scadenzaDemurrage);
               return (
                 <tr key={s.id} className="border-b border-border last:border-0 hover:bg-[#FAFBFC]">
@@ -64,7 +69,7 @@ export default function DashboardPage() {
                   </td>
                   <td className="px-5 py-3.5 text-foreground">{s.cliente}</td>
                   <td className="px-5 py-3.5 font-mono text-xs text-muted">{s.containerId}</td>
-                  <td className="px-5 py-3.5 text-foreground">{terminalNome(s.terminalId)}</td>
+                  <td className="px-5 py-3.5 text-foreground">{terminalNome(TERMINALS, s.terminalId)}</td>
                   <td className="px-5 py-3.5 text-foreground">{vettore?.nome}</td>
                   <td className="px-5 py-3.5">
                     <span className={gg <= 1 ? "font-semibold text-rose-600" : gg <= 3 ? "font-semibold text-amber-600" : "text-muted"}>
