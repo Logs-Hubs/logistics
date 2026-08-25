@@ -1,7 +1,7 @@
 {
   "handoff": {
     "date": "2026-08-25",
-    "project_name": "Port Trucking OS",
+    "project_name": "Clyo",
     "purpose_of_this_file": "Contesto completo per chiunque (o qualunque istanza di Claude Code) riprenda il progetto da qui, senza dover rileggere l'intera conversazione precedente.",
     "read_also": [
       "project_spec.json (spec funzionale originale)",

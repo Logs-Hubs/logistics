@@ -5,7 +5,7 @@ import { OperationsProvider } from "@/lib/store";
 import { getSpedizioni, getTerminals, getVettori } from "@/lib/queries";
 
 export const metadata: Metadata = {
-  title: "Port Trucking OS — Demo",
+  title: "Clyo — Demo",
   description: "Piattaforma per coordinare appuntamenti, tracking e container tra spedizionieri, vettori e terminal portuali di Genova.",
 };
 
