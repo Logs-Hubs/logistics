@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // clyo-site è un progetto Next.js indipendente con la sua config: mai lintarlo da qui.
+    "clyo-site/**",
   ]),
 ]);
 
