@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { terminalNome, vettoreById, TERMINALS } from "@/lib/data";
+import { terminalNome, vettoreById } from "@/lib/data";
 import { StatoBadge } from "@/components/StatoBadge";
 import { DriverPhonePreview } from "@/components/DriverPhonePreview";
 import { useOperations } from "@/lib/store";
@@ -16,7 +16,7 @@ function daysUntil(dateStr: string) {
 }
 
 export function DashboardClient() {
-  const { spedizioni, ultimoAggiornatoId } = useOperations();
+  const { spedizioni, terminals, vettori, ultimoAggiornatoId } = useOperations();
 
   const attive = spedizioni.length;
   const daPianificare = spedizioni.filter((s) => s.stato === "da_pianificare" || s.stato === "in_ritardo").length;
@@ -32,7 +32,7 @@ export function DashboardClient() {
     spedizioni.find((s) => s.stato === "da_pianificare")?.id ??
     spedizioni[0].id;
   const selezionata = spedizioni.find((s) => s.id === effettivaId)!;
-  const vettoreSel = vettoreById(selezionata.vettoreId)!;
+  const vettoreSel = vettoreById(vettori, selezionata.vettoreId)!;
 
   return (
     <div className="mx-auto max-w-7xl px-8 py-8">
@@ -50,7 +50,7 @@ export function DashboardClient() {
       </div>
 
       <div className="mb-4 flex items-center gap-2">
-        {TERMINALS.map((t) => (
+        {terminals.map((t) => (
           <span key={t.id} className="rounded-full border border-border bg-white px-3 py-1.5 text-xs font-medium text-muted">
             {t.breve}
           </span>
@@ -73,7 +73,7 @@ export function DashboardClient() {
             </thead>
             <tbody>
               {spedizioni.map((s) => {
-                const vettore = vettoreById(s.vettoreId);
+                const vettore = vettoreById(vettori, s.vettoreId);
                 const gg = daysUntil(s.scadenzaDemurrage);
                 const attiva = s.id === effettivaId;
                 return (
@@ -97,7 +97,7 @@ export function DashboardClient() {
                     </td>
                     <td className="px-5 py-3.5 text-foreground">{s.cliente}</td>
                     <td className="px-5 py-3.5 font-mono text-xs text-muted">{s.containerId}</td>
-                    <td className="px-5 py-3.5 text-foreground">{terminalNome(s.terminalId)}</td>
+                    <td className="px-5 py-3.5 text-foreground">{terminalNome(terminals, s.terminalId)}</td>
                     <td className="px-5 py-3.5 text-foreground">{vettore?.nome}</td>
                     <td className="px-5 py-3.5">
                       <span className={gg <= 1 ? "font-semibold text-rose-600" : gg <= 3 ? "font-semibold text-amber-600" : "text-muted"}>
@@ -127,6 +127,7 @@ export function DashboardClient() {
             <DriverPhonePreview
               spedizione={selezionata}
               vettore={vettoreSel}
+              terminaleNome={terminalNome(terminals, selezionata.terminalId)}
               justUpdated={ultimoAggiornatoId === selezionata.id}
             />
 

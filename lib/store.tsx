@@ -1,15 +1,22 @@
 "use client";
 
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
-import { SPEDIZIONI, type FaseOperativa, type Spedizione, type StatoAppuntamento } from "./data";
+import type { FaseOperativa, Spedizione, StatoAppuntamento, Terminal, Vettore } from "./data";
+import {
+  prenotaAppuntamento as confermaAppuntamentoAction,
+  segnalaRitiro as segnalaRitiroAction,
+  segnalaRientroVuoto as segnalaRientroVuotoAction,
+} from "@/app/actions";
 
 type Override = Partial<
   Pick<Spedizione, "stato" | "oraAppuntamento" | "dataAppuntamento" | "faseOperativa" | "oraRitiro" | "oraRientroVuoto">
 >;
 
 type OperationsContextValue = {
-  /** Spedizioni con sopra gli aggiornamenti fatti a runtime (es. conferme dal calendario, azioni del driver) */
+  /** Spedizioni cosi' come caricate da Supabase all'avvio, con sopra gli aggiornamenti ottimistici fatti a runtime */
   spedizioni: Spedizione[];
+  terminals: Terminal[];
+  vettori: Vettore[];
   /** Id dell'ultima spedizione aggiornata, per far pulsare la card giusta per ~6s */
   ultimoAggiornatoId: string | null;
   confermaAppuntamento: (spedizioneId: string, oraAppuntamento: string, dataAppuntamento: string) => void;
@@ -19,7 +26,17 @@ type OperationsContextValue = {
 
 const OperationsContext = createContext<OperationsContextValue | null>(null);
 
-export function OperationsProvider({ children }: { children: ReactNode }) {
+export function OperationsProvider({
+  spedizioniIniziali,
+  terminals,
+  vettori,
+  children,
+}: {
+  spedizioniIniziali: Spedizione[];
+  terminals: Terminal[];
+  vettori: Vettore[];
+  children: ReactNode;
+}) {
   const [overrides, setOverrides] = useState<Record<string, Override>>({});
   const [ultimoAggiornatoId, setUltimoAggiornatoId] = useState<string | null>(null);
 
@@ -31,9 +48,15 @@ export function OperationsProvider({ children }: { children: ReactNode }) {
     }, 6000);
   }, []);
 
+  // Aggiornamento ottimistico immediato in UI + scrittura reale su Supabase in background.
+  // Se la scrittura fallisce logghiamo soltanto: l'utente vede comunque lo stato ottimistico,
+  // coerente con com'era gia' il comportamento del calendario prima di questa integrazione.
   const confermaAppuntamento = useCallback(
     (spedizioneId: string, oraAppuntamento: string, dataAppuntamento: string) => {
       applyOverride(spedizioneId, { stato: "confermato" as StatoAppuntamento, oraAppuntamento, dataAppuntamento });
+      confermaAppuntamentoAction(spedizioneId, dataAppuntamento, oraAppuntamento).catch((err) =>
+        console.error("Errore nel salvataggio della conferma appuntamento su Supabase:", err)
+      );
     },
     [applyOverride]
   );
@@ -41,6 +64,9 @@ export function OperationsProvider({ children }: { children: ReactNode }) {
   const segnalaRitiro = useCallback(
     (spedizioneId: string, ora: string) => {
       applyOverride(spedizioneId, { faseOperativa: "ritirato" as FaseOperativa, oraRitiro: ora });
+      segnalaRitiroAction(spedizioneId, ora).catch((err) =>
+        console.error("Errore nel salvataggio del ritiro su Supabase:", err)
+      );
     },
     [applyOverride]
   );
@@ -48,15 +74,18 @@ export function OperationsProvider({ children }: { children: ReactNode }) {
   const segnalaRientroVuoto = useCallback(
     (spedizioneId: string, ora: string) => {
       applyOverride(spedizioneId, { faseOperativa: "rientro_vuoto" as FaseOperativa, oraRientroVuoto: ora });
+      segnalaRientroVuotoAction(spedizioneId, ora).catch((err) =>
+        console.error("Errore nel salvataggio del rientro vuoto su Supabase:", err)
+      );
     },
     [applyOverride]
   );
 
-  const spedizioni = SPEDIZIONI.map((s) => (overrides[s.id] ? { ...s, ...overrides[s.id] } : s));
+  const spedizioni = spedizioniIniziali.map((s) => (overrides[s.id] ? { ...s, ...overrides[s.id] } : s));
 
   return (
     <OperationsContext.Provider
-      value={{ spedizioni, ultimoAggiornatoId, confermaAppuntamento, segnalaRitiro, segnalaRientroVuoto }}
+      value={{ spedizioni, terminals, vettori, ultimoAggiornatoId, confermaAppuntamento, segnalaRitiro, segnalaRientroVuoto }}
     >
       {children}
     </OperationsContext.Provider>

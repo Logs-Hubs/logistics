@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Bell, MapPin, Package, Navigation, CheckCircle2, Clock3, Undo2 } from "lucide-react";
-import { terminalNome, type Spedizione, type Vettore } from "@/lib/data";
+import type { Spedizione, Vettore } from "@/lib/data";
 import { useOperations } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -13,10 +13,12 @@ function oraCorrente() {
 export function DriverPhonePreview({
   spedizione,
   vettore,
+  terminaleNome,
   justUpdated = false,
 }: {
   spedizione: Spedizione;
   vettore: Vettore;
+  terminaleNome: string;
   justUpdated?: boolean;
 }) {
   const { segnalaRitiro, segnalaRientroVuoto } = useOperations();
@@ -89,7 +91,7 @@ export function DriverPhonePreview({
               <p className="mt-1 text-2xl font-bold">{spedizione.oraAppuntamento}</p>
               <div className="mt-3 flex items-center gap-2 text-sm text-teal-light">
                 <MapPin className="h-4 w-4" />
-                {terminalNome(spedizione.terminalId)}
+                {terminaleNome}
               </div>
               <div className="mt-1.5 flex items-center gap-2 text-sm text-teal-light">
                 <Package className="h-4 w-4" />
@@ -172,7 +174,7 @@ export function DriverPhonePreview({
             </div>
             <div className="flex-1">
               <p className="text-xs font-semibold text-navy">Port Trucking OS</p>
-              <p className="mt-0.5 text-[11px] text-muted">{testoNotifica(spedizione)}</p>
+              <p className="mt-0.5 text-[11px] text-muted">{testoNotifica(spedizione, terminaleNome)}</p>
             </div>
             <button onClick={() => setNotificaMostrata(false)} className="text-[10px] text-muted">
               ✕
@@ -186,12 +188,12 @@ export function DriverPhonePreview({
 
 // Riflette lo stato più avanzato raggiunto dalla spedizione: gli stadi sono monotoni
 // (confermato -> ritirato -> rientro vuoto), quindi basta guardare quello più recente.
-function testoNotifica(s: Spedizione): string {
+function testoNotifica(s: Spedizione, terminaleNome: string): string {
   if (s.faseOperativa === "rientro_vuoto") {
-    return `Rientro container vuoto registrato alle ${s.oraRientroVuoto} presso ${terminalNome(s.terminalId)}.`;
+    return `Rientro container vuoto registrato alle ${s.oraRientroVuoto} presso ${terminaleNome}.`;
   }
   if (s.faseOperativa === "ritirato") {
-    return `Ritiro container confermato alle ${s.oraRitiro} presso ${terminalNome(s.terminalId)}.`;
+    return `Ritiro container confermato alle ${s.oraRitiro} presso ${terminaleNome}.`;
   }
-  return `Appuntamento confermato alle ${s.oraAppuntamento} presso ${terminalNome(s.terminalId)}. Container ${s.containerId}.`;
+  return `Appuntamento confermato alle ${s.oraAppuntamento} presso ${terminaleNome}. Container ${s.containerId}.`;
 }

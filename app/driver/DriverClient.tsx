@@ -1,13 +1,13 @@
 "use client";
 
-import { vettoreById } from "@/lib/data";
+import { terminalNome, vettoreById } from "@/lib/data";
 import { useOperations } from "@/lib/store";
 import { DriverPhonePreview } from "@/components/DriverPhonePreview";
 
 export function DriverClient() {
-  const { spedizioni, ultimoAggiornatoId } = useOperations();
+  const { spedizioni, terminals, vettori, ultimoAggiornatoId } = useOperations();
   const spedizione = spedizioni.find((s) => s.id === "SP-2464")!;
-  const vettore = vettoreById(spedizione.vettoreId)!;
+  const vettore = vettoreById(vettori, spedizione.vettoreId)!;
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#e9eef1] px-6 py-10">
@@ -18,6 +18,7 @@ export function DriverClient() {
         <DriverPhonePreview
           spedizione={spedizione}
           vettore={vettore}
+          terminaleNome={terminalNome(terminals, spedizione.terminalId)}
           justUpdated={ultimoAggiornatoId === spedizione.id}
         />
       </div>

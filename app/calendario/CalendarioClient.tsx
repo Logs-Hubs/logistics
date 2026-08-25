@@ -1,14 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  TERMINALS,
-  ORARI_SLOT,
-  generaSlot,
-  vettoreById,
-  type Slot,
-  type SlotStato,
-} from "@/lib/data";
+import { ORARI_SLOT, generaSlot, vettoreById, type Slot, type SlotStato } from "@/lib/data";
 import { useOperations } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, X, CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
@@ -28,12 +21,12 @@ const STATO_STYLE: Record<SlotStato, string> = {
 };
 
 export function CalendarioClient() {
-  const { spedizioni, confermaAppuntamento } = useOperations();
+  const { spedizioni, terminals, vettori, confermaAppuntamento } = useOperations();
   const [giornoIdx, setGiornoIdx] = useState(1); // default: martedì 26, giorno con più slot liberi
   const giorno = GIORNI[giornoIdx];
   const [slotsPerGiorno, setSlotsPerGiorno] = useState<Record<string, Slot[]>>(() => {
     const init: Record<string, Slot[]> = {};
-    GIORNI.forEach((g) => (init[g] = generaSlot(g)));
+    GIORNI.forEach((g) => (init[g] = generaSlot(g, spedizioni, terminals)));
     return init;
   });
   const [dialogSlot, setDialogSlot] = useState<{ terminalId: string; ora: string } | null>(null);
@@ -108,7 +101,7 @@ export function CalendarioClient() {
       <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <div className="grid grid-cols-[100px_repeat(3,1fr)] border-b border-border bg-[#F7F9FA] text-xs font-semibold uppercase tracking-wide text-muted">
           <div className="px-4 py-3">Orario</div>
-          {TERMINALS.map((t) => (
+          {terminals.map((t) => (
             <div key={t.id} className="border-l border-border px-4 py-3">
               {t.nome}
             </div>
@@ -117,7 +110,7 @@ export function CalendarioClient() {
         {ORARI_SLOT.map((ora) => (
           <div key={ora} className="grid grid-cols-[100px_repeat(3,1fr)] border-b border-border last:border-0">
             <div className="flex items-center px-4 py-2.5 text-sm font-medium text-muted">{ora}</div>
-            {TERMINALS.map((t) => {
+            {terminals.map((t) => {
               const slot = slots.find((s) => s.terminalId === t.id && s.ora === ora)!;
               const spedizione = slot.spedizioneId ? spedizioni.find((s) => s.id === slot.spedizioneId) : undefined;
               return (
@@ -148,7 +141,7 @@ export function CalendarioClient() {
               <div>
                 <h3 className="text-base font-semibold text-navy">Prenota appuntamento</h3>
                 <p className="mt-0.5 text-sm text-muted">
-                  {TERMINALS.find((t) => t.id === dialogSlot.terminalId)?.nome} · ore {dialogSlot.ora}
+                  {terminals.find((t) => t.id === dialogSlot.terminalId)?.nome} · ore {dialogSlot.ora}
                 </p>
               </div>
               <button onClick={() => setDialogSlot(null)} className="text-muted hover:text-foreground">
@@ -174,7 +167,7 @@ export function CalendarioClient() {
               <div className="mb-5 rounded-lg bg-[#F7F9FA] p-3 text-xs text-muted">
                 Vettore assegnato:{" "}
                 <span className="font-medium text-foreground">
-                  {vettoreById(spedizioni.find((s) => s.id === spedizioneSel)!.vettoreId)?.nome}
+                  {vettoreById(vettori, spedizioni.find((s) => s.id === spedizioneSel)!.vettoreId)?.nome}
                 </span>{" "}
                 — riceverà una notifica automatica con orario e istruzioni gate.
               </div>

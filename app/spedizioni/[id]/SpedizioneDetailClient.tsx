@@ -1,6 +1,6 @@
 "use client";
 
-import { terminalNome, vettoreById, timelineSpedizione, type Spedizione } from "@/lib/data";
+import { terminalNome, vettoreById, timelineSpedizione } from "@/lib/data";
 import { StatoBadge } from "@/components/StatoBadge";
 import { DriverPhonePreview } from "@/components/DriverPhonePreview";
 import { useOperations } from "@/lib/store";
@@ -8,10 +8,18 @@ import { CheckCircle2, Circle, Truck, Package, AlertCircle, Smartphone } from "l
 import Link from "next/link";
 
 export function SpedizioneDetailClient({ id }: { id: string }) {
-  const { spedizioni, ultimoAggiornatoId } = useOperations();
-  const spedizione = spedizioni.find((s) => s.id === id) as Spedizione; // esiste sempre: generateStaticParams copre solo id validi
+  const { spedizioni, terminals, vettori, ultimoAggiornatoId } = useOperations();
+  const spedizione = spedizioni.find((s) => s.id === id);
 
-  const vettore = vettoreById(spedizione.vettoreId);
+  if (!spedizione) {
+    return (
+      <div className="mx-auto max-w-4xl px-8 py-8">
+        <p className="text-sm text-muted">Spedizione {id} non trovata.</p>
+      </div>
+    );
+  }
+
+  const vettore = vettoreById(vettori, spedizione.vettoreId);
   const timeline = timelineSpedizione(spedizione);
 
   return (
@@ -22,7 +30,7 @@ export function SpedizioneDetailClient({ id }: { id: string }) {
         <StatoBadge stato={spedizione.stato} />
       </div>
       <p className="mt-1 text-sm text-muted">
-        {spedizione.cliente} · {terminalNome(spedizione.terminalId)}
+        {spedizione.cliente} · {terminalNome(terminals, spedizione.terminalId)}
       </p>
 
       {/* selettore rapido altre spedizioni */}
@@ -87,6 +95,7 @@ export function SpedizioneDetailClient({ id }: { id: string }) {
               <DriverPhonePreview
                 spedizione={spedizione}
                 vettore={vettore}
+                terminaleNome={terminalNome(terminals, spedizione.terminalId)}
                 justUpdated={ultimoAggiornatoId === spedizione.id}
               />
             </div>
