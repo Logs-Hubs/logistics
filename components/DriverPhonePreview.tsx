@@ -61,16 +61,16 @@ export function DriverPhonePreview({
     <div className="relative mx-auto w-full max-w-[300px]">
       <div
         className={cn(
-          "overflow-hidden rounded-[2rem] border-8 bg-white shadow-2xl transition-colors duration-500",
+          "flex aspect-[9/18.5] flex-col overflow-hidden rounded-[2rem] border-8 bg-white shadow-2xl transition-colors duration-500",
           justUpdated ? "border-accent" : "border-navy-dark"
         )}
       >
-        <div className="flex items-center justify-between bg-navy-dark px-5 py-2 text-[10px] text-white/70">
+        <div className="flex flex-shrink-0 items-center justify-between bg-navy-dark px-5 py-2 text-[10px] text-white/70">
           <span>9:41</span>
           <span>Clyo</span>
         </div>
 
-        <div className="min-h-[480px] bg-[#F7F9FA] p-5">
+        <div className="flex-1 overflow-y-auto bg-[#F7F9FA] p-5">
           <div className="mb-5 flex items-center justify-between">
             <div>
               <p className="text-xs text-muted">Ciao,</p>
@@ -122,7 +122,7 @@ export function DriverPhonePreview({
                 <div className="mt-4 space-y-2">
                   <div className="flex items-center justify-center gap-2 rounded-xl bg-emerald-500/20 py-2.5 text-xs font-semibold text-emerald-300">
                     <CheckCircle2 className="h-3.5 w-3.5" />
-                    Ritirato alle {spedizione.oraRitiro} — in consegna al cliente
+                    Ritirato alle {spedizione.oraRitiro}, in consegna al cliente
                   </div>
                   <button
                     onClick={() => segnalaRientroVuoto(spedizione.id, oraCorrente())}
@@ -137,7 +137,7 @@ export function DriverPhonePreview({
               {vuotoRientrato && (
                 <div className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-emerald-500/20 py-3 text-sm font-semibold text-emerald-300">
                   <CheckCircle2 className="h-4 w-4" />
-                  Vuoto rientrato alle {spedizione.oraRientroVuoto} — ciclo completato
+                  Vuoto rientrato alle {spedizione.oraRientroVuoto}, ciclo completato
                 </div>
               )}
             </div>

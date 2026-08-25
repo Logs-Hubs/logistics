@@ -38,7 +38,7 @@ export function DashboardClient() {
     <div className="mx-auto max-w-7xl px-8 py-8">
       <header className="mb-8">
         <p className="text-xs font-semibold uppercase tracking-wider text-accent">Dashboard</p>
-        <h1 className="mt-1 text-2xl font-bold text-navy">Buongiorno — ecco la situazione di oggi</h1>
+        <h1 className="mt-1 text-2xl font-bold text-navy">Buongiorno, ecco la situazione di oggi</h1>
         <p className="mt-1 text-sm text-muted">Lunedì 25 agosto 2026 · Genova Porto Vecchio, PSA Prà, Savona-Vado</p>
       </header>
 
@@ -121,7 +121,7 @@ export function DashboardClient() {
               Cosa vede l&apos;autista ora
             </div>
             <p className="mb-4 text-xs text-muted">
-              {vettoreSel.autista} · {vettoreSel.nome} — clicca una riga per cambiare spedizione.
+              {vettoreSel.autista} · {vettoreSel.nome}. Clicca una riga per cambiare spedizione.
             </p>
 
             <DriverPhonePreview

@@ -5,7 +5,7 @@ import { OperationsProvider } from "@/lib/store";
 import { getSpedizioni, getTerminals, getVettori } from "@/lib/queries";
 
 export const metadata: Metadata = {
-  title: "Clyo — Demo",
+  title: "Clyo · Demo",
   description: "Piattaforma per coordinare appuntamenti, tracking e container tra spedizionieri, vettori e terminal portuali di Genova.",
 };
 
@@ -18,7 +18,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="it" className="h-full antialiased">
-      <body className="flex min-h-screen bg-background text-foreground">
+      <body className="flex h-screen overflow-hidden bg-background text-foreground">
         <OperationsProvider spedizioniIniziali={spedizioni} terminals={terminals} vettori={vettori}>
           <Sidebar />
           <main className="flex-1 overflow-y-auto">{children}</main>
