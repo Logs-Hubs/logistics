@@ -1,0 +1,94 @@
+{
+  "handoff": {
+    "date": "2026-08-25",
+    "project_name": "Port Trucking OS",
+    "purpose_of_this_file": "Contesto completo per chiunque (o qualunque istanza di Claude Code) riprenda il progetto da qui, senza dover rileggere l'intera conversazione precedente.",
+    "read_also": [
+      "project_spec.json (spec funzionale originale)",
+      "README.md (istruzioni di avvio + sezione 'Aziende genovesi da contattare', la lista aggiornata e autorevole per l'outreach — 15 aziende su 3 fasce di priorità, con stato di verifica per ciascuna)"
+    ]
+  },
+  "business_context": {
+    "problem": "Gli spedizionieri doganali genovesi di taglia media coordinano oggi appuntamenti, tracking spedizioni e container vuoti via telefono/email/WhatsApp con i vettori terzi che gestiscono, perche' il Port Community System di Genova ha 'coni d'ombra' (non traccia i mezzi, non gestisce bene container vuoti/transiti interni) e ogni terminal ha un sistema di appuntamenti separato.",
+    "target_user_icp": "Spedizioniere doganale genovese, 5-30 dipendenti, gestisce import/export container su Genova/Savona-Vado, lavora con vettori terzi (non ha flotta propria), idealmente associato Spediporto.",
+    "strategy": "Design partner gratuiti nella fase iniziale (3-4 aziende), in cambio di feedback settimanale strutturato e permesso di usarli come caso studio. Wedge stretto: slot booking + notifiche, NON integrazione reale col PCS (troppo lenta/dipendente da terzi in questa fase).",
+    "shortlist_aziende_da_contattare_NOTA": "Questa era la shortlist iniziale (7 nomi, criterio: membri consorzio Goas + segnali di apertura digitale). Da allora la ricerca e' stata approfondita: sono emerse 4 aziende a fascia dimensionale 20-49 dipendenti verificata (Lena Spedizioni, Ambra Mar, GDT Logistic, Spedimar) che ora sono la vera priorita' alta. La lista completa e aggiornata, con stato di verifica per azienda, vive in README.md — tenerla sincronizzata li', non qui, per evitare due fonti divergenti.",
+    "shortlist_aziende_da_contattare": [
+      { "nome": "Spediservices", "note": "Partecipata di Spediporto, gia' coinvolta in digitalizzazione portuale - primo contatto ideale, apre la porta all'associazione" },
+      { "nome": "Parodi Forwarding", "note": "Taglia media, comunicazione online curata, buon secondo target" },
+      { "nome": "Oliaro Casa di Spedizioni", "note": "Membro storico del consorzio Goas, verificare dimensione attuale su LinkedIn" },
+      { "nome": "S.T.S. Casasco & Nardi", "note": "Membro Goas, focus spedizioni marittime" },
+      { "nome": "Mastarmar Spedizioni", "note": "Membro Goas" },
+      { "nome": "Sinergy Cargo Management", "note": "Nome suggerisce focus operativo/gestionale, potenzialmente ricettivi" },
+      { "nome": "Ocean Sped", "note": "Comunicazione online orientata a flessibilita'/innovazione" }
+    ],
+    "aziende_escluse_dal_primo_giro": [
+      { "nome": "Priano Marchelli", "motivo": "Ha gia' fornitore IT esterno (Digilogix), probabile sistema proprio" },
+      { "nome": "Cav. Placido Macor", "motivo": "Azienda molto storica/familiare, possibile resistenza al cambiamento" },
+      { "nome": "Weltra", "motivo": "Idem, profilo molto tradizionale" }
+    ],
+    "gtm_phases": [
+      "Fase 1 (0-6 mesi): wedge locale con 5-10 spedizionieri/autotrasportatori genovesi come design partner, prodotto gratuito focalizzato su slot booking + notifiche",
+      "Fase 2 (6-18 mesi): referral via Spediporto/Federlogistica Liguria, dialogo formale con AdSP/Liguria Digitale",
+      "Fase 3 (18-36 mesi): replica su La Spezia, Livorno, Trieste, poi eventualmente un porto estero (Barcellona/Valencia)"
+    ]
+  },
+  "product_state": {
+    "stage": "MVP demo con dati mock, NON production-ready, pensato per raccogliere feedback in call con design partner",
+    "tech_stack": {
+      "framework": "Next.js 16 (App Router) + React + TypeScript",
+      "styling": "Tailwind CSS v4 (no shadcn/ui installato, componenti custom fatti a mano)",
+      "icons": "lucide-react",
+      "data": "Mock data in lib/data.ts, nessun backend/database reale",
+      "font": "Font di sistema (-apple-system, Segoe UI, Roboto...) — NON Google Fonts, perche' l'ambiente di sviluppo originale non aveva accesso di rete a fonts.googleapis.com. Se l'ambiente di chi riprende il progetto ha accesso a internet normale, si puo' reintrodurre next/font/google (es. Inter) senza problemi."
+    },
+    "screens_built": [
+      { "route": "/", "nome": "Dashboard spedizioniere", "stato": "completa", "file": "app/page.tsx" },
+      { "route": "/calendario", "nome": "Calendario appuntamenti multi-terminal", "stato": "completa, interattiva (prenotazione funzionante lato client)", "file": "app/calendario/CalendarioClient.tsx + page.tsx" },
+      { "route": "/spedizioni/[id]", "nome": "Timeline tracking spedizione", "stato": "completa", "file": "app/spedizioni/[id]/page.tsx" },
+      { "route": "/driver", "nome": "Vista mobile driver con notifica push simulata", "stato": "completa", "file": "app/driver/DriverClient.tsx + page.tsx" }
+    ],
+    "shared_files": {
+      "lib/data.ts": "Tutti i dati mock: spedizioni, vettori, terminal (Genova Porto Vecchio, PSA Pra', Savona-Vado), generazione slot calendario, timeline eventi",
+      "lib/utils.ts": "Funzione cn() per unire classi Tailwind condizionali",
+      "components/Sidebar.tsx": "Navigazione laterale principale",
+      "components/StatoBadge.tsx": "Badge colorato per stato appuntamento (confermato/da_pianificare/in_ritardo)"
+    },
+    "palette": {
+      "navy": "#0B3D5C",
+      "navy_dark": "#072A40",
+      "teal": "#1C7293",
+      "teal_light": "#6FA8BC",
+      "accent_orange": "#E8873A",
+      "background": "#F7F9FA",
+      "text": "#1B2A32"
+    }
+  },
+  "known_issues_and_fixes_applied": [
+    "FIX APPLICATO: gli orari di appuntamento in lib/data.ts devono corrispondere esattamente ai valori in ORARI_SLOT (07:00, 08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00) altrimenti l'appuntamento confermato non appare nella griglia calendario. Gia' corretto per SP-2461 (era 08:30 -> 08:00) e SP-2466 (era 10:15 -> 10:00).",
+    "NOTA: Google Fonts rimosso dal layout perche' l'ambiente sandbox originale non aveva accesso di rete a fonts.googleapis.com. Se riprendi il progetto su una macchina con internet normale, puoi reintrodurre next/font/google senza problemi.",
+    "NOTA: build verificata solo via curl/HTTP status + grep sul contenuto HTML, MAI vista con uno screenshot reale (Playwright/Chromium non scaricabile nell'ambiente sandbox originale per restrizioni di rete). Prima di mostrarla a un cliente, aprila con `npm run dev` e guardala tu stesso su schermo."
+  ],
+  "explicitly_out_of_scope_for_this_mvp": [
+    "Integrazione reale con le API del PCS di Liguria Digitale",
+    "Integrazione reale con i sistemi proprietari dei singoli terminal",
+    "Autenticazione multi-tenant reale / gestione utenti",
+    "App mobile nativa (solo vista mobile-responsive nel browser)",
+    "Persistenza dati reale (i dati mock si resettano ad ogni reload del server)",
+    "Fatturazione, pagamenti, compliance documentale reale"
+  ],
+  "immediate_next_steps": [
+    "FATTO: progetto pushato su github.com/lasagnealpesto/logistic, branch claude/repo-access-push-7v25nf",
+    "Deploy su Vercel per avere un link condivisibile in call (nessuna variabile d'ambiente richiesta)",
+    "Guardare la demo dal vivo con `npm run dev` prima di mostrarla a chiunque, per QA visiva umana",
+    "Verificare su LinkedIn le aziende segnate 'Da confermare' in README.md (numero dipendenti, attivita' recente = segnale di apertura digitale) prima di contattarle",
+    "Personalizzare i dati mock in lib/data.ts con nomi plausibili per la specifica azienda target prima di ogni call, per far sembrare la demo 'i loro dati'",
+    "Contattare per prime le 4 aziende a priorita' alta in README.md (Lena Spedizioni, Ambra Mar, GDT Logistic, Spedimar); Spediservices resta il contatto ideale per aprire la rete verso Spediporto"
+  ],
+  "how_to_run": {
+    "local_dev": ["npm install", "npm run dev", "apri http://localhost:3000"],
+    "production_build_check": ["npm run build", "npm run start"],
+    "deploy": "Vercel consigliato: collega il repo su vercel.com/new, nessuna configurazione aggiuntiva richiesta"
+  },
+  "suggested_first_prompt_for_claude_code": "Leggi handoff.json, project_spec.json e README.md per avere il contesto completo del progetto. Poi [descrivi qui il task specifico che vuoi fare, es: 'aggiungi persistenza dati con SQLite locale' oppure 'aggiungi un filtro per cliente nella dashboard']."
+}

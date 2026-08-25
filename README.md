@@ -2,7 +2,7 @@
 
 Piattaforma dimostrativa per spedizionieri doganali genovesi: coordina appuntamenti multi-terminal, tracking spedizioni e comunicazione con i vettori, in un'unica vista — invece di telefono, email e piattaforme separate per ogni terminal.
 
-**Stato: demo con dati mock**, pensata per raccogliere feedback da design partner. Nessuna integrazione reale con il Port Community System o i sistemi dei terminal — vedi `project_spec.json` per lo scope esatto e cosa è volutamente fuori perimetro in questa fase.
+**Stato: demo con dati mock**, pensata per raccogliere feedback da design partner. Nessuna integrazione reale con il Port Community System o i sistemi dei terminal — vedi `project_spec.json` per lo scope esatto e cosa è volutamente fuori perimetro in questa fase, e `handoff.json` per il contesto di business completo (problema, ICP, strategia go-to-market) e lo stato del progetto per chi lo riprende in mano.
 
 ## Schermate
 
@@ -30,7 +30,9 @@ Tutti i dati mock vivono in `lib/data.ts` (spedizioni, vettori, terminal, genera
 
 ## Aziende genovesi da contattare (design partner)
 
-Spedizionieri doganali e case di spedizione di Genova, filtrate per dimensione e priorità di contatto. Dati verificati dove indicato — quelli senza badge "verificato" vanno confermati (LinkedIn / visura) prima del primo contatto.
+Come da strategia in `handoff.json` (`business_context.strategy`), la fase 1 del go-to-market prevede design partner gratuiti (3-4 aziende) in cambio di feedback settimanale strutturato, sul wedge stretto slot booking + notifiche — non integrazione reale col PCS. L'ICP target: spedizioniere doganale genovese, 5-30 dipendenti, import/export container su Genova/Savona-Vado, lavora con vettori terzi (non ha flotta propria), idealmente associato Spediporto.
+
+Le aziende qui sotto sono spedizionieri doganali e case di spedizione di Genova filtrate su questo ICP, in ordine di priorità di contatto. Dati verificati dove indicato — quelli senza badge "verificato" vanno confermati (LinkedIn / visura) prima del primo contatto. Questa sezione è la lista di lavoro aggiornata: se diverge dalla shortlist in `handoff.json`, questa qui prevale.
 
 ### Priorità alta — contattare per prime (4)
 
