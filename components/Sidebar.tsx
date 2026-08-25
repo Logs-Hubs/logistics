@@ -22,7 +22,7 @@ export function Sidebar() {
           <Anchor className="h-5 w-5 text-white" />
         </div>
         <div>
-          <div className="text-sm font-semibold leading-tight">Port Trucking OS</div>
+          <div className="text-sm font-semibold leading-tight">Clyo</div>
           <div className="text-[11px] text-teal-light/80">Genova · Savona-Vado</div>
         </div>
       </div>

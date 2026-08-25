@@ -1,0 +1,330 @@
+import {
+  Anchor,
+  ArrowRight,
+  Ship,
+  PackageX,
+  Split,
+  Phone,
+  CalendarCheck,
+  Smartphone,
+  Undo2,
+  CheckCircle2,
+} from "lucide-react";
+import { DashboardMockup, CalendarMockup, PhoneMockup, TimelineMockup } from "@/components/mockups";
+
+export default function LandingPage() {
+  return (
+    <div>
+      <Nav />
+      <Hero />
+      <ProblemSection />
+      <FeaturesSection />
+      <HowItWorksSection />
+      <StatsSection />
+      <CTASection />
+      <Footer />
+    </div>
+  );
+}
+
+function Logo({ dark = false }: { dark?: boolean }) {
+  return (
+    <div className="flex items-center gap-2">
+      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent">
+        <Anchor className="h-4 w-4 text-white" />
+      </div>
+      <span className={`text-lg font-bold tracking-tight ${dark ? "text-white" : "text-navy"}`}>Clyo</span>
+    </div>
+  );
+}
+
+function Nav() {
+  return (
+    <header className="border-b border-border bg-white">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <Logo />
+        <nav className="hidden items-center gap-8 text-sm font-medium text-muted md:flex">
+          <a href="#problema" className="hover:text-navy">
+            Il problema
+          </a>
+          <a href="#prodotto" className="hover:text-navy">
+            Prodotto
+          </a>
+          <a href="#come-funziona" className="hover:text-navy">
+            Come funziona
+          </a>
+        </nav>
+        <a
+          href="#contatti"
+          className="rounded-lg bg-navy px-4 py-2 text-sm font-semibold text-white hover:bg-navy-dark"
+        >
+          Richiedi una demo
+        </a>
+      </div>
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <section className="overflow-hidden bg-navy-dark">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:py-28">
+        <div>
+          <p className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent">
+            Genova · Savona-Vado
+          </p>
+          <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl">
+            Il porto ti manda ancora avanti a telefono ed email?
+          </h1>
+          <p className="mt-5 max-w-lg text-lg leading-relaxed text-teal-light">
+            Clyo mette appuntamenti multi-terminal, tracking del mezzo e rientro dei container vuoti in un&apos;unica
+            vista — per gli spedizionieri doganali genovesi che oggi coordinano tutto a mano.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <a
+              href="#contatti"
+              className="flex items-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-white hover:bg-accent-dark"
+            >
+              Prenota una demo di 15 minuti
+              <ArrowRight className="h-4 w-4" />
+            </a>
+            <a
+              href="#prodotto"
+              className="rounded-lg border border-white/20 px-5 py-3 text-sm font-semibold text-white hover:bg-white/5"
+            >
+              Guarda come funziona
+            </a>
+          </div>
+        </div>
+        <div className="relative">
+          <div className="absolute -inset-8 -z-10 rounded-full bg-teal/20 blur-3xl" />
+          <DashboardMockup />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const PAIN = [
+  {
+    icon: Ship,
+    titolo: "Il PCS traccia la merce, non il mezzo",
+    testo:
+      "Nessuna targa, nessun autista. Il Port Community System vede il container, non chi lo sta portando al gate.",
+  },
+  {
+    icon: PackageX,
+    titolo: "Container vuoti invisibili",
+    testo:
+      "Il rientro del vuoto dopo la consegna non è tracciato da nessuna piattaforma — gestito a telefono, con rischio di penali.",
+  },
+  {
+    icon: Split,
+    titolo: "Un sistema per ogni terminal",
+    testo:
+      "Porto Vecchio, PSA Prà, Savona-Vado: ogni terminal ha la sua piattaforma di appuntamenti. Tu li orchestri a mano.",
+  },
+  {
+    icon: Phone,
+    titolo: "Il coordinamento vive nel telefono",
+    testo:
+      "Vettori, autisti, clienti: tutto a chiamate, email e WhatsApp. Nessuna vista d'insieme su cosa succede oggi.",
+  },
+];
+
+function ProblemSection() {
+  return (
+    <section id="problema" className="bg-background py-20">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="mb-12 max-w-2xl">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-accent">Il problema</p>
+          <h2 className="text-3xl font-bold text-navy">Il Port Community System vede la merce. Non vede te.</h2>
+          <p className="mt-3 text-muted">
+            Non ipotesi da validare — problemi già documentati sul campo da Federlogistica Liguria e dalla cronaca
+            del porto di Genova.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {PAIN.map((p) => (
+            <div key={p.titolo} className="rounded-xl border border-border bg-card p-5 shadow-sm">
+              <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-rose-50">
+                <p.icon className="h-4.5 w-4.5 text-rose-500" />
+              </div>
+              <h3 className="text-sm font-semibold text-navy">{p.titolo}</h3>
+              <p className="mt-1.5 text-xs leading-relaxed text-muted">{p.testo}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FeatureBlock({
+  kicker,
+  titolo,
+  testo,
+  mockup,
+  reverse = false,
+}: {
+  kicker: string;
+  titolo: string;
+  testo: string;
+  mockup: React.ReactNode;
+  reverse?: boolean;
+}) {
+  return (
+    <div className={`grid grid-cols-1 items-center gap-12 py-14 lg:grid-cols-2 ${reverse ? "" : ""}`}>
+      <div className={reverse ? "lg:order-2" : ""}>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-accent">{kicker}</p>
+        <h3 className="text-2xl font-bold text-navy">{titolo}</h3>
+        <p className="mt-3 max-w-md leading-relaxed text-muted">{testo}</p>
+      </div>
+      <div className={reverse ? "lg:order-1" : ""}>{mockup}</div>
+    </div>
+  );
+}
+
+function FeaturesSection() {
+  return (
+    <section id="prodotto" className="bg-white py-8">
+      <div className="mx-auto max-w-6xl divide-y divide-border px-6">
+        <FeatureBlock
+          kicker="Slot booking multi-terminal"
+          titolo="Un calendario, tre terminal"
+          testo="Genova Porto Vecchio, PSA Prà e Savona-Vado in un'unica vista. Prenoti lo slot, il vettore riceve orario e istruzioni gate automaticamente — invece di tre piattaforme separate da controllare a mano."
+          mockup={<CalendarMockup />}
+        />
+        <FeatureBlock
+          kicker="App driver"
+          titolo="Il tuo autista, sempre aggiornato"
+          testo="Notifica push non appena confermi l'appuntamento. L'autista segnala arrivo al gate e ritiro dal telefono — tu lo sai in tempo reale, senza dover chiamare."
+          mockup={<PhoneMockup />}
+          reverse
+        />
+        <FeatureBlock
+          kicker="Tracking del mezzo"
+          titolo="Il container vuoto, finalmente tracciato"
+          testo="Colma esattamente il buco che il PCS lascia scoperto: targa tracciata al ritiro, rientro del vuoto segnalato dal driver e visibile in tempo reale sulla timeline della spedizione."
+          mockup={<TimelineMockup />}
+        />
+      </div>
+    </section>
+  );
+}
+
+const STEPS = [
+  {
+    numero: "1",
+    titolo: "15 minuti di demo",
+    testo: "Ti mostriamo Clyo con dati vicini ai tuoi — niente slide, la piattaforma vera, cliccabile.",
+  },
+  {
+    numero: "2",
+    titolo: "La usi gratis sul prossimo carico",
+    testo: "Nessun contratto, nessun onboarding di mesi. Provi il wedge stretto: appuntamenti + notifiche.",
+  },
+  {
+    numero: "3",
+    titolo: "Ci dici cosa non va",
+    testo: "Feedback settimanale di 15 minuti. Quello che non funziona lo sistemiamo la settimana dopo, non nel prossimo rilascio annuale.",
+  },
+];
+
+function HowItWorksSection() {
+  return (
+    <section id="come-funziona" className="bg-background py-20">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="mb-12 max-w-2xl">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-accent">Come funziona</p>
+          <h2 className="text-3xl font-bold text-navy">Non un altro gestionale da sei mesi di onboarding</h2>
+          <p className="mt-3 text-muted">
+            Cerchiamo design partner a Genova: aziende che usano Clyo gratis in cambio di un canale diretto per
+            dirci cosa serve davvero.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+          {STEPS.map((s) => (
+            <div key={s.numero} className="rounded-xl border border-border bg-card p-6 shadow-sm">
+              <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-full bg-navy text-sm font-bold text-white">
+                {s.numero}
+              </div>
+              <h3 className="text-base font-semibold text-navy">{s.titolo}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{s.testo}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const STATS = [
+  { v: "~3M", l: "TEU movimentati tra Genova e Savona-Vado nel 2025 — record storico" },
+  { v: "~3.700", l: "camion al giorno attraverso i varchi portuali di Genova" },
+  { v: "30+", l: "associazioni di spedizionieri/autotrasportatori in Italia — Spediporto è quella genovese" },
+  { v: "10,7%", l: "CAGR della Logistics SaaS 2026–2035 — il software cresce il doppio del settore fisico" },
+];
+
+function StatsSection() {
+  return (
+    <section className="bg-navy py-16">
+      <div className="mx-auto max-w-6xl px-6">
+        <p className="mb-8 text-center text-xs font-semibold uppercase tracking-wider text-accent">
+          Perché partiamo da Genova
+        </p>
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {STATS.map((s) => (
+            <div key={s.l} className="text-center">
+              <div className="text-3xl font-bold text-white">{s.v}</div>
+              <div className="mt-2 text-xs leading-relaxed text-teal-light">{s.l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CTASection() {
+  return (
+    <section id="contatti" className="bg-white py-20">
+      <div className="mx-auto max-w-3xl px-6 text-center">
+        <div className="mb-4 flex justify-center gap-2">
+          {[CalendarCheck, Smartphone, Undo2].map((Icon, i) => (
+            <div key={i} className="flex h-10 w-10 items-center justify-center rounded-full bg-teal/10">
+              <Icon className="h-4.5 w-4.5 text-teal" />
+            </div>
+          ))}
+        </div>
+        <h2 className="text-3xl font-bold text-navy">Sei uno spedizioniere doganale a Genova?</h2>
+        <p className="mx-auto mt-3 max-w-xl text-muted">
+          Parliamone in 15 minuti. Ti mostriamo la piattaforma, tu ci dici se risolve un problema vero per la tua
+          azienda — niente slide, niente impegno.
+        </p>
+        <a
+          href="mailto:ciao@clyo.app"
+          className="mt-7 inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3.5 text-sm font-semibold text-white hover:bg-accent-dark"
+        >
+          Scrivici — ciao@clyo.app
+          <ArrowRight className="h-4 w-4" />
+        </a>
+        <p className="mt-4 flex items-center justify-center gap-1.5 text-xs text-muted">
+          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+          Gratis per i primi design partner · nessun impegno
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="border-t border-border bg-background py-10">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
+        <Logo />
+        <p className="text-xs text-muted">Clyo · Genova, Italia · © 2026</p>
+      </div>
+    </footer>
+  );
+}
