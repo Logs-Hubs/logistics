@@ -14,7 +14,7 @@ export function Logo() {
 
 export function Nav({ genovaLink = true }: { genovaLink?: boolean }) {
   return (
-    <header className="border-b border-border bg-white">
+    <header className="sticky top-0 z-50 border-b border-border bg-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Logo />
         <nav className="hidden items-center gap-8 text-sm font-medium text-muted md:flex">
@@ -43,7 +43,7 @@ export function Nav({ genovaLink = true }: { genovaLink?: boolean }) {
 
 export function Footer({ genovaLink = true }: { genovaLink?: boolean }) {
   return (
-    <footer className="border-t border-border bg-background py-10">
+    <footer className="border-t border-border bg-background py-10 lg:snap-start">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
         <Logo />
         <div className="flex items-center gap-5 text-xs text-muted">
