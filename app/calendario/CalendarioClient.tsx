@@ -65,7 +65,7 @@ export function CalendarioClient() {
         <p className="text-xs font-semibold uppercase tracking-wider text-accent">Appuntamenti</p>
         <h1 className="mt-1 text-2xl font-bold text-navy">Calendario multi-terminal</h1>
         <p className="mt-1 text-sm text-muted">
-          Un&apos;unica vista su Genova Porto Vecchio, PSA Prà e Savona-Vado — invece di tre piattaforme separate.
+          Un&apos;unica vista su Genova Porto Vecchio, PSA Prà e Savona-Vado, invece di tre piattaforme separate.
         </p>
       </header>
 
@@ -169,7 +169,7 @@ export function CalendarioClient() {
                 <span className="font-medium text-foreground">
                   {vettoreById(vettori, spedizioni.find((s) => s.id === spedizioneSel)!.vettoreId)?.nome}
                 </span>{" "}
-                — riceverà una notifica automatica con orario e istruzioni gate.
+                riceverà una notifica automatica con orario e istruzioni gate.
               </div>
             )}
 
@@ -196,7 +196,7 @@ export function CalendarioClient() {
       {confermaVisibile && (
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-lg bg-navy px-4 py-3 text-sm font-medium text-white shadow-lg">
           <CheckCircle2 className="h-4.5 w-4.5 text-emerald-400" />
-          Appuntamento confermato per {confermaVisibile} — notifica inviata al vettore.
+          Appuntamento confermato per {confermaVisibile}, notifica inviata al vettore.
         </div>
       )}
     </div>

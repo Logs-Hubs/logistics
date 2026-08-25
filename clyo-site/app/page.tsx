@@ -9,7 +9,27 @@ export default function LandingPage() {
       <Nav />
       <Hero />
       <ProblemSection />
-      <FeaturesSection />
+      <FeatureSlide
+        id="prodotto"
+        kicker="Slot booking multi-terminal"
+        titolo="Un calendario. Non tre."
+        testo="Prenoti lo slot una volta, il vettore riceve orario e istruzioni gate in automatico, invece di controllare a mano tre piattaforme diverse."
+        mockup={<CalendarMockup />}
+      />
+      <FeatureSlide
+        kicker="App driver"
+        titolo="Il tuo autista non ti chiama più."
+        testo="Notifica push non appena confermi l'appuntamento. Arrivo e ritiro segnalati dal telefono: tu lo sai subito, senza alzare la cornetta."
+        mockup={<PhoneMockup />}
+        reverse
+        alt
+      />
+      <FeatureSlide
+        kicker="Tracking del mezzo"
+        titolo="Il container vuoto, per la prima volta tracciato."
+        testo="Targa registrata al ritiro. Rientro del vuoto segnalato dal driver e visibile in tempo reale sulla timeline della spedizione."
+        mockup={<TimelineMockup />}
+      />
       <HowItWorksSection />
       <CTASection />
       <Footer />
@@ -19,8 +39,8 @@ export default function LandingPage() {
 
 function Hero() {
   return (
-    <section className="overflow-hidden bg-navy-dark">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:py-28">
+    <section className="flex overflow-hidden bg-navy-dark lg:min-h-screen lg:snap-start lg:items-center">
+      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:py-28">
         <div>
           <p className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent">
             Per chi coordina, non possiede
@@ -31,7 +51,7 @@ function Hero() {
           </h1>
           <p className="mt-5 max-w-lg text-lg leading-relaxed text-teal-light">
             Clyo mette appuntamenti multi-terminal, tracking del mezzo e rientro dei container vuoti in
-            un&apos;unica vista — per chi coordina spedizioni senza avere una flotta propria.
+            un&apos;unica vista, per chi coordina spedizioni senza avere una flotta propria.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
@@ -67,7 +87,7 @@ const PAIN = [
   {
     icon: PackageX,
     titolo: "Il container vuoto sparisce",
-    testo: "Dopo la consegna, il rientro del vuoto non lo traccia nessuno — finché non arriva la fattura di detention.",
+    testo: "Dopo la consegna, il rientro del vuoto non lo traccia nessuno, finché non arriva la fattura di detention.",
   },
   {
     icon: Split,
@@ -83,12 +103,12 @@ const PAIN = [
 
 function ProblemSection() {
   return (
-    <section id="problema" className="bg-background py-20">
+    <section id="problema" className="flex bg-background py-20 lg:min-h-screen lg:snap-start lg:items-center lg:py-0">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mb-12 max-w-2xl">
           <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-accent">Il problema</p>
           <h2 className="text-3xl font-bold text-navy">Il tuo lavoro è coordinare. Il tuo strumento è ancora il telefono.</h2>
-          <p className="mt-3 text-muted">Quattro sistemi diversi, zero vista d&apos;insieme — e il rischio lo paghi tu.</p>
+          <p className="mt-3 text-muted">Quattro sistemi diversi, zero vista d&apos;insieme. Il rischio lo paghi tu.</p>
         </div>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {PAIN.map((p) => (
@@ -106,54 +126,32 @@ function ProblemSection() {
   );
 }
 
-function FeatureBlock({
+function FeatureSlide({
+  id,
   kicker,
   titolo,
   testo,
   mockup,
   reverse = false,
+  alt = false,
 }: {
+  id?: string;
   kicker: string;
   titolo: string;
   testo: string;
   mockup: React.ReactNode;
   reverse?: boolean;
+  alt?: boolean;
 }) {
   return (
-    <div className="grid grid-cols-1 items-center gap-12 py-14 lg:grid-cols-2">
-      <div className={reverse ? "lg:order-2" : ""}>
-        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-accent">{kicker}</p>
-        <h3 className="text-2xl font-bold text-navy">{titolo}</h3>
-        <p className="mt-3 max-w-md leading-relaxed text-muted">{testo}</p>
-      </div>
-      <div className={reverse ? "lg:order-1" : ""}>{mockup}</div>
-    </div>
-  );
-}
-
-function FeaturesSection() {
-  return (
-    <section id="prodotto" className="bg-white py-8">
-      <div className="mx-auto max-w-6xl divide-y divide-border px-6">
-        <FeatureBlock
-          kicker="Slot booking multi-terminal"
-          titolo="Un calendario. Non tre."
-          testo="Prenoti lo slot una volta, il vettore riceve orario e istruzioni gate in automatico — invece di controllare a mano tre piattaforme diverse."
-          mockup={<CalendarMockup />}
-        />
-        <FeatureBlock
-          kicker="App driver"
-          titolo="Il tuo autista non ti chiama più."
-          testo="Notifica push non appena confermi l'appuntamento. Arrivo e ritiro segnalati dal telefono — tu lo sai subito, senza alzare la cornetta."
-          mockup={<PhoneMockup />}
-          reverse
-        />
-        <FeatureBlock
-          kicker="Tracking del mezzo"
-          titolo="Il container vuoto, per la prima volta tracciato."
-          testo="Targa registrata al ritiro. Rientro del vuoto segnalato dal driver e visibile in tempo reale sulla timeline della spedizione."
-          mockup={<TimelineMockup />}
-        />
+    <section id={id} className={`flex py-16 lg:min-h-screen lg:snap-start lg:items-center lg:py-0 ${alt ? "bg-background" : "bg-white"}`}>
+      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2">
+        <div className={reverse ? "lg:order-2" : ""}>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-accent">{kicker}</p>
+          <h3 className="text-2xl font-bold text-navy sm:text-3xl">{titolo}</h3>
+          <p className="mt-3 max-w-md leading-relaxed text-muted">{testo}</p>
+        </div>
+        <div className={reverse ? "lg:order-1" : ""}>{mockup}</div>
       </div>
     </section>
   );
@@ -162,12 +160,12 @@ function FeaturesSection() {
 const STEPS = [
   { numero: "1", titolo: "15 minuti, non 15 slide", testo: "Ti mostriamo Clyo che gira davvero, con dati vicini ai tuoi." },
   { numero: "2", titolo: "Lo usi sul prossimo carico", testo: "Gratis, zero contratto. Provi solo il pezzo che ti serve: appuntamenti e notifiche." },
-  { numero: "3", titolo: "Un canale diretto con chi lo costruisce", testo: "15 minuti a settimana di feedback. Quello che non va, cambia la settimana dopo — non nel prossimo rilascio annuale." },
+  { numero: "3", titolo: "Un canale diretto con chi lo costruisce", testo: "15 minuti a settimana di feedback. Quello che non va, cambia la settimana dopo, non nel prossimo rilascio annuale." },
 ];
 
 function HowItWorksSection() {
   return (
-    <section id="come-funziona" className="bg-background py-20">
+    <section id="come-funziona" className="flex bg-background py-20 lg:min-h-screen lg:snap-start lg:items-center lg:py-0">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mb-12 max-w-2xl">
           <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-accent">Come funziona</p>
@@ -195,7 +193,7 @@ function HowItWorksSection() {
 
 function CTASection() {
   return (
-    <section id="contatti" className="bg-white py-20">
+    <section id="contatti" className="flex bg-white py-20 lg:min-h-screen lg:snap-start lg:items-center lg:py-0">
       <div className="mx-auto max-w-3xl px-6 text-center">
         <div className="mb-4 flex justify-center gap-2">
           {[CalendarCheck, Smartphone, Undo2].map((Icon, i) => (
@@ -207,13 +205,13 @@ function CTASection() {
         <h2 className="text-3xl font-bold text-navy">Coordini spedizioni senza avere una flotta?</h2>
         <p className="mx-auto mt-3 max-w-xl text-muted">
           Ne parliamo in 15 minuti. Ti mostriamo la piattaforma, tu ci dici se risolve un problema vero per la tua
-          azienda — niente slide, niente impegno.
+          azienda: niente slide, niente impegno.
         </p>
         <a
           href="mailto:ciao@clyo.app"
           className="mt-7 inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3.5 text-sm font-semibold text-white hover:bg-accent-dark"
         >
-          Scrivici — ciao@clyo.app
+          Scrivici a ciao@clyo.app
           <ArrowRight className="h-4 w-4" />
         </a>
         <p className="mt-4 flex items-center justify-center gap-1.5 text-xs text-muted">

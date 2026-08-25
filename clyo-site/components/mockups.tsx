@@ -1,6 +1,6 @@
 import { Bell, MapPin, Package, Navigation, CheckCircle2, Undo2 } from "lucide-react";
 
-// Mockup illustrativi fedeli alla UI reale del prodotto — non screenshot, ma la stessa
+// Mockup illustrativi fedeli alla UI reale del prodotto: non screenshot, ma la stessa
 // struttura visiva (stessa palette, stesse card, stesso frame telefono) usata nell'app.
 
 export function PhoneMockup() {
@@ -94,7 +94,7 @@ const STEP_TIMELINE = [
   { label: "Appuntamento gate terminal", stato: "done" as const },
   { label: "Ritiro container dal terminal", stato: "done" as const, nota: "Targa mezzo tracciata al gate" },
   { label: "Consegna al cliente", stato: "pending" as const },
-  { label: "Rientro container vuoto al terminal", stato: "current" as const, nota: "Flusso che il PCS oggi non traccia — qui invece sì" },
+  { label: "Rientro container vuoto al terminal", stato: "current" as const, nota: "Flusso che il PCS oggi non traccia. Qui invece sì" },
 ];
 
 export function TimelineMockup() {
@@ -141,7 +141,7 @@ export function DashboardMockup() {
       <div className="flex items-center justify-between border-b border-border bg-[#F7F9FA] px-5 py-3">
         <div>
           <p className="text-[9px] font-semibold uppercase tracking-wider text-accent">Dashboard</p>
-          <p className="text-sm font-bold text-navy">Buongiorno — ecco la situazione di oggi</p>
+          <p className="text-sm font-bold text-navy">Buongiorno, ecco la situazione di oggi</p>
         </div>
         <div className="hidden gap-1.5 sm:flex">
           {TERMINALI.map((t) => (

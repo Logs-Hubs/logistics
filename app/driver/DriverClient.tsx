@@ -13,7 +13,7 @@ export function DriverClient() {
     <div className="flex min-h-screen items-center justify-center bg-[#e9eef1] px-6 py-10">
       <div className="w-full max-w-[380px]">
         <p className="mb-3 text-center text-xs font-semibold uppercase tracking-wider text-muted">
-          Anteprima app driver — {vettore.autista}
+          Anteprima app driver di {vettore.autista}
         </p>
         <DriverPhonePreview
           spedizione={spedizione}

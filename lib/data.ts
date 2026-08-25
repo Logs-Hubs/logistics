@@ -104,7 +104,7 @@ export function timelineSpedizione(s: Spedizione): EventoTimeline[] {
       dataOra: s.oraAppuntamento ? `${s.dataAppuntamento} · ${s.oraAppuntamento}` : "Da pianificare",
       completato: s.stato === "confermato",
       attuale: s.stato !== "confermato",
-      note: s.stato === "in_ritardo" ? "Nessuno slot ancora prenotato — rischio demurrage" : undefined,
+      note: s.stato === "in_ritardo" ? "Nessuno slot ancora prenotato, rischio demurrage" : undefined,
     },
     {
       step: "ritiro",
@@ -122,7 +122,7 @@ export function timelineSpedizione(s: Spedizione): EventoTimeline[] {
       completato: vuotoRientrato,
       attuale: ritirato && !vuotoRientrato,
       note: vuotoRientrato
-        ? "Flusso che il PCS oggi non traccia — qui invece sì"
+        ? "Flusso che il PCS oggi non traccia. Qui invece sì"
         : ritirato
           ? "Flusso oggi non tracciato dal PCS: nessuna visibilità finché il driver non lo segnala qui"
           : undefined,
