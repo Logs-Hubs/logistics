@@ -16,7 +16,7 @@ I miei strumenti su Drive possono aggiornare solo titolo/cartella di un file, no
 
 ## To-do
 
-La lista di cose da fare vive **solo su Drive** ("TO-DO Movr", nella cartella root "logistic"), non nel repo: cambia troppo spesso per un file versionato a mano, e la teniamo aggiornata a voce ("segna fatto X", "aggiungi Y"). Il link di quel doc cambia più spesso degli altri per lo stesso motivo tecnico spiegato sopra.
+Vive in `todo.md` in questa cartella, non su Drive: qui posso modificarla direttamente riga per riga (Edit tool), senza il problema del link che cambia ad ogni refresh. La tengo aggiornata di mia iniziativa mentre lavoriamo, non solo su richiesta, e la uso per proporre proattivamente i prossimi passi quando è rilevante nel contesto.
 
 ## Come tenerla aggiornata
 
