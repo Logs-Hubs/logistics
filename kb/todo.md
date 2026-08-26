@@ -7,6 +7,8 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 - [ ] Contattare le 4 aziende a priorità alta: Lena Spedizioni, Ambra Mar, GDT Logistic, Spedimar
 - [ ] Primo contatto Spediservices (apre la rete verso Spediporto)
 - [ ] Verificare su LinkedIn le aziende "da confermare" del secondo giro (dimensione, attività recente)
+- [ ] Modulo Flotte: verificare le 9 aziende "da confermare" in `aziende-autotrasporto-nazionale.md` (regione, dipendenti, LinkedIn/sito)
+- [ ] Modulo Flotte: espandere la ricerca aziende a Nord-Ovest (Piemonte, Liguria) e Nord-Est (Trentino, Friuli), oggi coperti solo da operatori multi-regione
 
 ## Tecnico / deploy
 
@@ -33,3 +35,4 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 - [x] Knowledge base creata (repo + mirror Drive ristretto a mercato/competitor/clienti)
 - [x] Annullamento appuntamenti + alert demurrage nel calendario piattaforma
 - [x] To-do spostata dal mirror Drive (link che si rompeva ad ogni modifica) a qui nel repo
+- [x] Prima lista aziende autotrasporto nazionale per il modulo Flotte (3 verificate, 9 da confermare)
