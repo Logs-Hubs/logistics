@@ -51,8 +51,10 @@ avvio (schermata `SetupView`). Senza questa variabile le route
 ## Passo 4 — Prova in simulatore
 
 `Cmd+R` in Xcode con un simulatore iPhone selezionato in alto. Al primo
-avvio l'app chiede ID vettore (uno di quelli già nel seed, es. `V-01`) e la
-chiave API. Da lì carica l'appuntamento e i bottoni chiamano davvero la
+avvio l'app chiede ID vettore e la chiave API. Gli ID vettore veri sono
+quelli seminati in `supabase/schema.sql` (tabella `vettori`): `v1`, `v2`,
+`v3`, `v4` — `v1` ha già un appuntamento confermato (SP-2461), buon primo
+test. Da lì carica l'appuntamento e i bottoni chiamano davvero la
 piattaforma: se confermi un ritiro qui, lo vedrai aggiornarsi anche nella
 demo web.
 

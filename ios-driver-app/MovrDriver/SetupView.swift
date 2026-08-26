@@ -9,7 +9,7 @@ struct SetupView: View {
         NavigationStack {
             Form {
                 Section("Autista") {
-                    TextField("ID vettore (es. V-01)", text: $vettoreId)
+                    TextField("ID vettore (es. v1)", text: $vettoreId)
                         .autocapitalization(.none)
                 }
                 Section("Accesso") {
