@@ -2,10 +2,10 @@
 
 ## Fatto
 
-- Piattaforma Clyo: dashboard, calendario multi-terminal, tracking spedizione, vista driver, tutto su Supabase con persistenza reale
+- Piattaforma Movr (modulo Porti): dashboard, calendario multi-terminal, tracking spedizione, vista driver, tutto su Supabase con persistenza reale
 - Annullamento/modifica appuntamenti, alert scadenza demurrage nel calendario
 - API `/api/driver/*` per l'app iOS (non ancora usate da un'app reale)
-- Sito marketing Clyo, deploy separato, con scroll-snap tra sezioni
+- Sito marketing Movr, deploy separato, con scroll-snap tra sezioni
 - Scaffold completo app driver iOS in Swift (non compilato: serve Xcode/Mac)
 - Modulo demo AI Transport Manager (secondo mercato), self-contained, non collegato a Supabase
 - Knowledge base (questa cartella + mirror su Google Drive)

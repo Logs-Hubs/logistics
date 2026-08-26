@@ -1,12 +1,14 @@
 {
   "handoff": {
     "date": "2026-08-25",
-    "project_name": "Clyo",
+    "project_name": "Movr",
     "purpose_of_this_file": "Contesto completo per chiunque (o qualunque istanza di Claude Code) riprenda il progetto da qui, senza dover rileggere l'intera conversazione precedente.",
     "read_also": [
       "project_spec.json (spec funzionale originale)",
-      "README.md (istruzioni di avvio + sezione 'Aziende genovesi da contattare', la lista aggiornata e autorevole per l'outreach — 15 aziende su 3 fasce di priorità, con stato di verifica per ciascuna)"
-    ]
+      "README.md (istruzioni di avvio + sezione 'Aziende genovesi da contattare', la lista aggiornata e autorevole per l'outreach — 15 aziende su 3 fasce di priorità, con stato di verifica per ciascuna)",
+      "kb/ (knowledge base: prodotto, mercato, competitor, clienti, stato tecnico — fonte di verità aggiornata più spesso di questo file)"
+    ],
+    "rebrand_note": "Il progetto si chiamava 'Clyo' fino al 26 agosto 2026, poi rinominato 'Movr' come brand ombrello per entrambi i verticali (coordinamento portuale + AI Transport Manager per flotte). Se trovi ancora 'Clyo' in giro (es. cartella clyo-site/, email ciao@clyo.app non aggiornate), è naming residuo da sistemare, non intenzionale."
   },
   "business_context": {
     "problem": "Gli spedizionieri doganali genovesi di taglia media coordinano oggi appuntamenti, tracking spedizioni e container vuoti via telefono/email/WhatsApp con i vettori terzi che gestiscono, perche' il Port Community System di Genova ha 'coni d'ombra' (non traccia i mezzi, non gestisce bene container vuoti/transiti interni) e ogni terminal ha un sistema di appuntamenti separato.",

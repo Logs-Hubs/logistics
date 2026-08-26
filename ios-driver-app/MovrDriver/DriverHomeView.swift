@@ -97,7 +97,7 @@ struct DriverHomeView: View {
                 .padding()
             }
             .refreshable { await vm.carica() }
-            .navigationTitle("Clyo")
+            .navigationTitle("Movr")
             .task { await vm.carica() }
         }
     }

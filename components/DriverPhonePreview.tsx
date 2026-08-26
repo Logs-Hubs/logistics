@@ -67,7 +67,7 @@ export function DriverPhonePreview({
       >
         <div className="flex flex-shrink-0 items-center justify-between bg-navy-dark px-5 py-2 text-[10px] text-white/70">
           <span>9:41</span>
-          <span>Clyo</span>
+          <span>Movr</span>
         </div>
 
         <div className="flex-1 overflow-y-auto bg-[#F7F9FA] p-5">
@@ -173,7 +173,7 @@ export function DriverPhonePreview({
               <Bell className="h-3.5 w-3.5 text-white" />
             </div>
             <div className="flex-1">
-              <p className="text-xs font-semibold text-navy">Clyo</p>
+              <p className="text-xs font-semibold text-navy">Movr</p>
               <p className="mt-0.5 text-[11px] text-muted">{testoNotifica(spedizione, terminaleNome)}</p>
             </div>
             <button onClick={() => setNotificaMostrata(false)} className="text-[10px] text-muted">

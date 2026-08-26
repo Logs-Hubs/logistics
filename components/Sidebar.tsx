@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { LayoutDashboard, CalendarClock, Ship, Smartphone, Anchor, Truck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const NAV_CLYO = [
+const NAV_PORTI = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/calendario", label: "Appuntamenti", icon: CalendarClock },
   { href: "/spedizioni/SP-2463", label: "Tracking spedizione", icon: Ship },
@@ -17,7 +17,7 @@ const NAV_FLOTTA = [{ href: "/flotta", label: "Centro comando flotta", icon: Tru
 export function Sidebar() {
   const pathname = usePathname();
   const inFlotta = pathname.startsWith("/flotta");
-  const nav = inFlotta ? NAV_FLOTTA : NAV_CLYO;
+  const nav = inFlotta ? NAV_FLOTTA : NAV_PORTI;
 
   return (
     <aside className="sticky top-0 flex h-screen w-64 flex-shrink-0 flex-col bg-navy-dark text-white">
@@ -26,7 +26,7 @@ export function Sidebar() {
           {inFlotta ? <Truck className="h-5 w-5 text-white" /> : <Anchor className="h-5 w-5 text-white" />}
         </div>
         <div>
-          <div className="text-sm font-semibold leading-tight">{inFlotta ? "AI Transport Manager" : "Clyo"}</div>
+          <div className="text-sm font-semibold leading-tight">Movr</div>
           <div className="text-[11px] text-teal-light/80">{inFlotta ? "Autotrasportatori PMI" : "Genova · Savona-Vado"}</div>
         </div>
       </div>
@@ -36,13 +36,13 @@ export function Sidebar() {
           href="/"
           className={cn("flex-1 rounded-md px-2 py-1.5 text-center transition-colors", !inFlotta ? "bg-white/15 text-white" : "text-teal-light/70 hover:text-white")}
         >
-          Clyo
+          Porti
         </Link>
         <Link
           href="/flotta"
           className={cn("flex-1 rounded-md px-2 py-1.5 text-center transition-colors", inFlotta ? "bg-white/15 text-white" : "text-teal-light/70 hover:text-white")}
         >
-          Fleet AI
+          Flotte
         </Link>
       </div>
 

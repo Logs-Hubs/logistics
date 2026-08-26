@@ -50,7 +50,7 @@ function Hero() {
             Più container in movimento.
           </h1>
           <p className="mt-5 max-w-lg text-lg leading-relaxed text-teal-light">
-            Clyo mette appuntamenti multi-terminal, tracking del mezzo e rientro dei container vuoti in
+            Movr mette appuntamenti multi-terminal, tracking del mezzo e rientro dei container vuoti in
             un&apos;unica vista, per chi coordina spedizioni senza avere una flotta propria.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -158,7 +158,7 @@ function FeatureSlide({
 }
 
 const STEPS = [
-  { numero: "1", titolo: "15 minuti, non 15 slide", testo: "Ti mostriamo Clyo che gira davvero, con dati vicini ai tuoi." },
+  { numero: "1", titolo: "15 minuti, non 15 slide", testo: "Ti mostriamo Movr che gira davvero, con dati vicini ai tuoi." },
   { numero: "2", titolo: "Lo usi sul prossimo carico", testo: "Gratis, zero contratto. Provi solo il pezzo che ti serve: appuntamenti e notifiche." },
   { numero: "3", titolo: "Un canale diretto con chi lo costruisce", testo: "15 minuti a settimana di feedback. Quello che non va, cambia la settimana dopo, non nel prossimo rilascio annuale." },
 ];
@@ -171,7 +171,7 @@ function HowItWorksSection() {
           <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-accent">Come funziona</p>
           <h2 className="text-3xl font-bold text-navy">Non un altro gestionale da mesi di onboarding.</h2>
           <p className="mt-3 text-muted">
-            Cerchiamo i primi design partner: aziende che usano Clyo gratis in cambio di un canale diretto per
+            Cerchiamo i primi design partner: aziende che usano Movr gratis in cambio di un canale diretto per
             dirci cosa serve davvero.
           </p>
         </div>
@@ -208,10 +208,10 @@ function CTASection() {
           azienda: niente slide, niente impegno.
         </p>
         <a
-          href="mailto:ciao@clyo.app"
+          href="mailto:ciao@movr.app"
           className="mt-7 inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3.5 text-sm font-semibold text-white hover:bg-accent-dark"
         >
-          Scrivici a ciao@clyo.app
+          Scrivici a ciao@movr.app
           <ArrowRight className="h-4 w-4" />
         </a>
         <p className="mt-4 flex items-center justify-center gap-1.5 text-xs text-muted">

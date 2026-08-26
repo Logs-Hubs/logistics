@@ -28,7 +28,7 @@ Il Port Community System (PCS) di Liguria Digitale traccia la merce, non il mezz
 - Ferragosto: servono piani straordinari
 - Senza vista in tempo reale su mezzi/carichi, questi eventi si "subiscono due volte" (impatto operativo + impatto di scoperta tardiva)
 
-## ICP per Clyo
+## ICP per Movr (modulo Porti)
 
 Spedizioniere doganale genovese, 5-30 dipendenti, import/export container su Genova/Savona-Vado, lavora con vettori terzi (non ha flotta propria), idealmente associato Spediporto.
 

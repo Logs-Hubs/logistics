@@ -1,4 +1,4 @@
-# Aziende genovesi da contattare (design partner Clyo)
+# Aziende genovesi da contattare (design partner Movr)
 
 Fonte di verità: `README.md` nella root del repo. Questa è una copia sincronizzata per la KB. Se diverge dal README della root, il README prevale: aggiorna prima lì, poi rifletti qui.
 

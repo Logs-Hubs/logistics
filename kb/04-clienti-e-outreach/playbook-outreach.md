@@ -2,7 +2,7 @@
 
 ## Fase attuale
 
-Fase 1 del go-to-market Clyo: 3-4 design partner gratuiti in cambio di feedback settimanale strutturato, sul wedge stretto slot booking + notifiche multi-terminal (non integrazione PCS).
+Fase 1 del go-to-market Movr (modulo Porti): 3-4 design partner gratuiti in cambio di feedback settimanale strutturato, sul wedge stretto slot booking + notifiche multi-terminal (non integrazione PCS).
 
 ## Chi contattare per primo
 

@@ -1,4 +1,4 @@
-# Clyo — piattaforma per spedizionieri doganali (Genova)
+# Movr Porti — piattaforma per spedizionieri doganali (Genova)
 
 ## Cos'è
 
@@ -43,4 +43,4 @@ Vedi `05-stato-tecnico/` per i dettagli implementativi e cosa manca.
 
 ## Brand
 
-Nome: **Clyo**. Sito marketing separato (deploy Vercel indipendente dalla piattaforma), palette navy/teal/accent arancione. Vedi `05-stato-tecnico/` per URL e dettagli deploy.
+Nome: **Movr** (modulo "Porti"). Sito marketing separato (deploy Vercel indipendente dalla piattaforma), palette navy/teal/accent arancione. Vedi `05-stato-tecnico/` per URL e dettagli deploy.

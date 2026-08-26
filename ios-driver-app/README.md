@@ -1,4 +1,4 @@
-# Clyo Driver — app iOS per l'autista
+# Movr Driver — app iOS per l'autista
 
 Non ho accesso a un Mac/Xcode in questo ambiente, quindi non posso creare il
 progetto Xcode né compilarlo. Qui dentro trovi però il codice Swift vero e
@@ -12,26 +12,26 @@ chiamando le stesse API della piattaforma (`app/api/driver/*`, già in
 
 ## Cosa c'è già pronto
 
-- `ClyoDriver/Models.swift` — i tipi che rispecchiano `Spedizione` in `lib/data.ts`
-- `ClyoDriver/APIClient.swift` — client HTTP verso `app/api/driver/*`
-- `ClyoDriver/AppConfig.swift` — salva ID vettore e chiave API sul device
-- `ClyoDriver/SetupView.swift` — schermata di configurazione al primo avvio
-- `ClyoDriver/DriverHomeView.swift` — schermata principale (stessa logica di `DriverPhonePreview.tsx`)
-- `ClyoDriver/ClyoDriverApp.swift` — entry point dell'app
+- `MovrDriver/Models.swift` — i tipi che rispecchiano `Spedizione` in `lib/data.ts`
+- `MovrDriver/APIClient.swift` — client HTTP verso `app/api/driver/*`
+- `MovrDriver/AppConfig.swift` — salva ID vettore e chiave API sul device
+- `MovrDriver/SetupView.swift` — schermata di configurazione al primo avvio
+- `MovrDriver/DriverHomeView.swift` — schermata principale (stessa logica di `DriverPhonePreview.tsx`)
+- `MovrDriver/MovrDriverApp.swift` — entry point dell'app
 
 ## Passo 1 — Crea il progetto Xcode
 
 1. Apri Xcode (se non ce l'hai: App Store → cerca "Xcode", è gratis, ~15 GB)
 2. `File → New → Project`
 3. Scegli **iOS → App**
-4. Product Name: `ClyoDriver`. Interface: **SwiftUI**. Language: **Swift**
+4. Product Name: `MovrDriver`. Interface: **SwiftUI**. Language: **Swift**
 5. Salvalo dove preferisci sul Mac (non deve stare per forza dentro questa repo)
 
 ## Passo 2 — Sostituisci i file generati con questi
 
-1. Xcode crea da solo un `ClyoDriverApp.swift` e un `ContentView.swift`: cancella `ContentView.swift`
-2. Trascina dentro il progetto (dal Finder al pannello di sinistra di Xcode, dentro la cartella `ClyoDriver`) tutti i file da `ios-driver-app/ClyoDriver/` di questa repo, incluso `ClyoDriverApp.swift` (sostituisce quello generato)
-3. Quando Xcode chiede, spunta "Copy items if needed" e assicurati che il target `ClyoDriver` sia selezionato
+1. Xcode crea da solo un `MovrDriverApp.swift` e un `ContentView.swift`: cancella `ContentView.swift`
+2. Trascina dentro il progetto (dal Finder al pannello di sinistra di Xcode, dentro la cartella `MovrDriver`) tutti i file da `ios-driver-app/MovrDriver/` di questa repo, incluso `MovrDriverApp.swift` (sostituisce quello generato)
+3. Quando Xcode chiede, spunta "Copy items if needed" e assicurati che il target `MovrDriver` sia selezionato
 
 ## Passo 3 — Punta l'app al deploy giusto
 
@@ -66,15 +66,15 @@ stesso:
 
 ## Passo 6 — Firma l'app
 
-1. In Xcode, seleziona il progetto `ClyoDriver` nel pannello di sinistra → tab **Signing & Capabilities**
+1. In Xcode, seleziona il progetto `MovrDriver` nel pannello di sinistra → tab **Signing & Capabilities**
 2. **Team**: seleziona il tuo account sviluppatore (dopo l'iscrizione al passo 5)
-3. **Bundle Identifier**: qualcosa di univoco, es. `it.clyo.driver` (deve essere diverso da quello di chiunque altro al mondo, di solito basta usare un dominio che controlli)
+3. **Bundle Identifier**: qualcosa di univoco, es. `it.movr.driver` (deve essere diverso da quello di chiunque altro al mondo, di solito basta usare un dominio che controlli)
 4. Xcode gestisce da solo certificati e provisioning se lasci "Automatically manage signing" attivo
 
 ## Passo 7 — App Store Connect
 
 1. [appstoreconnect.apple.com](https://appstoreconnect.apple.com) → **My Apps** → **+** → **New App**
-2. Platform iOS, nome (es. "Clyo Driver"), lingua principale italiano, Bundle ID quello del passo 6, SKU un codice a piacere (es. `clyo-driver-001`)
+2. Platform iOS, nome (es. "Movr Driver"), lingua principale italiano, Bundle ID quello del passo 6, SKU un codice a piacere (es. `movr-driver-001`)
 
 ## Passo 8 — Carica la build su TestFlight
 
@@ -89,7 +89,7 @@ stesso:
 1. In App Store Connect → la tua app → tab **TestFlight**
 2. **Internal Testing** → crea un gruppo, aggiungi la tua email Apple ID (e quelle di chi vuoi che provi l'app, devono avere un Apple ID)
 3. I tester interni possono provare la build appena è "Ready to Test", senza revisione Apple
-4. Ricevono un invito via email → installano l'app **TestFlight** dall'App Store → aprono l'invito → installano Clyo Driver
+4. Ricevono un invito via email → installano l'app **TestFlight** dall'App Store → aprono l'invito → installano Movr Driver
 
 Per test interni (fino a 100 persone del tuo team Apple Developer) non
 serve nessuna revisione Apple: è la strada più veloce per far provare
