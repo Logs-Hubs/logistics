@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 // Config minima per il test interno: l'autista incolla la chiave una volta,
 // resta salvata sul device. Per il rollout reale questo va sostituito da un
