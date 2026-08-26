@@ -8,7 +8,7 @@ export function PhoneMockup() {
     <div className="mx-auto w-full max-w-[260px] overflow-hidden rounded-[1.75rem] border-[6px] border-navy-dark bg-white shadow-2xl">
       <div className="flex items-center justify-between bg-navy-dark px-4 py-1.5 text-[9px] text-white/70">
         <span>9:41</span>
-        <span>Clyo</span>
+        <span>Movr</span>
       </div>
       <div className="bg-[#F7F9FA] p-4">
         <div className="mb-3 flex items-center justify-between">

@@ -1,4 +1,4 @@
-# Clyo — Demo MVP
+# Movr — Demo MVP
 
 Piattaforma dimostrativa per spedizionieri doganali genovesi: coordina appuntamenti multi-terminal, tracking spedizioni e comunicazione con i vettori, in un'unica vista — invece di telefono, email e piattaforme separate per ogni terminal.
 

@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct ClyoDriverApp: App {
+struct MovrDriverApp: App {
     @StateObject private var config = AppConfig.shared
 
     var body: some Scene {

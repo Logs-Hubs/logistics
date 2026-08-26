@@ -86,11 +86,11 @@ export function FlottaClient() {
       <header className="mb-8">
         <p className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-navy/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-navy">
           <Sparkles className="h-3.5 w-3.5" />
-          AI Transport Manager · verticale in valutazione
+          Movr Flotte · AI Transport Manager, verticale in valutazione
         </p>
         <h1 className="text-2xl font-bold text-navy">Centro comando flotta</h1>
         <p className="mt-1 text-sm text-muted">
-          Autotrasportatori PMI, non spedizionieri doganali: dati e logica separati da Clyo, stesso repo per la demo.
+          Autotrasportatori PMI, non spedizionieri doganali: dati e logica separati dal modulo Porti, stesso repo per la demo.
         </p>
       </header>
 

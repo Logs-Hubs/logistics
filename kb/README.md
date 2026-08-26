@@ -1,4 +1,4 @@
-# Knowledge base — Logistic / Clyo
+# Knowledge base — Logistic / Movr
 
 Tutto quello che sappiamo sul progetto: prodotto, mercato, competitor, clienti, stato tecnico. Fonte di verità, letta e aggiornata di default ad ogni sessione rilevante.
 
@@ -6,7 +6,7 @@ Una copia leggibile è mantenuta anche su Google Drive (cartella "logistic" nell
 
 ## Struttura
 
-- **01-prodotto/**: cosa sono Clyo e AI Transport Manager, a chi si rivolgono, cosa fanno oggi
+- **01-prodotto/**: cosa sono i moduli Porti e Flotte di Movr, a chi si rivolgono, cosa fanno oggi
 - **02-mercato/**: dimensioni, ICP, pain, jargon dei due mercati
 - **03-competitor/**: mappa concorrenti (vuoto, da costruire — vedi il template dentro)
 - **04-clienti-e-outreach/**: liste aziende da contattare, playbook, stato dei contatti

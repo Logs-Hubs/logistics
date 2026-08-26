@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Clyo: coordina il porto senza il telefono",
+  title: "Movr: coordina il porto senza il telefono",
   description:
-    "Clyo mette appuntamenti multi-terminal, tracking del mezzo e rientro dei container vuoti in un'unica vista, per gli spedizionieri doganali genovesi.",
+    "Movr mette appuntamenti multi-terminal, tracking del mezzo e rientro dei container vuoti in un'unica vista, per gli spedizionieri doganali genovesi.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

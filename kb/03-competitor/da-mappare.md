@@ -4,7 +4,7 @@ Stato: **vuoto, nessuna ricerca competitor sistematica fatta finora.** Questo fi
 
 ## Perché è la prossima cosa da fare
 
-Prima di investire oltre la demo tecnica su AI Transport Manager (e per validare meglio anche Clyo), serve sapere: chi altro sta già risolvendo questo problema, con che prodotto, a che prezzo, con quanto successo.
+Prima di investire oltre la demo tecnica su AI Transport Manager (e per validare meglio anche il modulo Porti), serve sapere: chi altro sta già risolvendo questo problema, con che prodotto, a che prezzo, con quanto successo.
 
 ## Obiettivo della ricerca
 
@@ -42,7 +42,7 @@ TMS, fleet management, last mile, WMS, shipping SaaS, freight marketplace, suppl
 
 ## Competitor noti da verificare per primi (non ancora ricercati in dettaglio)
 
-Per il segmento spedizionieri/PCS: nessun nome noto specificamente focalizzato sui porti italiani al momento — è uno dei punti di forza dichiarati di Clyo ("0 piattaforme come Clyo già focalizzate sui porti italiani").
+Per il segmento spedizionieri/PCS: nessun nome noto specificamente focalizzato sui porti italiani al momento — è uno dei punti di forza dichiarati del modulo Porti ("0 piattaforme come Movr già focalizzate sui porti italiani").
 
 Per il segmento TMS/fleet PMI generico: da ricercare, categoria affollata a livello europeo/globale (player storici enterprise + startup AI-native più recenti), nessuno ancora mappato in questa KB.
 

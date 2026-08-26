@@ -23,7 +23,7 @@ struct SetupView: View {
                     .disabled(vettoreId.isEmpty || apiKey.isEmpty)
                 }
             }
-            .navigationTitle("Clyo Driver")
+            .navigationTitle("Movr Driver")
         }
     }
 }

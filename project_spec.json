@@ -1,6 +1,6 @@
 {
   "project": {
-    "name": "Clyo - MVP Demo",
+    "name": "Movr - MVP Demo",
     "one_liner": "Piattaforma per spedizionieri doganali genovesi per coordinare appuntamenti multi-terminal, tracking spedizioni e container vuoti, sostituendo telefono/email/WhatsApp.",
     "stage": "MVP dimostrativo per design partner (demo 'wow effect', non produzione)",
     "language_ui": "Italiano",

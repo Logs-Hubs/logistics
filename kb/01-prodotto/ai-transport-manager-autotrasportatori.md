@@ -2,7 +2,7 @@
 
 ## Stato
 
-Secondo mercato in valutazione, esplorato in parallelo a Clyo. Non è ancora una decisione di andare avanti: è una demo tecnica costruita per vedere se il concetto regge, dentro lo stesso repo di Clyo con uno switch nella UI ("Clyo" / "Fleet AI").
+Secondo mercato in valutazione, esplorato in parallelo al modulo Porti (ex Clyo). Non è ancora una decisione di andare avanti: è una demo tecnica costruita per vedere se il concetto regge, dentro lo stesso repo, con uno switch nella UI ("Porti" / "Flotte") sotto il brand ombrello Movr.
 
 ## Cos'è (tesi di prodotto)
 
@@ -53,4 +53,4 @@ Mercato iniziale: PMI italiane a gestione familiare, 10-50 camion. Vendita found
 
 ## Domanda aperta
 
-Questo è un mercato diverso da quello di Clyo (proprietari di flotta vs spedizionieri senza flotta propria). Prima di investire oltre la demo tecnica, va deciso se: (a) è un secondo prodotto parallelo, (b) sostituisce Clyo, o (c) resta solo un esperimento. Va anche fatta la ricerca competitor descritta in `03-competitor/`.
+Questo è un mercato diverso da quello del modulo Porti (proprietari di flotta vs spedizionieri senza flotta propria). Prima di investire oltre la demo tecnica, va deciso se: (a) è un secondo prodotto parallelo, (b) sostituisce il modulo Porti, o (c) resta solo un esperimento. Va anche fatta la ricerca competitor descritta in `03-competitor/`.

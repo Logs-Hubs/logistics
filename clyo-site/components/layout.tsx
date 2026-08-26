@@ -7,7 +7,7 @@ export function Logo() {
       <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent">
         <Anchor className="h-4 w-4 text-white" />
       </div>
-      <span className="text-lg font-bold tracking-tight text-navy">Clyo</span>
+      <span className="text-lg font-bold tracking-tight text-navy">Movr</span>
     </Link>
   );
 }
@@ -49,11 +49,11 @@ export function Footer({ genovaLink = true }: { genovaLink?: boolean }) {
         <div className="flex items-center gap-5 text-xs text-muted">
           {genovaLink ? (
             <Link href="/genova" className="hover:text-navy">
-              Clyo a Genova
+              Movr a Genova
             </Link>
           ) : (
             <Link href="/" className="hover:text-navy">
-              ← Clyo
+              ← Movr
             </Link>
           )}
           <span>Genova, Italia · © 2026</span>

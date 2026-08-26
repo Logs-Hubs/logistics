@@ -3,7 +3,7 @@ import { CalendarMockup, PhoneMockup, TimelineMockup } from "@/components/mockup
 import { Nav, Footer } from "@/components/layout";
 
 export const metadata = {
-  title: "Clyo a Genova: coordinamento portuale per spedizionieri doganali",
+  title: "Movr a Genova: coordinamento portuale per spedizionieri doganali",
   description:
     "Porto Vecchio, PSA Prà e Savona-Vado in un'unica vista: appuntamenti, tracking del mezzo e rientro container vuoti per gli spedizionieri doganali genovesi.",
 };
@@ -49,7 +49,7 @@ function Hero() {
             Non sa dov&apos;è il tuo camion.
           </h1>
           <p className="mt-5 max-w-lg text-lg leading-relaxed text-teal-light">
-            Clyo mette Porto Vecchio, PSA Prà e Savona-Vado in un&apos;unica vista: appuntamenti, mezzi e container
+            Movr mette Porto Vecchio, PSA Prà e Savona-Vado in un&apos;unica vista: appuntamenti, mezzi e container
             vuoti, senza più una telefonata per ognuno.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -82,7 +82,7 @@ const STATS = [
   { v: "~3M", l: "TEU movimentati tra Genova e Savona-Vado nel 2025, record storico" },
   { v: "~3.700", l: "camion al giorno attraverso i varchi portuali di Genova" },
   { v: "30+", l: "associazioni di spedizionieri/autotrasportatori in Italia. Spediporto è quella genovese" },
-  { v: "0", l: "piattaforme come Clyo già focalizzate sui porti italiani. Il gap è aperto" },
+  { v: "0", l: "piattaforme come Movr già focalizzate sui porti italiani. Il gap è aperto" },
 ];
 
 function StatsSection() {
@@ -193,10 +193,10 @@ function CTASection() {
           azienda. Se sei associato Spediporto, ancora meglio: è la rete da cui vogliamo partire.
         </p>
         <a
-          href="mailto:ciao@clyo.app"
+          href="mailto:ciao@movr.app"
           className="mt-7 inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3.5 text-sm font-semibold text-white hover:bg-accent-dark"
         >
-          Scrivici a ciao@clyo.app
+          Scrivici a ciao@movr.app
           <ArrowRight className="h-4 w-4" />
         </a>
         <p className="mt-4 flex items-center justify-center gap-1.5 text-xs text-muted">

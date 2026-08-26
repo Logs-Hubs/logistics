@@ -3,8 +3,8 @@
 ## Repository
 
 `github.com/lasagnealpesto/logistic`, branch di lavoro `claude/repo-access-push-7v25nf`. Monorepo con due progetti Next.js indipendenti:
-- root (`/`) — piattaforma Clyo + modulo AI Transport Manager (`/flotta`)
-- `clyo-site/` — sito marketing, progetto Next.js separato nello stesso repo
+- root (`/`) — piattaforma Movr: modulo Porti (`/`, `/calendario`, ecc.) + modulo Flotte/AI Transport Manager (`/flotta`)
+- `clyo-site/` — sito marketing Movr, progetto Next.js separato nello stesso repo (nome cartella legacy, non aggiornato per non rompere la config Vercel — vedi nota in `clyo-site/README.md`)
 
 ## Stack piattaforma (root)
 
@@ -34,7 +34,7 @@ Account Vercel che deploya davvero: `lormilano99@gmail.com`, team "lormilano-pro
 
 ## Modulo AI Transport Manager (`/flotta`)
 
-Self-contained in `lib/flotta/` e `app/flotta/`. Non collegato a Supabase: stato locale React, dati demo generati deterministicamente in `lib/flotta/datiDemo.ts`. Switch Clyo/Fleet AI nella sidebar (`components/Sidebar.tsx`).
+Self-contained in `lib/flotta/` e `app/flotta/`. Non collegato a Supabase: stato locale React, dati demo generati deterministicamente in `lib/flotta/datiDemo.ts`. Switch Porti/Flotte nella sidebar (`components/Sidebar.tsx`).
 
 ## App driver iOS
 
