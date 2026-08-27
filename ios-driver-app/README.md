@@ -99,6 +99,65 @@ l'app a un autista vero. La revisione Apple serve solo per External
 Testing con più di 100 tester o per la pubblicazione pubblica sull'App
 Store, che non ti serve ora.
 
+## Passo 10 — Xcode Cloud: build automatica ad ogni modifica
+
+Con questo, modificare l'app non richiede più passare da Xcode a mano
+(Archive → Distribute) ogni volta: basta pushare su un repo Git e una build
+nuova arriva da sola su TestFlight, anche quando le modifiche le faccio io
+da qui.
+
+**Perché serve un repo dedicato solo per il progetto Xcode**: Xcode Cloud
+collega un progetto Xcode a *un* repository Git — ma il progetto Xcode
+vero e proprio (il `.xcodeproj`, la firma, i target) esiste solo sul tuo
+Mac, creato al Passo 1. Questa repo (`logistic`) contiene solo i sorgenti
+Swift da incollare, non un progetto Xcode completo. Il primo passo è quindi
+mettere il progetto Xcode reale in un repo suo.
+
+### Fase 1 — Crea il repo dedicato e caricaci il progetto (sul Mac)
+
+1. Su GitHub crea un nuovo repo, es. `movr-driver-ios` (privato va bene)
+2. Sul Mac, apri il Terminal e vai nella cartella del progetto Xcode (quella con dentro `MovrDriver.xcodeproj`)
+3. ```
+   git init
+   git remote add origin https://github.com/<tuo-utente>/movr-driver-ios.git
+   git add .
+   git commit -m "Progetto iniziale MovrDriver"
+   git push -u origin main
+   ```
+4. Se Xcode ti chiede le credenziali GitHub, usa un Personal Access Token invece della password (GitHub → Settings → Developer settings → Personal access tokens)
+
+### Fase 2 — Attiva Xcode Cloud (in Xcode)
+
+1. Apri il progetto in Xcode
+2. Menu **Product → Xcode Cloud → Create Workflow** (o dal Report Navigator, icona a forma di nuvola sulla sinistra)
+3. Accedi con lo stesso Apple ID sviluppatore: Xcode collega automaticamente l'app **Movr Driver** già esistente su App Store Connect
+4. Xcode chiede accesso al repo: si apre il browser, autorizzi la GitHub App "Xcode Cloud" **solo** sul repo `movr-driver-ios` (non su tutto l'account)
+5. Configura il Workflow:
+   - **Start Condition**: "Branch Changes" su `main` — ogni push a `main` parte una build
+   - **Actions**: Xcode aggiunge da solo "Archive" (build per App Store Connect)
+   - **Post-Actions**: aggiungi **TestFlight (Internal Testing Only)** e seleziona il gruppo tester interno già creato al Passo 9
+6. Salva. Parte subito una prima build di prova — gira su un Mac nel cloud di Apple, non sul tuo, richiede qualche minuto
+7. Se la build va a buon fine, compare da sola in App Store Connect → TestFlight: i tester interni la vedono senza che tu tocchi più Archive/Distribute
+
+Se la prima build si blocca per firma/provisioning: con "Automatically manage
+signing" attivo (Passo 6) di solito Xcode Cloud gestisce tutto da sé
+("Cloud managed"); a volte la primissima build chiede una conferma manuale
+in Xcode per autorizzare un nuovo certificato — basta cliccare "Allow"
+quando richiesto.
+
+**Costi**: gratis fino a 25 ore di build al mese con un solo Apple Developer
+Program attivo — abbondante per un progetto di queste dimensioni.
+
+### Fase 3 — Come lavoriamo dopo, con me
+
+Perché io possa modificare l'app "da qui" e farla arrivare su TestFlight da
+sola, devo lavorare nello stesso repo che Xcode Cloud osserva — non in
+questa repo (`logistic`), che resta solo per i sorgenti di riferimento.
+Una volta che `movr-driver-ios` esiste: aggiungilo a una sessione Claude
+Code (repository access), e da lì modifico i file Swift direttamente lì,
+pusho su `main`, e Xcode Cloud fa il resto — build e upload TestFlight,
+senza che tu debba aprire Xcode per ogni modifica.
+
 ## Cosa manca per un v2 (non necessario per il primo test)
 
 - **Notifiche push vere** (oggi l'autista deve aprire l'app per vedere il nuovo appuntamento): serve un Apple Push Notification certificate/key + un servizio che invii la notifica quando lo spedizioniere conferma dal calendario. Fattibile, ma è un altro giro di lavoro a parte.
