@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
+import Link from "next/link";
 import {
   Truck,
   AlertTriangle,
@@ -10,19 +11,17 @@ import {
   CheckCircle2,
   MessageCircleQuestion,
   ArrowRight,
+  ShieldAlert,
+  FileStack,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { AUTISTI, CARICHI_SPOT, MEZZI, ORDINI } from "@/lib/flotta/datiDemo";
-import {
-  applicaAzione,
-  calcolaKpi,
-  pianificaBase,
-  pianificaOttimizzato,
-  rilevaProblemi,
-  simulaRitardo,
-  type RacconteEccezione,
-} from "@/lib/flotta/pianificatore";
-import type { Piano, Problema } from "@/lib/flotta/tipi";
+import { MEZZI, ORDINI } from "@/lib/flotta/datiDemo";
+import { usePianoFlotta } from "@/lib/flotta/store";
+import { useDocumentiTrasporto } from "@/lib/flotta/documenti/store";
+import { rilevaEccezioniFlotta, LABEL_SEVERITA_ECCEZIONE_FLOTTA } from "@/lib/flotta/attenzione/motore";
+import type { EccezioneFlotta } from "@/lib/flotta/attenzione/tipi";
+import { calcolaKpi, type RacconteEccezione } from "@/lib/flotta/pianificatore";
+import type { Problema } from "@/lib/flotta/tipi";
 
 const DOMANDE_PRECONFEZIONATE = [
   "Cosa devo sistemare oggi?",
@@ -36,45 +35,24 @@ function euro(n: number) {
 }
 
 export function FlottaClient() {
-  const pianoBase = useMemo(() => pianificaBase(ORDINI, MEZZI, AUTISTI), []);
-  const problemiBase = useMemo(() => rilevaProblemi(pianoBase, ORDINI, MEZZI, AUTISTI, CARICHI_SPOT), [pianoBase]);
-
-  const [ottimizzato, setOttimizzato] = useState(false);
-  const [piano, setPiano] = useState<Piano>(pianoBase);
-  const [problemi, setProblemi] = useState<Problema[]>(problemiBase);
+  const { problemi, problemiBase, ottimizzato, kpi, kpiBase, ottimizzaOggi, applicaProblema, simula } = usePianoFlotta();
+  const { lavori } = useDocumentiTrasporto();
   const [eccezione, setEccezione] = useState<RacconteEccezione | null>(null);
   const [rispostaAI, setRispostaAI] = useState<{ domanda: string; risposta: string } | null>(null);
-
-  const kpi = calcolaKpi(piano);
-  const kpiBase = calcolaKpi(pianoBase);
 
   const problemiAperti = problemi.filter((p) => !p.risolto);
   const denaroARischio = problemiAperti.reduce((s, p) => s + Math.max(0, p.impattoEuro), 0);
   const denaroRecuperato = problemi.filter((p) => p.risolto).reduce((s, p) => s + Math.max(0, p.impattoEuro), 0);
   const backhaul = problemi.filter((p) => p.tipo === "reso_vuoto" && p.azione && !p.risolto);
+  const eccezioni = rilevaEccezioniFlotta(problemi, lavori);
 
-  function ottimizzaOggi() {
-    const nuovoPiano = pianificaOttimizzato(ORDINI, MEZZI, AUTISTI);
-    setPiano(nuovoPiano);
-    setProblemi(rilevaProblemi(nuovoPiano, ORDINI, MEZZI, AUTISTI, CARICHI_SPOT));
-    setOttimizzato(true);
+  function ottimizzaOggiLocale() {
+    ottimizzaOggi();
     setEccezione(null);
   }
 
-  function applicaProblema(problema: Problema) {
-    if (!problema.azione) return;
-    const nuovoPiano = applicaAzione(piano, problema.azione, ORDINI, MEZZI, AUTISTI, CARICHI_SPOT);
-    setPiano(nuovoPiano);
-    setProblemi((prev) => prev.map((p) => (p.id === problema.id ? { ...p, risolto: true } : p)));
-  }
-
-  function simula() {
-    const minuti = 45 + Math.round((piano.mezzi.length * 7) % 50); // variazione deterministica, non casuale
-    const racconto = simulaRitardo(piano, ORDINI, MEZZI, minuti);
-    setEccezione(racconto);
-    if (racconto?.problema) {
-      setProblemi((prev) => [racconto.problema!, ...prev.filter((p) => p.id !== racconto.problema!.id)]);
-    }
+  function simulaLocale() {
+    setEccezione(simula());
   }
 
   function chiedi(domanda: string) {
@@ -94,6 +72,8 @@ export function FlottaClient() {
         </p>
       </header>
 
+      <AttenzioneOggi eccezioni={eccezioni} />
+
       <div className="mb-8 grid grid-cols-2 gap-4 md:grid-cols-5">
         <StatCard icon={Truck} label="Mezzi in flotta" value={String(MEZZI.length)} color="text-navy" bg="bg-navy/5" />
         <StatCard icon={ArrowRight} label="Consegne oggi" value={String(ORDINI.length)} color="text-navy" bg="bg-navy/5" />
@@ -110,7 +90,7 @@ export function FlottaClient() {
             senza incatenare le tappe per ridurre i km a vuoto.
           </p>
           <button
-            onClick={ottimizzaOggi}
+            onClick={ottimizzaOggiLocale}
             className="mt-5 inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white hover:bg-accent-dark"
           >
             <Sparkles className="h-4 w-4" />
@@ -168,7 +148,7 @@ export function FlottaClient() {
                 Simula un ritardo su uno dei mezzi con più tappe e guarda come l&apos;AI ricalcola il giro.
               </p>
               <button
-                onClick={simula}
+                onClick={simulaLocale}
                 className="mb-4 rounded-lg bg-navy px-4 py-2 text-sm font-medium text-white hover:bg-navy-dark"
               >
                 Simula ritardo camion
@@ -327,6 +307,79 @@ function ProblemaCard({ problema, onApplica }: { problema: Problema; onApplica: 
         </button>
       </div>
     </div>
+  );
+}
+
+const ICONA_CATEGORIA: Record<EccezioneFlotta["categorie"][number], React.ElementType> = {
+  pianificazione: AlertTriangle,
+  fatturazione: FileStack,
+};
+
+// Correla i problemi del planner (già visibili sotto) con il fatturato bloccato dei documenti
+// trasporto (altrimenti solo su /flotta/documenti) in un'unica lista prioritizzata.
+function AttenzioneOggi({ eccezioni }: { eccezioni: EccezioneFlotta[] }) {
+  if (eccezioni.length === 0) {
+    return (
+      <div className="mb-8 flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm text-emerald-800">
+        <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
+        Nessun problema di pianificazione o lavoro con fatturato bloccato al momento.
+      </div>
+    );
+  }
+
+  return (
+    <section className="mb-8">
+      <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-muted">
+        <ShieldAlert className="h-3.5 w-3.5 text-rose-600" />
+        Attenzione oggi ({eccezioni.length})
+      </h2>
+      <div className="space-y-2.5">
+        {eccezioni.map((e) => {
+          const stile = {
+            critica: "border-rose-200 bg-rose-50/50",
+            alta: "border-amber-200 bg-amber-50/40",
+            media: "border-border bg-card",
+          }[e.severita];
+          const badgeStile = {
+            critica: "bg-rose-600 text-white",
+            alta: "bg-amber-100 text-amber-700",
+            media: "bg-slate-100 text-slate-700",
+          }[e.severita];
+          return (
+            <Link
+              key={e.id}
+              href={e.href}
+              className={cn("flex flex-wrap items-center justify-between gap-3 rounded-xl border p-4 shadow-sm transition-colors hover:border-teal/40", stile)}
+            >
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className={cn("rounded-full px-2 py-0.5 text-[11px] font-semibold", badgeStile)}>
+                    {LABEL_SEVERITA_ECCEZIONE_FLOTTA[e.severita]}
+                  </span>
+                  <h3 className="text-sm font-semibold text-navy">{e.titolo}</h3>
+                  <span className="flex items-center gap-1">
+                    {e.categorie.map((c) => {
+                      const Icon = ICONA_CATEGORIA[c];
+                      return <Icon key={c} className="h-3.5 w-3.5 text-muted" />;
+                    })}
+                  </span>
+                </div>
+                <p className="mt-1 text-xs text-muted">{e.ragioni.join(" · ")}</p>
+                <p className="mt-1 text-xs font-medium text-teal">{e.azioneConsigliata}</p>
+              </div>
+              <div className="flex flex-shrink-0 items-center gap-3">
+                {e.esposizioneEuro !== null && (
+                  <span className="rounded-full bg-rose-100 px-2.5 py-1 text-xs font-semibold text-rose-700">
+                    {euro(e.esposizioneEuro)}
+                  </span>
+                )}
+                <ArrowRight className="h-4 w-4 text-muted" />
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 
