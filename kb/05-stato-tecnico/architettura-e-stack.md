@@ -38,11 +38,18 @@ Self-contained in `lib/flotta/` e `app/flotta/`. Non collegato a Supabase: stato
 
 ## App driver iOS
 
-Scaffold Swift/SwiftUI completo in `ios-driver-app/` (modelli, client HTTP verso `/api/driver/*`, schermata principale), non ancora compilato/pubblicato: serve un Mac con Xcode. Guida passo-passo per TestFlight in `ios-driver-app/README.md`.
+Codice Swift/SwiftUI in `ios-driver-app/MovrDriver/` (modelli, client HTTP verso `/api/driver/*`, schermata principale). **Compilata e pubblicata su TestFlight** (Internal Testing) dall'utente su Xcode, con il mio supporto passo-passo da questa sessione — build 1 caricata e installata su dispositivo reale. Guida completa in `ios-driver-app/README.md`. Setup di Xcode Cloud proposto (non ancora confermato fatto) per automatizzare build/upload futuri ad ogni push, invece del giro manuale Archive → Distribute.
 
 ## Cosa NON è ancora vero (limiti noti)
 
 - Nessuna integrazione reale con PCS/terminal/sistemi terzi (deliberato, fuori scope MVP)
 - Nessuna autenticazione multi-tenant reale
-- Nessuna notifica push reale (solo simulata in UI)
+- Nessuna notifica push reale (solo simulata in UI, sia web che iOS)
 - Il modulo AI Transport Manager non ha un vero motore LLM collegato: le risposte "chiedi all'AI" sono template su dati reali calcolati, non generate da un modello
+
+## Limiti dell'ambiente di sviluppo (per chi riprende il progetto, incluso un altro LLM)
+
+- Le sessioni Claude in questo ambiente non hanno accesso diretto al database Supabase live: build e lint si possono verificare, il comportamento runtime va confermato dall'utente dopo il deploy
+- Nessun accesso a Xcode/macOS: il codice per l'app iOS viene scritto qui ma compilato/archiviato/caricato sempre dall'utente sul proprio Mac, guidato passo-passo via screenshot
+- L'account Vercel raggiungibile dagli strumenti MCP di Claude in questa sessione può differire da quello che deploya davvero (`lormilano99@gmail.com`): verificare sempre quale account è collegato prima di agire
+- L'egress di rete verso domini generici (es. `*.vercel.app`, siti aziendali per ricerca competitor/clienti) è bloccato per fetch diretto: solo la ricerca web (query, non URL specifici) funziona

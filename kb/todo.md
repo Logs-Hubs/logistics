@@ -16,7 +16,8 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 - [ ] Sostituire l'email placeholder `ciao@movr.app` con una vera
 - [ ] Verificare disponibilità del dominio `movr.app` (o altro TLD)
 - [ ] Aggiungere `DRIVER_API_KEY` su Vercel (progetto piattaforma) per abilitare le route `/api/driver/*`
-- [ ] Compilare e pubblicare l'app driver iOS su TestFlight (guida completa in `ios-driver-app/README.md`)
+- [ ] Setup Xcode Cloud sul progetto MovrDriver (repo GitHub dedicato + workflow con post-action TestFlight) per automatizzare build/upload futuri
+- [ ] Invitare più tester al gruppo TestFlight oltre al primo
 
 ## Prodotto / decisioni
 
@@ -36,3 +37,4 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 - [x] Annullamento appuntamenti + alert demurrage nel calendario piattaforma
 - [x] To-do spostata dal mirror Drive (link che si rompeva ad ogni modifica) a qui nel repo
 - [x] Prima lista aziende autotrasporto nazionale per il modulo Flotte (3 verificate, 9 da confermare)
+- [x] App driver iOS compilata e pubblicata su TestFlight (Internal Testing), installata e testata su dispositivo reale
