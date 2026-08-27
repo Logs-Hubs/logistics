@@ -101,10 +101,15 @@ Store, che non ti serve ora.
 
 ## Passo 10 — Xcode Cloud: build automatica ad ogni modifica
 
-Con questo, modificare l'app non richiede più passare da Xcode a mano
-(Archive → Distribute) ogni volta: basta pushare su un repo Git e una build
-nuova arriva da sola su TestFlight, anche quando le modifiche le faccio io
-da qui.
+**Attivo.** Repo dedicato: `github.com/lasagnealpesto/movr-driver-ios`. Ogni
+push su `main` di quel repo builda ed carica da solo una nuova build su
+TestFlight (gruppo "Movr - Internal Testing"), senza passare da Xcode a
+mano (Archive → Distribute). Vale anche per le modifiche che faccio io da
+qui: ho accesso in push a `movr-driver-ios` (repo separato da questo,
+`logistic`, che resta solo per i sorgenti di riferimento).
+
+Sotto la guida com'è stata seguita, con le due trappole reali in cui si è
+finiti, per chi la rifà da capo o su un altro progetto.
 
 **Perché serve un repo dedicato solo per il progetto Xcode**: Xcode Cloud
 collega un progetto Xcode a *un* repository Git — ma il progetto Xcode
@@ -125,6 +130,8 @@ mettere il progetto Xcode reale in un repo suo.
    git push -u origin main
    ```
 4. Se Xcode ti chiede le credenziali GitHub, usa un Personal Access Token invece della password (GitHub → Settings → Developer settings → Personal access tokens)
+
+**Trappola vissuta**: è facile lanciare questi comandi da **dentro** `MovrDriver.xcodeproj` invece che dalla cartella che lo contiene — su macOS un `.xcodeproj` è in realtà una cartella "pacchetto", non un file singolo. Se lo fai, pushi solo l'interno del pacchetto (`project.pbxproj`, `xcuserdata`) e non i sorgenti Swift né gli assets. Verifica con `ls` prima del `git init`: devi vedere `MovrDriver.xcodeproj` **e** una cartella `MovrDriver/` distinta, non `project.pbxproj` direttamente.
 
 ### Fase 2 — Attiva Xcode Cloud (in Xcode)
 
@@ -148,15 +155,36 @@ quando richiesto.
 **Costi**: gratis fino a 25 ore di build al mese con un solo Apple Developer
 Program attivo — abbondante per un progetto di queste dimensioni.
 
-### Fase 3 — Come lavoriamo dopo, con me
+**Due trappole reali incontrate al primo setup**, se "Create Workflow" dà
+un generico *"This operation could not be completed"* o la post-action
+TestFlight resta grigia/non salvabile:
 
-Perché io possa modificare l'app "da qui" e farla arrivare su TestFlight da
-sola, devo lavorare nello stesso repo che Xcode Cloud osserva — non in
-questa repo (`logistic`), che resta solo per i sorgenti di riferimento.
-Una volta che `movr-driver-ios` esiste: aggiungilo a una sessione Claude
-Code (repository access), e da lì modifico i file Swift direttamente lì,
-pusho su `main`, e Xcode Cloud fa il resto — build e upload TestFlight,
-senza che tu debba aprire Xcode per ogni modifica.
+1. **Scheme non condiviso.** Xcode Cloud legge il repo così com'è su Git, non
+   lo stato del tuo Xcode locale. Se lo scheme `MovrDriver` non è mai stato
+   effettivamente scritto come "Shared" (`Product → Scheme → Manage
+   Schemes...` → colonna Shared), sul repo manca del tutto la cartella
+   `MovrDriver.xcodeproj/xcshareddata/xcschemes/`, e Xcode Cloud non trova
+   nulla da buildare — anche se la spunta in Xcode risultava già attiva.
+   Verificalo guardando **il repo su GitHub**, non solo la checkbox locale.
+2. **"Distribution Preparation" non impostata sull'azione Archive.** La
+   post-action TestFlight resta bloccata (non salvabile) finché l'azione
+   *Archive - iOS* del workflow non ha "Distribution Preparation" impostato
+   su "TestFlight (Internal Testing Only)" o "App Store Connect" — è
+   un'impostazione separata dentro l'azione Archive stessa, non ovvia da
+   trovare.
+
+Anche con tutto giusto, la post-action TestFlight resta "Unavailable Until
+Setup Completes" finché il **primo** build del workflow non è realmente
+completato — normale, va solo aspettato.
+
+### Fase 3 — Come lavoriamo adesso
+
+Attivo: ho accesso push a `lasagnealpesto/movr-driver-ios`. Se mi chiedi una
+modifica alla app, modifico i file Swift direttamente lì e pusho su `main`
+— Xcode Cloud builda e carica su TestFlight da solo, senza che tu debba
+aprire Xcode. Se invece la modifica la fai tu in locale (Xcode), basta il
+solito commit + push (anche solo `Integrate → Source Control → Commit...`
+poi `Push...`) e parte la stessa catena automatica.
 
 ## Cosa manca per un v2 (non necessario per il primo test)
 

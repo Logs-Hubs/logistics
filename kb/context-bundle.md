@@ -26,7 +26,6 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 - [ ] Sostituire l'email placeholder `ciao@movr.app` con una vera
 - [ ] Verificare disponibilità del dominio `movr.app` (o altro TLD)
 - [ ] Aggiungere `DRIVER_API_KEY` su Vercel (progetto piattaforma) per abilitare le route `/api/driver/*`
-- [ ] Setup Xcode Cloud sul progetto MovrDriver (repo GitHub dedicato + workflow con post-action TestFlight) per automatizzare build/upload futuri
 - [ ] Invitare più tester al gruppo TestFlight oltre al primo
 
 ## Prodotto / decisioni
@@ -54,6 +53,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 - [x] Annullamento appuntamenti + alert demurrage nel calendario piattaforma
 - [x] To-do spostata dal mirror Drive (link che si rompeva ad ogni modifica) a qui nel repo
 - [x] Prima lista aziende autotrasporto nazionale per il modulo Flotte (3 verificate, 9 da confermare)
+- [x] Xcode Cloud attivo su MovrDriver: repo dedicato `lasagnealpesto/movr-driver-ios`, build e upload TestFlight automatici ad ogni push su `main`
 - [x] App driver iOS compilata e pubblicata su TestFlight (Internal Testing), installata e testata su dispositivo reale
 
 ---
@@ -626,7 +626,9 @@ Terzo modulo Movr, a differenza di Flotte **agganciato** al modulo Porti invece 
 
 ## App driver iOS
 
-Codice Swift/SwiftUI in `ios-driver-app/MovrDriver/` (modelli, client HTTP verso `/api/driver/*`, schermata principale). **Compilata e pubblicata su TestFlight** (Internal Testing) dall'utente su Xcode, con il mio supporto passo-passo da questa sessione — build 1 caricata e installata su dispositivo reale. Guida completa in `ios-driver-app/README.md`. Setup di Xcode Cloud proposto (non ancora confermato fatto) per automatizzare build/upload futuri ad ogni push, invece del giro manuale Archive → Distribute.
+Codice Swift/SwiftUI di riferimento in `ios-driver-app/MovrDriver/` di **questo** repo — ma il progetto Xcode vero vive nel repo dedicato **`lasagnealpesto/movr-driver-ios`** (necessario perché Xcode Cloud osserva un solo repo Git col `.xcodeproj` reale). **Compilata e pubblicata su TestFlight** (Internal Testing), build 1 installata e testata su dispositivo reale.
+
+**Xcode Cloud attivo**: ogni push su `main` di `movr-driver-ios` builda e carica da solo su TestFlight (gruppo "Movr - Internal Testing"), niente più Archive/Distribute manuale. Accesso push diretto a `movr-driver-ios` per modifiche future. Guida completa, incluse le trappole reali del setup (scheme non condiviso, "Distribution Preparation" non impostata sull'azione Archive), in `ios-driver-app/README.md`.
 
 ## Cosa NON è ancora vero (limiti noti)
 
