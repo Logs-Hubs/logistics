@@ -1,4 +1,4 @@
-import { Bell, MapPin, Package, Navigation, CheckCircle2, Undo2 } from "lucide-react";
+import { Bell, MapPin, Package, Navigation, CheckCircle2, Undo2, AlertTriangle, FileText } from "lucide-react";
 
 // Mockup illustrativi fedeli alla UI reale del prodotto: non screenshot, ma la stessa
 // struttura visiva (stessa palette, stesse card, stesso frame telefono) usata nell'app.
@@ -130,6 +130,74 @@ export function TimelineMockup() {
       <div className="mt-2 flex items-center justify-center gap-1.5 rounded-lg bg-accent/10 py-2 text-[9.5px] font-semibold text-accent-dark">
         <Undo2 className="h-3 w-3" />
         Segnala rientro container vuoto
+      </div>
+    </div>
+  );
+}
+
+const DOCUMENTI_DOGANA = [
+  { nome: "Fattura commerciale", stato: "estratto" as const },
+  { nome: "Bill of lading", stato: "estratto" as const },
+  { nome: "Certificato di origine", stato: "mancante" as const },
+];
+
+export function DoganaMockup() {
+  return (
+    <div className="rounded-xl border border-border bg-card p-4 shadow-xl">
+      <p className="mb-2.5 text-[9px] font-semibold uppercase tracking-wider text-accent">Caso doganale · ITA-2026-4831</p>
+      <div className="space-y-1.5">
+        {DOCUMENTI_DOGANA.map((d) => (
+          <div key={d.nome} className="flex items-center justify-between rounded-lg border border-border bg-white px-2.5 py-1.5">
+            <span className={`flex items-center gap-1.5 text-[9.5px] ${d.stato === "mancante" ? "italic text-muted" : "text-foreground"}`}>
+              <FileText className="h-3 w-3 text-teal" />
+              {d.nome}
+            </span>
+            <span className={`text-[8.5px] font-semibold ${d.stato === "mancante" ? "text-rose-600" : "text-emerald-700"}`}>
+              {d.stato === "mancante" ? "Mancante" : "Estratto"}
+            </span>
+          </div>
+        ))}
+      </div>
+      <div className="mt-3 rounded-lg bg-[#F7F9FA] p-3">
+        <div className="flex items-baseline gap-1">
+          <span className="text-xl font-bold text-navy">62</span>
+          <span className="text-[9px] text-muted">/100 readiness</span>
+        </div>
+        <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-border">
+          <div className="h-full rounded-full bg-amber-500" style={{ width: "62%" }} />
+        </div>
+        <p className="mt-2 flex items-start gap-1.5 text-[9px] text-rose-600">
+          <AlertTriangle className="mt-0.5 h-2.5 w-2.5 flex-shrink-0" />
+          Documentazione di origine mancante
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export function FlottaMockup() {
+  return (
+    <div className="rounded-xl border border-border bg-card p-4 shadow-xl">
+      <p className="mb-1 text-[9px] font-semibold uppercase tracking-wider text-accent">Documenti trasporto</p>
+      <p className="mb-2.5 text-sm font-bold text-navy">Hai già fatto il lavoro. Ecco cosa blocca il pagamento.</p>
+      <div className="grid grid-cols-2 gap-2">
+        <div className="rounded-lg border border-border bg-white p-2.5">
+          <div className="text-base font-bold text-emerald-600">2.190 €</div>
+          <div className="text-[8.5px] text-muted">Pronto da fatturare</div>
+        </div>
+        <div className="rounded-lg border border-border bg-white p-2.5">
+          <div className="text-base font-bold text-rose-600">1.041 €</div>
+          <div className="text-[8.5px] text-muted">Bloccato</div>
+        </div>
+      </div>
+      <div className="mt-2.5 space-y-1.5">
+        <div className="flex items-center justify-between rounded-lg bg-rose-50 px-2.5 py-1.5 text-[9px] text-rose-700">
+          <span>LAV-0002 · POD mancante</span>
+          <span className="font-semibold">309 €</span>
+        </div>
+        <div className="flex items-center justify-between rounded-lg bg-amber-50 px-2.5 py-1.5 text-[9px] text-amber-700">
+          <span>LAV-0004 · tariffa da confermare</span>
+        </div>
       </div>
     </div>
   );

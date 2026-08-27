@@ -1,6 +1,6 @@
-import { ArrowRight, Ship, PackageX, Split, Phone, CalendarCheck, Smartphone, Undo2, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Ship, PackageX, Split, Phone, CalendarCheck, Smartphone, Undo2, CheckCircle2, Stamp, Truck } from "lucide-react";
 import Link from "next/link";
-import { DashboardMockup, CalendarMockup, PhoneMockup, TimelineMockup } from "@/components/mockups";
+import { DashboardMockup, CalendarMockup, PhoneMockup, TimelineMockup, DoganaMockup, FlottaMockup } from "@/components/mockups";
 import { Nav, Footer } from "@/components/layout";
 
 export default function LandingPage() {
@@ -11,25 +11,34 @@ export default function LandingPage() {
       <ProblemSection />
       <FeatureSlide
         id="prodotto"
+        kicker="Customs Brain"
+        titolo="Il fascicolo doganale arriva pronto, non da rincorrere."
+        testo="Fattura, bill of lading, certificato d'origine: li carichi disordinati, Movr li trasforma in un caso doganale strutturato, con un punteggio che ti dice esattamente cosa manca prima ancora di prenotare lo slot."
+        mockup={<DoganaMockup />}
+      />
+      <FeatureSlide
         kicker="Slot booking multi-terminal"
         titolo="Un calendario. Non tre."
         testo="Prenoti lo slot una volta, il vettore riceve orario e istruzioni gate in automatico, invece di controllare a mano tre piattaforme diverse."
         mockup={<CalendarMockup />}
+        reverse
+        alt
       />
       <FeatureSlide
         kicker="App driver"
         titolo="Il tuo autista non ti chiama più."
         testo="Notifica push non appena confermi l'appuntamento. Arrivo e ritiro segnalati dal telefono: tu lo sai subito, senza alzare la cornetta."
         mockup={<PhoneMockup />}
-        reverse
-        alt
       />
       <FeatureSlide
         kicker="Tracking del mezzo"
         titolo="Il container vuoto, per la prima volta tracciato."
         testo="Targa registrata al ritiro. Rientro del vuoto segnalato dal driver e visibile in tempo reale sulla timeline della spedizione."
         mockup={<TimelineMockup />}
+        reverse
+        alt
       />
+      <OltreIPortiSection />
       <HowItWorksSection />
       <CTASection />
       <Footer />
@@ -152,6 +161,47 @@ function FeatureSlide({
           <p className="mt-3 max-w-md leading-relaxed text-muted">{testo}</p>
         </div>
         <div className={reverse ? "lg:order-1" : ""}>{mockup}</div>
+      </div>
+    </section>
+  );
+}
+
+function OltreIPortiSection() {
+  return (
+    <section id="piattaforma" className="flex bg-navy-dark py-20 lg:min-h-screen lg:snap-start lg:items-center lg:py-0">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="mb-12 max-w-2xl">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-accent">Movr non finisce al gate</p>
+          <h2 className="text-3xl font-bold text-white">Un layer, non un modulo.</h2>
+          <p className="mt-3 text-teal-light">
+            Lo stesso principio — trasformare il caos operativo in dati strutturati — vale anche fuori dal porto.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg bg-accent">
+              <Stamp className="h-4.5 w-4.5 text-white" />
+            </div>
+            <h3 className="text-lg font-semibold text-white">Dogana</h3>
+            <p className="mt-1.5 text-sm leading-relaxed text-teal-light">
+              È il modulo che hai appena visto sopra: fa già parte della piattaforma, non è un prodotto separato.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg bg-accent">
+              <Truck className="h-4.5 w-4.5 text-white" />
+            </div>
+            <h3 className="text-lg font-semibold text-white">Flotte</h3>
+            <p className="mt-1.5 text-sm leading-relaxed text-teal-light">
+              Per chi la flotta la possiede: gli autotrasportatori. Stesso principio, altro cliente — ordine, DDT e
+              POD diventano un lavoro di trasporto, con un&apos;unica domanda sempre chiara: cosa mi blocca il
+              pagamento?
+            </p>
+            <div className="mt-4">
+              <FlottaMockup />
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
