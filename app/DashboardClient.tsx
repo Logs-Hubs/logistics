@@ -6,11 +6,16 @@ import { daysUntil, terminalNome, vettoreById } from "@/lib/data";
 import { StatoBadge } from "@/components/StatoBadge";
 import { DriverPhonePreview } from "@/components/DriverPhonePreview";
 import { useOperations } from "@/lib/store";
-import { AlertTriangle, Ship, Clock3, CheckCircle2, Smartphone, ArrowRight } from "lucide-react";
+import { useCustoms } from "@/lib/customs/store";
+import { rilevaEccezioni, LABEL_SEVERITA_ECCEZIONE } from "@/lib/exceptions/motore";
+import type { Eccezione } from "@/lib/exceptions/tipi";
+import { AlertTriangle, Ship, Clock3, CheckCircle2, Smartphone, ArrowRight, ShieldAlert, Stamp, CalendarClock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function DashboardClient() {
   const { spedizioni, terminals, vettori, ultimoAggiornatoId } = useOperations();
+  const { casi } = useCustoms();
+  const eccezioni = rilevaEccezioni(spedizioni, casi);
 
   const attive = spedizioni.length;
   const daPianificare = spedizioni.filter((s) => s.stato === "da_pianificare" || s.stato === "in_ritardo").length;
@@ -35,6 +40,8 @@ export function DashboardClient() {
         <h1 className="mt-1 text-2xl font-bold text-navy">Buongiorno, ecco la situazione di oggi</h1>
         <p className="mt-1 text-sm text-muted">Lunedì 25 agosto 2026 · Genova Porto Vecchio, PSA Prà, Savona-Vado</p>
       </header>
+
+      <AttenzioneOggi eccezioni={eccezioni} />
 
       <div className="mb-8 grid grid-cols-2 gap-4 md:grid-cols-4">
         <StatCard icon={Ship} label="Spedizioni attive" value={attive} color="text-navy" bg="bg-navy/5" />
@@ -162,5 +169,83 @@ function StatCard({
       <div className="text-2xl font-bold text-navy">{value}</div>
       <div className="mt-0.5 text-xs text-muted">{label}</div>
     </div>
+  );
+}
+
+const ICONA_CATEGORIA: Record<Eccezione["categorie"][number], React.ElementType> = {
+  dogana: Stamp,
+  demurrage: AlertTriangle,
+  appuntamento: CalendarClock,
+};
+
+function euro(n: number) {
+  return n.toLocaleString("it-IT", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
+}
+
+// Correla i segnali già calcolati in Porti (demurrage, appuntamento) e in Dogana (blocchi aperti)
+// in un'unica lista prioritizzata: non un'altra dashboard da controllare, la prima cosa da guardare.
+function AttenzioneOggi({ eccezioni }: { eccezioni: Eccezione[] }) {
+  if (eccezioni.length === 0) {
+    return (
+      <div className="mb-8 flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm text-emerald-800">
+        <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
+        Nessuna spedizione o caso doganale richiede attenzione immediata.
+      </div>
+    );
+  }
+
+  return (
+    <section className="mb-8">
+      <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-muted">
+        <ShieldAlert className="h-3.5 w-3.5 text-rose-600" />
+        Attenzione oggi ({eccezioni.length})
+      </h2>
+      <div className="space-y-2.5">
+        {eccezioni.map((e) => {
+          const stile = {
+            critica: "border-rose-200 bg-rose-50/50",
+            alta: "border-amber-200 bg-amber-50/40",
+            media: "border-border bg-card",
+          }[e.severita];
+          const badgeStile = {
+            critica: "bg-rose-600 text-white",
+            alta: "bg-amber-100 text-amber-700",
+            media: "bg-slate-100 text-slate-700",
+          }[e.severita];
+          return (
+            <Link
+              key={e.id}
+              href={e.href}
+              className={cn("flex flex-wrap items-center justify-between gap-3 rounded-xl border p-4 shadow-sm transition-colors hover:border-teal/40", stile)}
+            >
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className={cn("rounded-full px-2 py-0.5 text-[11px] font-semibold", badgeStile)}>
+                    {LABEL_SEVERITA_ECCEZIONE[e.severita]}
+                  </span>
+                  <h3 className="text-sm font-semibold text-navy">{e.titolo}</h3>
+                  <span className="flex items-center gap-1">
+                    {e.categorie.map((c) => {
+                      const Icon = ICONA_CATEGORIA[c];
+                      return <Icon key={c} className="h-3.5 w-3.5 text-muted" />;
+                    })}
+                  </span>
+                </div>
+                <p className="mt-1 text-xs text-muted">{e.ragioni.join(" · ")}</p>
+                <p className="mt-1 text-xs font-medium text-teal">{e.azioneConsigliata}</p>
+              </div>
+              <div className="flex flex-shrink-0 items-center gap-3">
+                {e.esposizioneEuro !== null && (
+                  <span className="rounded-full bg-rose-100 px-2.5 py-1 text-xs font-semibold text-rose-700">
+                    {euro(e.esposizioneEuro)} stimati
+                  </span>
+                )}
+                <ArrowRight className="h-4 w-4 text-muted" />
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+    </section>
   );
 }
