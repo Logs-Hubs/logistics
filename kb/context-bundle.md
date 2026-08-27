@@ -35,6 +35,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 - [ ] Decidere il destino del modulo Flotte (AI Transport Manager): secondo prodotto, pivot, o esperimento da chiudere
 - [ ] Validare il modulo Dogana (Customs Brain) con un design partner reale: oggi è tutto mock, serve un caso vero (o quasi) per capire se il flusso di readiness/validazione regge
 - [ ] Decidere se/quando riprendere la roadmap AI Operations Layer oltre le fasi 1-3 (vedi `01-prodotto/roadmap-ai-operations-layer.md`) — fasi 4-6 richiedono integrazioni reali (email, storico dati) non ancora disponibili
+- [ ] Validare "Documenti trasporto" (modulo Flotte) con un'azienda di autotrasporto vera: capire se il flusso ordine → DDT → POD → fatturazione corrisponde davvero a come lavorano
 
 ## Idee da scoping-are (non ancora iniziate)
 
@@ -43,6 +44,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Fatto di recente
 
+- [x] Documenti trasporto (modulo Flotte): pivot da "solo pianificatore" a "document-to-cash", dashboard fatturato bloccato, lavori agganciati agli ordini reali
 - [x] Modulo Dogana (Customs Brain): terzo modulo Movr, intake documenti simulato, casi doganali agganciati alle spedizioni reali, readiness score, classificazione HS con approvazione umana
 - [x] Exception Center: pannello "Attenzione oggi" sulla dashboard Porti, correla blocchi doganali + demurrage + appuntamenti non pianificati in un'unica lista prioritizzata
 - [x] Rebrand da Clyo a Movr, ovunque (piattaforma, sito, KB, app iOS)
@@ -166,6 +168,16 @@ Mercato iniziale: PMI italiane a gestione familiare, 10-50 camion. Vendita found
 ## Domanda aperta
 
 Questo è un mercato diverso da quello del modulo Porti (proprietari di flotta vs spedizionieri senza flotta propria). Prima di investire oltre la demo tecnica, va deciso se: (a) è un secondo prodotto parallelo, (b) sostituisce il modulo Porti, o (c) resta solo un esperimento. Va anche fatta la ricerca competitor descritta in `03-competitor/`.
+
+## Pivot: "Documenti trasporto" come nuovo ingresso (document-to-cash)
+
+Arrivato come secondo brief esterno, valutato e costruito. Tesi aggiornata: **non partire dal planner AI, partire dall'intelligenza documentale** — la pianificazione ottimale richiede dati strutturati e affidabili, che oggi restano intrappolati in email, PDF, foto WhatsApp. Stessa lezione già imparata con Customs Brain sul lato Porti, applicata qui.
+
+**Costruito** (`/flotta/documenti`, `lib/flotta/documenti/`): documenti disordinati (ordine cliente, DDT, POD) diventano un "lavoro di trasporto" strutturato, agganciato quando possibile a un `Ordine` reale già pianificato (`ordineId`). Stato di fatturazione (`non_completo` / `documenti_mancanti` / `tariffa_da_verificare` / `pronto_fatturazione` / `fatturato`) sempre calcolato dai documenti presenti, mai scritto a mano. Wow feature: dashboard del **fatturato bloccato**, con breakdown per motivo ("DDT mancante", "POD ricevuto ma non validato", ecc.). Intake simulato (inoltro email con PDF → lavoro creato), sollecito documenti con bozza di testo generata (non invia nulla), copilot contestuale.
+
+**Non toccato**: il centro comando pianificazione esistente (`/flotta`, `lib/flotta/pianificatore.ts`) resta com'era — il brief lo classificava come fase successiva, ma esiste già da una sessione precedente. Le fasi realmente nuove sono le prime (AI Transport Inbox, Transport Job Graph in forma minima, Invoice Readiness); il resto (chaser automatico via canali reali, predizioni) richiede integrazioni che non esistono in questo ambiente, stesso motivo per cui restano ferme le fasi 4-6 della roadmap Porti.
+
+Nella sidebar, "Documenti trasporto" è ora la prima voce del modulo Flotte (prima di "Centro comando flotta"): l'URL `/flotta` non è cambiato per non rompere link esistenti.
 
 ---
 
@@ -587,6 +599,12 @@ Account Vercel che deploya davvero: `lormilano99@gmail.com`, team "lormilano-pro
 
 Self-contained in `lib/flotta/` e `app/flotta/`. Non collegato a Supabase: stato locale React, dati demo generati deterministicamente in `lib/flotta/datiDemo.ts`. Switch Porti/Flotte/Dogana nella sidebar (`components/Sidebar.tsx`).
 
+### Sotto-modulo Documenti trasporto (`/flotta/documenti`)
+
+Come Dogana per Porti: `lib/flotta/documenti/tipi.ts` (`LavoroTrasporto`) ha un `ordineId` opzionale verso `lib/flotta/tipi.ts` (`Ordine`). Stato in `lib/flotta/documenti/store.tsx` (`DocumentiProvider`), montato in `app/flotta/documenti/layout.tsx` — qui annidato va bene (a differenza di Customs): nessun'altra pagina fuori da `/flotta/documenti/*` deve leggere questi dati. Dati demo in `lib/flotta/documenti/datiDemo.ts`, motore in `lib/flotta/documenti/motore.ts`.
+
+La Sidebar gestisce due voci sotto lo stesso prefisso (`/flotta` e `/flotta/documenti`): l'evidenziazione usa "il match più specifico vince" (`corrisponde()` in `components/Sidebar.tsx`).
+
 ## Modulo Dogana / Customs Brain (`/customs`)
 
 Terzo modulo Movr, a differenza di Flotte **agganciato** al modulo Porti invece che isolato: `lib/customs/tipi.ts` (`CasoDoganale`) ha un `spedizioneId` opzionale verso `lib/data.ts` (`Spedizione`). Nessun Supabase: stato in `lib/customs/store.tsx` (`CustomsProvider`/`useCustoms`), montato nel root `app/layout.tsx` (non più in un layout annidato sotto `/customs` — deve restare così, altrimenti la dashboard Porti e `/customs` finiscono su due copie separate dello stesso stato). Dati demo deterministici in `lib/customs/datiDemo.ts`, motore (readiness, validazione, copilot a template) in `lib/customs/motore.ts`.
@@ -604,6 +622,7 @@ Codice Swift/SwiftUI in `ios-driver-app/MovrDriver/` (modelli, client HTTP verso
 - Nessuna notifica push reale (solo simulata in UI, sia web che iOS)
 - Il modulo AI Transport Manager non ha un vero motore LLM collegato: le risposte "chiedi all'AI" sono template su dati reali calcolati, non generate da un modello
 - Il modulo Dogana non ha OCR/estrazione documenti reale né un vero motore LLM: intake, estrazione e classificazione HS sono dati mock deterministici, non generati da un modello
+- Stesso discorso per Documenti trasporto (`/flotta/documenti`): nessun OCR/email ingestion reale, nessun invio reale dei solleciti generati (restano bozze)
 
 ## Limiti dell'ambiente di sviluppo (per chi riprende il progetto, incluso un altro LLM)
 

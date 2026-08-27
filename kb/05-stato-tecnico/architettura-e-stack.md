@@ -36,6 +36,12 @@ Account Vercel che deploya davvero: `lormilano99@gmail.com`, team "lormilano-pro
 
 Self-contained in `lib/flotta/` e `app/flotta/`. Non collegato a Supabase: stato locale React, dati demo generati deterministicamente in `lib/flotta/datiDemo.ts`. Switch Porti/Flotte/Dogana nella sidebar (`components/Sidebar.tsx`).
 
+### Sotto-modulo Documenti trasporto (`/flotta/documenti`)
+
+Come Dogana per Porti: `lib/flotta/documenti/tipi.ts` (`LavoroTrasporto`) ha un `ordineId` opzionale verso `lib/flotta/tipi.ts` (`Ordine`). Stato in `lib/flotta/documenti/store.tsx` (`DocumentiProvider`), montato in `app/flotta/documenti/layout.tsx` — qui **annidato va bene** (a differenza di Customs): nessun'altra pagina fuori da `/flotta/documenti/*` deve leggere questi dati, quindi non serve promuoverlo al root layout. Dati demo in `lib/flotta/documenti/datiDemo.ts`, motore (stato fatturazione, copilot) in `lib/flotta/documenti/motore.ts`.
+
+La Sidebar ora deve gestire due voci di navigazione sotto lo stesso prefisso (`/flotta` e `/flotta/documenti`): l'evidenziazione dell'item attivo usa "il match più specifico vince" (vedi `corrisponde()` in `components/Sidebar.tsx`) invece del semplice confronto per primo segmento di path usato quando ogni modulo aveva un solo prefisso a testa.
+
 ## Modulo Dogana / Customs Brain (`/customs`)
 
 Terzo modulo Movr, a differenza di Flotte **agganciato** al modulo Porti invece che isolato: `lib/customs/tipi.ts` (`CasoDoganale`) ha un `spedizioneId` opzionale verso `lib/data.ts` (`Spedizione`). Nessun Supabase: stato in `lib/customs/store.tsx` (`CustomsProvider`/`useCustoms`), montato nel root `app/layout.tsx` (non più in un layout annidato sotto `/customs` — deve restare così, altrimenti la dashboard Porti e `/customs` finiscono su due copie separate dello stesso stato). Dati demo deterministici in `lib/customs/datiDemo.ts`, motore (readiness, validazione, copilot a template) in `lib/customs/motore.ts`.
@@ -52,6 +58,8 @@ Codice Swift/SwiftUI in `ios-driver-app/MovrDriver/` (modelli, client HTTP verso
 - Nessuna autenticazione multi-tenant reale
 - Nessuna notifica push reale (solo simulata in UI, sia web che iOS)
 - Il modulo AI Transport Manager non ha un vero motore LLM collegato: le risposte "chiedi all'AI" sono template su dati reali calcolati, non generate da un modello
+- Il modulo Dogana non ha OCR/estrazione documenti reale né un vero motore LLM: intake, estrazione e classificazione HS sono dati mock deterministici
+- Stesso discorso per Documenti trasporto (`/flotta/documenti`): nessun OCR/email ingestion reale, nessun invio reale dei solleciti generati (restano bozze)
 
 ## Limiti dell'ambiente di sviluppo (per chi riprende il progetto, incluso un altro LLM)
 
