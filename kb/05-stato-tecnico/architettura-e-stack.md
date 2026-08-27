@@ -34,13 +34,21 @@ Account Vercel che deploya davvero: `lormilano99@gmail.com`, team "lormilano-pro
 
 ## Modulo AI Transport Manager (`/flotta`)
 
-Self-contained in `lib/flotta/` e `app/flotta/`. Non collegato a Supabase: stato locale React, dati demo generati deterministicamente in `lib/flotta/datiDemo.ts`. Switch Porti/Flotte/Dogana nella sidebar (`components/Sidebar.tsx`).
+Self-contained in `lib/flotta/` e `app/flotta/`. Non collegato a Supabase: stato demo deterministico in `lib/flotta/datiDemo.ts`. Switch Porti/Flotte/Dogana nella sidebar (`components/Sidebar.tsx`).
+
+**Stato del piano condiviso**: `lib/flotta/store.tsx` (`PianoProvider`/`usePianoFlotta`) — piano, problemi, KPI e le azioni (`ottimizzaOggi`, `applicaProblema`, `simula`). Era locale a `FlottaClient` (invisibile a qualunque altra vista); sollevato in un provider quando è servito all'Exception Center di Flotte (sotto) per leggere i problemi realmente visti/risolti dall'operatore, non uno snapshot ricalcolato da zero.
 
 ### Sotto-modulo Documenti trasporto (`/flotta/documenti`)
 
-Come Dogana per Porti: `lib/flotta/documenti/tipi.ts` (`LavoroTrasporto`) ha un `ordineId` opzionale verso `lib/flotta/tipi.ts` (`Ordine`). Stato in `lib/flotta/documenti/store.tsx` (`DocumentiProvider`), montato in `app/flotta/documenti/layout.tsx` — qui **annidato va bene** (a differenza di Customs): nessun'altra pagina fuori da `/flotta/documenti/*` deve leggere questi dati, quindi non serve promuoverlo al root layout. Dati demo in `lib/flotta/documenti/datiDemo.ts`, motore (stato fatturazione, copilot) in `lib/flotta/documenti/motore.ts`.
+Come Dogana per Porti: `lib/flotta/documenti/tipi.ts` (`LavoroTrasporto`) ha un `ordineId` opzionale verso `lib/flotta/tipi.ts` (`Ordine`). Stato in `lib/flotta/documenti/store.tsx` (`DocumentiProvider`). Dati demo in `lib/flotta/documenti/datiDemo.ts`, motore (stato fatturazione, copilot) in `lib/flotta/documenti/motore.ts`.
 
-La Sidebar ora deve gestire due voci di navigazione sotto lo stesso prefisso (`/flotta` e `/flotta/documenti`): l'evidenziazione dell'item attivo usa "il match più specifico vince" (vedi `corrisponde()` in `components/Sidebar.tsx`) invece del semplice confronto per primo segmento di path usato quando ogni modulo aveva un solo prefisso a testa.
+`PianoProvider` e `DocumentiProvider` sono entrambi montati in `app/flotta/layout.tsx` (non più annidato solo sotto `/flotta/documenti`): l'Exception Center di Flotte, su `/flotta`, deve leggere anche i dati dei documenti. Restano comunque fuori dal root layout — Porti e Dogana non li usano.
+
+La Sidebar gestisce due voci di navigazione sotto lo stesso prefisso (`/flotta` e `/flotta/documenti`): l'evidenziazione dell'item attivo usa "il match più specifico vince" (vedi `corrisponde()` in `components/Sidebar.tsx`) invece del semplice confronto per primo segmento di path usato quando ogni modulo aveva un solo prefisso a testa.
+
+### Exception Center di Flotte (`lib/flotta/attenzione/`)
+
+Come `lib/exceptions/` per Porti, ma resta dentro `lib/flotta/` perché correla solo dati del mercato autotrasportatori (non incrocia moduli diversi): problemi aperti del planner (`Problema`) + lavori con fatturato bloccato (`LavoroTrasporto`) in un'unica lista "Attenzione oggi" mostrata in cima a `FlottaClient` (`/flotta`). Nessuno stato proprio, nessuna scrittura, nessuna proiezione: l'esposizione in euro copre solo denaro già a rischio o già maturato, mai un rischio futuro stimato.
 
 ## Modulo Dogana / Customs Brain (`/customs`)
 

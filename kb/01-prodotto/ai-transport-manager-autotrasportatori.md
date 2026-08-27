@@ -64,3 +64,7 @@ Arrivato come secondo brief esterno, valutato e costruito. Tesi aggiornata: **no
 **Non toccato**: il centro comando pianificazione esistente (`/flotta`, `lib/flotta/pianificatore.ts`) resta com'era — il brief lo classificava come fase successiva (7 di 9), ma esiste già da una sessione precedente. Le fasi realmente nuove costruite sono le prime tre del nuovo brief (AI Transport Inbox, Transport Job Graph in forma minima, Invoice Readiness / fatturato bloccato); il resto (chaser automatico via WhatsApp/email reali, command center dedicato, predizioni) richiede canali/integrazioni che non esistono in questo ambiente — stesso motivo per cui restano ferme le fasi 4-6 della roadmap Porti, vedi `roadmap-ai-operations-layer.md`.
 
 Nella sidebar, "Documenti trasporto" è ora la prima voce del modulo Flotte (prima di "Centro comando flotta"), per riflettere il nuovo ingresso — l'URL `/flotta` non è cambiato per non rompere link esistenti.
+
+## Exception Center di Flotte
+
+Pannello "Attenzione oggi" in cima al centro comando (`/flotta`), stesso principio di quello già costruito per Porti: correla i problemi del planner (ordini non assegnati, autisti vicini al limite ore, rischio ritardo, rientri a vuoto) con i lavori a fatturato bloccato di Documenti trasporto, in un'unica lista prioritizzata per severità. Ha richiesto di sollevare lo stato del piano fuori da `FlottaClient` (prima locale, quindi invisibile a qualunque altro pannello) in un `PianoProvider` condiviso — vedi `05-stato-tecnico/`.

@@ -44,6 +44,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Fatto di recente
 
+- [x] Exception Center di Flotte: "Attenzione oggi" nel centro comando, correla problemi planner + fatturato bloccato
 - [x] Documenti trasporto (modulo Flotte): pivot da "solo pianificatore" a "document-to-cash", dashboard fatturato bloccato, lavori agganciati agli ordini reali
 - [x] Modulo Dogana (Customs Brain): terzo modulo Movr, intake documenti simulato, casi doganali agganciati alle spedizioni reali, readiness score, classificazione HS con approvazione umana
 - [x] Exception Center: pannello "Attenzione oggi" sulla dashboard Porti, correla blocchi doganali + demurrage + appuntamenti non pianificati in un'unica lista prioritizzata
@@ -178,6 +179,10 @@ Arrivato come secondo brief esterno, valutato e costruito. Tesi aggiornata: **no
 **Non toccato**: il centro comando pianificazione esistente (`/flotta`, `lib/flotta/pianificatore.ts`) resta com'era — il brief lo classificava come fase successiva, ma esiste già da una sessione precedente. Le fasi realmente nuove sono le prime (AI Transport Inbox, Transport Job Graph in forma minima, Invoice Readiness); il resto (chaser automatico via canali reali, predizioni) richiede integrazioni che non esistono in questo ambiente, stesso motivo per cui restano ferme le fasi 4-6 della roadmap Porti.
 
 Nella sidebar, "Documenti trasporto" è ora la prima voce del modulo Flotte (prima di "Centro comando flotta"): l'URL `/flotta` non è cambiato per non rompere link esistenti.
+
+## Exception Center di Flotte
+
+Pannello "Attenzione oggi" in cima al centro comando (`/flotta`), stesso principio di quello costruito per Porti: correla i problemi del planner con i lavori a fatturato bloccato di Documenti trasporto in un'unica lista prioritizzata per severità. Ha richiesto di sollevare lo stato del piano fuori da `FlottaClient` (prima locale al componente) in un `PianoProvider` condiviso.
 
 ---
 
@@ -597,13 +602,21 @@ Account Vercel che deploya davvero: `lormilano99@gmail.com`, team "lormilano-pro
 
 ## Modulo AI Transport Manager (`/flotta`)
 
-Self-contained in `lib/flotta/` e `app/flotta/`. Non collegato a Supabase: stato locale React, dati demo generati deterministicamente in `lib/flotta/datiDemo.ts`. Switch Porti/Flotte/Dogana nella sidebar (`components/Sidebar.tsx`).
+Self-contained in `lib/flotta/` e `app/flotta/`. Non collegato a Supabase: dati demo generati deterministicamente in `lib/flotta/datiDemo.ts`. Switch Porti/Flotte/Dogana nella sidebar (`components/Sidebar.tsx`).
+
+**Stato del piano condiviso**: `lib/flotta/store.tsx` (`PianoProvider`/`usePianoFlotta`) — piano, problemi, KPI e azioni. Sollevato da `FlottaClient` (dov'era locale) quando è servito all'Exception Center di Flotte per leggere i problemi realmente visti/risolti, non uno snapshot ricalcolato da zero.
 
 ### Sotto-modulo Documenti trasporto (`/flotta/documenti`)
 
-Come Dogana per Porti: `lib/flotta/documenti/tipi.ts` (`LavoroTrasporto`) ha un `ordineId` opzionale verso `lib/flotta/tipi.ts` (`Ordine`). Stato in `lib/flotta/documenti/store.tsx` (`DocumentiProvider`), montato in `app/flotta/documenti/layout.tsx` — qui annidato va bene (a differenza di Customs): nessun'altra pagina fuori da `/flotta/documenti/*` deve leggere questi dati. Dati demo in `lib/flotta/documenti/datiDemo.ts`, motore in `lib/flotta/documenti/motore.ts`.
+Come Dogana per Porti: `lib/flotta/documenti/tipi.ts` (`LavoroTrasporto`) ha un `ordineId` opzionale verso `lib/flotta/tipi.ts` (`Ordine`). Stato in `lib/flotta/documenti/store.tsx` (`DocumentiProvider`). Dati demo in `lib/flotta/documenti/datiDemo.ts`, motore in `lib/flotta/documenti/motore.ts`.
+
+`PianoProvider` e `DocumentiProvider` sono entrambi montati in `app/flotta/layout.tsx` (non più annidato solo sotto `/flotta/documenti`): l'Exception Center di Flotte, su `/flotta`, deve leggere anche i documenti. Restano fuori dal root layout — Porti e Dogana non li usano.
 
 La Sidebar gestisce due voci sotto lo stesso prefisso (`/flotta` e `/flotta/documenti`): l'evidenziazione usa "il match più specifico vince" (`corrisponde()` in `components/Sidebar.tsx`).
+
+### Exception Center di Flotte (`lib/flotta/attenzione/`)
+
+Come `lib/exceptions/` per Porti, ma resta dentro `lib/flotta/`: correla problemi aperti del planner con lavori a fatturato bloccato in "Attenzione oggi" su `/flotta`. Nessuna proiezione: l'esposizione in euro copre solo denaro già a rischio o già maturato.
 
 ## Modulo Dogana / Customs Brain (`/customs`)
 
