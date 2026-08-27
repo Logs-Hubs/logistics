@@ -4,6 +4,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Clienti / outreach
 
+- [ ] Fissare le prime interview di discovery (vedi `guida-interview-design-partner.md`): partire da Spediservices, poi le 4 aziende a priorità alta
 - [ ] Contattare le 4 aziende a priorità alta: Lena Spedizioni, Ambra Mar, GDT Logistic, Spedimar
 - [ ] Primo contatto Spediservices (apre la rete verso Spediporto)
 - [ ] Verificare su LinkedIn le aziende "da confermare" del secondo giro (dimensione, attività recente)
@@ -33,6 +34,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Fatto di recente
 
+- [x] Salvata in KB la guida alle interview di discovery spedizionieri (`guida-interview-design-partner.md`), condensata dal PDF caricato dall'utente; prodotta lista ordinata delle prime aziende genovesi da intervistare
 - [x] Xcode Cloud attivo su MovrDriver: repo dedicato `lasagnealpesto/movr-driver-ios`, build e upload TestFlight automatici ad ogni push su `main`
 - [x] Exception Center di Flotte: "Attenzione oggi" nel centro comando, correla problemi planner + fatturato bloccato
 - [x] Documenti trasporto (modulo Flotte): pivot da "solo pianificatore" a "document-to-cash", dashboard fatturato bloccato, lavori agganciati agli ordini reali

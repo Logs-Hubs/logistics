@@ -26,9 +26,13 @@ Vedi `aziende-genovesi-da-contattare.md` in questa stessa cartella. Ordine consi
 
 La fase 2 (referral via Spediporto/Federlogistica Liguria) e la fase 3 (replica su La Spezia, Livorno, Trieste, poi un porto estero) presuppongono che la fase 1 funzioni. Non c'è ancora una lista di aziende per queste fasi successive: da costruire quando ci si arriva, con lo stesso criterio ICP adattato al porto specifico.
 
+## Interview di discovery (prima del design partner ask)
+
+Vedi `guida-interview-design-partner.md` in questa stessa cartella per la metodologia completa (struttura interview, 5 filoni di pain, domande killer, pain score, script di chiusura). Le prime interview da fissare sono quelle elencate in `aziende-genovesi-da-contattare.md`, con Spediservices come primo contatto per aprire la rete.
+
 ## Materiali di supporto già prodotti (verificare dove sono salvati, non in questa cartella)
 
-- Un PDF "lezione sul mercato spedizionieri" (dimensioni, meccaniche, ICP, pain, jargon)
-- Un file .md di riassunto outreach con lista clienti potenziali, generato in una sessione precedente
+- Un PDF "lezione sul mercato spedizionieri" (dimensioni, meccaniche, ICP, pain, jargon) — non ancora recuperato/salvato in KB
+- Un file .md di riassunto outreach con lista clienti potenziali, generato in una sessione precedente — non ancora recuperato/salvato in KB
 
 Se servono di nuovo, chiedili a Claude: possono essere rigenerati, e andrebbero caricati in questa cartella per non perderli di nuovo.
