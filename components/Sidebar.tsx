@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, CalendarClock, Ship, Smartphone, Anchor, Truck, Stamp, FileStack } from "lucide-react";
+import { LayoutDashboard, CalendarClock, Ship, Smartphone, Anchor, Truck, Stamp, FileStack, Route } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type ModuloKey = "porti" | "flotta" | "dogana";
@@ -14,7 +14,10 @@ const NAV: Record<ModuloKey, { href: string; label: string; icon: React.ElementT
     { href: "/spedizioni/SP-2463", label: "Tracking spedizione", icon: Ship },
     { href: "/driver", label: "Vista driver", icon: Smartphone },
   ],
-  flotta: [{ href: "/flotta", label: "Centro comando flotta", icon: Truck }],
+  flotta: [
+    { href: "/flotta/documenti", label: "Documenti trasporto", icon: FileStack },
+    { href: "/flotta", label: "Centro comando flotta", icon: Route },
+  ],
   dogana: [{ href: "/customs", label: "Casi doganali", icon: FileStack }],
 };
 
@@ -40,6 +43,14 @@ function moduloAttivo(pathname: string): ModuloKey {
   if (pathname.startsWith("/flotta")) return "flotta";
   if (pathname.startsWith("/customs")) return "dogana";
   return "porti";
+}
+
+// "/spedizioni/SP-2463" nel nav è solo un esempio di link d'ingresso: qualunque spedizione deve
+// tenerlo evidenziato. Per tutti gli altri href, match esatto o su sotto-percorso.
+function corrisponde(pathname: string, href: string): boolean {
+  if (href === "/") return pathname === "/";
+  if (href.startsWith("/spedizioni/")) return pathname.startsWith("/spedizioni/");
+  return pathname === href || pathname.startsWith(href + "/");
 }
 
 export function Sidebar() {
@@ -78,8 +89,11 @@ export function Sidebar() {
 
       <nav className="flex-1 space-y-1 px-3">
         {nav.map((item) => {
-          const section = "/" + item.href.split("/")[1];
-          const active = item.href === "/" ? pathname === "/" : pathname.startsWith(section) && section !== "/";
+          // Tra due voci che corrispondono entrambe (es. "/flotta" e "/flotta/documenti" sullo
+          // stesso pathname), vince quella con l'href più specifico: evita che restino entrambe
+          // evidenziate insieme.
+          const corrispondenti = nav.filter((i) => corrisponde(pathname, i.href));
+          const active = corrispondenti.length > 0 && corrispondenti.every((i) => i.href.length <= item.href.length) && corrisponde(pathname, item.href);
           const Icon = item.icon;
           return (
             <Link
