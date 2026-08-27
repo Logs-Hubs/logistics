@@ -12,7 +12,11 @@ I miei strumenti su Drive possono aggiornare solo titolo/cartella di un file, no
 - **02-mercato/**: dimensioni, ICP, pain, jargon dei due mercati (anche su Drive)
 - **03-competitor/**: mappa concorrenti (vuoto, da costruire — vedi il template dentro) (anche su Drive)
 - **04-clienti-e-outreach/**: liste aziende da contattare, playbook, stato dei contatti (anche su Drive)
-- **05-stato-tecnico/**: architettura, stack, repo, roadmap, cosa è live e cosa no (solo repo)
+- **05-stato-tecnico/**: architettura, stack, repo, cosa è live e cosa no, limiti dell'ambiente (solo repo)
+
+## Bundle per altri LLM
+
+`context-bundle.md` in questa cartella è la concatenazione di tutta la KB in un solo file, pensato per essere copiato/allegato comodamente in una conversazione con un altro LLM (ChatGPT, Gemini, ecc.) quando serve dargli in un colpo solo tutto il contesto del progetto. Lo rigenero ogni volta che cambia qualcosa di sostanziale nei documenti sorgente — non modificarlo a mano, si perderebbe al prossimo refresh.
 
 ## To-do
 
@@ -22,4 +26,4 @@ Vive in `todo.md` in questa cartella, non su Drive: qui posso modificarla dirett
 
 Aggiorna il file pertinente ogni volta che scopriamo qualcosa di rilevante su un competitor, un cliente, o cambiamo direzione di prodotto — invece di lasciarlo solo in una conversazione chat. Se un file diventa troppo lungo, dividilo per argomento.
 
-Ultimo aggiornamento: 26 agosto 2026.
+Ultimo aggiornamento: 27 agosto 2026.
