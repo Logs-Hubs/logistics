@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import { OperationsProvider } from "@/lib/store";
+import { CustomsProvider } from "@/lib/customs/store";
 import { getSpedizioni, getTerminals, getVettori } from "@/lib/queries";
 
 export const metadata: Metadata = {
@@ -20,8 +21,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="it" className="h-full antialiased">
       <body className="flex h-screen overflow-hidden bg-background text-foreground">
         <OperationsProvider spedizioniIniziali={spedizioni} terminals={terminals} vettori={vettori}>
-          <Sidebar />
-          <main className="flex-1 overflow-y-auto">{children}</main>
+          <CustomsProvider>
+            <Sidebar />
+            <main className="flex-1 overflow-y-auto">{children}</main>
+          </CustomsProvider>
         </OperationsProvider>
       </body>
     </html>

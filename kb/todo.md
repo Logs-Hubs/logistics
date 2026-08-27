@@ -23,6 +23,9 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 - [ ] Ricerca competitor (vedi `03-competitor/da-mappare.md`): prossimo passo prima di investire di più sul modulo Flotte
 - [ ] Decidere il destino del modulo Flotte (AI Transport Manager): secondo prodotto, pivot, o esperimento da chiudere
+- [ ] Validare il modulo Dogana (Customs Brain) con un design partner reale: oggi è tutto mock, serve un caso vero (o quasi) per capire se il flusso di readiness/validazione regge
+- [ ] Decidere se/quando riprendere la roadmap AI Operations Layer oltre le fasi 1-3 (vedi `01-prodotto/roadmap-ai-operations-layer.md`) — fasi 4-6 richiedono integrazioni reali (email, storico dati) non ancora disponibili
+- [ ] Validare "Documenti trasporto" (modulo Flotte) con un'azienda di autotrasporto vera: capire se il flusso ordine → DDT → POD → fatturazione corrisponde davvero a come lavorano
 
 ## Idee da scoping-are (non ancora iniziate)
 
@@ -31,6 +34,10 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Fatto di recente
 
+- [x] Exception Center di Flotte: "Attenzione oggi" nel centro comando, correla problemi planner + fatturato bloccato
+- [x] Documenti trasporto (modulo Flotte): pivot da "solo pianificatore" a "document-to-cash", dashboard fatturato bloccato, lavori agganciati agli ordini reali
+- [x] Modulo Dogana (Customs Brain): terzo modulo Movr, intake documenti simulato, casi doganali agganciati alle spedizioni reali, readiness score, classificazione HS con approvazione umana
+- [x] Exception Center: pannello "Attenzione oggi" sulla dashboard Porti, correla blocchi doganali + demurrage + appuntamenti non pianificati in un'unica lista prioritizzata
 - [x] Rebrand da Clyo a Movr, ovunque (piattaforma, sito, KB, app iOS)
 - [x] Modulo Flotte (AI Transport Manager): vertical slice funzionante con motore deterministico
 - [x] Knowledge base creata (repo + mirror Drive ristretto a mercato/competitor/clienti)

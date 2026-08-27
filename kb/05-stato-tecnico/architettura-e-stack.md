@@ -34,7 +34,27 @@ Account Vercel che deploya davvero: `lormilano99@gmail.com`, team "lormilano-pro
 
 ## Modulo AI Transport Manager (`/flotta`)
 
-Self-contained in `lib/flotta/` e `app/flotta/`. Non collegato a Supabase: stato locale React, dati demo generati deterministicamente in `lib/flotta/datiDemo.ts`. Switch Porti/Flotte nella sidebar (`components/Sidebar.tsx`).
+Self-contained in `lib/flotta/` e `app/flotta/`. Non collegato a Supabase: stato demo deterministico in `lib/flotta/datiDemo.ts`. Switch Porti/Flotte/Dogana nella sidebar (`components/Sidebar.tsx`).
+
+**Stato del piano condiviso**: `lib/flotta/store.tsx` (`PianoProvider`/`usePianoFlotta`) — piano, problemi, KPI e le azioni (`ottimizzaOggi`, `applicaProblema`, `simula`). Era locale a `FlottaClient` (invisibile a qualunque altra vista); sollevato in un provider quando è servito all'Exception Center di Flotte (sotto) per leggere i problemi realmente visti/risolti dall'operatore, non uno snapshot ricalcolato da zero.
+
+### Sotto-modulo Documenti trasporto (`/flotta/documenti`)
+
+Come Dogana per Porti: `lib/flotta/documenti/tipi.ts` (`LavoroTrasporto`) ha un `ordineId` opzionale verso `lib/flotta/tipi.ts` (`Ordine`). Stato in `lib/flotta/documenti/store.tsx` (`DocumentiProvider`). Dati demo in `lib/flotta/documenti/datiDemo.ts`, motore (stato fatturazione, copilot) in `lib/flotta/documenti/motore.ts`.
+
+`PianoProvider` e `DocumentiProvider` sono entrambi montati in `app/flotta/layout.tsx` (non più annidato solo sotto `/flotta/documenti`): l'Exception Center di Flotte, su `/flotta`, deve leggere anche i dati dei documenti. Restano comunque fuori dal root layout — Porti e Dogana non li usano.
+
+La Sidebar gestisce due voci di navigazione sotto lo stesso prefisso (`/flotta` e `/flotta/documenti`): l'evidenziazione dell'item attivo usa "il match più specifico vince" (vedi `corrisponde()` in `components/Sidebar.tsx`) invece del semplice confronto per primo segmento di path usato quando ogni modulo aveva un solo prefisso a testa.
+
+### Exception Center di Flotte (`lib/flotta/attenzione/`)
+
+Come `lib/exceptions/` per Porti, ma resta dentro `lib/flotta/` perché correla solo dati del mercato autotrasportatori (non incrocia moduli diversi): problemi aperti del planner (`Problema`) + lavori con fatturato bloccato (`LavoroTrasporto`) in un'unica lista "Attenzione oggi" mostrata in cima a `FlottaClient` (`/flotta`). Nessuno stato proprio, nessuna scrittura, nessuna proiezione: l'esposizione in euro copre solo denaro già a rischio o già maturato, mai un rischio futuro stimato.
+
+## Modulo Dogana / Customs Brain (`/customs`)
+
+Terzo modulo Movr, a differenza di Flotte **agganciato** al modulo Porti invece che isolato: `lib/customs/tipi.ts` (`CasoDoganale`) ha un `spedizioneId` opzionale verso `lib/data.ts` (`Spedizione`). Nessun Supabase: stato in `lib/customs/store.tsx` (`CustomsProvider`/`useCustoms`), montato nel root `app/layout.tsx` (non più in un layout annidato sotto `/customs` — deve restare così, altrimenti la dashboard Porti e `/customs` finiscono su due copie separate dello stesso stato). Dati demo deterministici in `lib/customs/datiDemo.ts`, motore (readiness, validazione, copilot a template) in `lib/customs/motore.ts`.
+
+`lib/exceptions/` (Exception Center): pure funzioni che leggono sia `Spedizione` che `CasoDoganale` e producono la lista "Attenzione oggi" mostrata in cima a `app/DashboardClient.tsx` — nessuno stato proprio, nessuna scrittura. Vedi `01-prodotto/roadmap-ai-operations-layer.md` per la visione completa (fasi 1-6) e cosa resta deliberatamente non costruito.
 
 ## App driver iOS
 
@@ -46,6 +66,8 @@ Codice Swift/SwiftUI in `ios-driver-app/MovrDriver/` (modelli, client HTTP verso
 - Nessuna autenticazione multi-tenant reale
 - Nessuna notifica push reale (solo simulata in UI, sia web che iOS)
 - Il modulo AI Transport Manager non ha un vero motore LLM collegato: le risposte "chiedi all'AI" sono template su dati reali calcolati, non generate da un modello
+- Il modulo Dogana non ha OCR/estrazione documenti reale né un vero motore LLM: intake, estrazione e classificazione HS sono dati mock deterministici
+- Stesso discorso per Documenti trasporto (`/flotta/documenti`): nessun OCR/email ingestion reale, nessun invio reale dei solleciti generati (restano bozze)
 
 ## Limiti dell'ambiente di sviluppo (per chi riprende il progetto, incluso un altro LLM)
 

@@ -8,7 +8,7 @@ I miei strumenti su Drive possono aggiornare solo titolo/cartella di un file, no
 
 ## Struttura
 
-- **01-prodotto/**: cosa sono i moduli Porti e Flotte di Movr, a chi si rivolgono, cosa fanno oggi (solo repo)
+- **01-prodotto/**: cosa sono i moduli Porti, Flotte e Dogana di Movr, a chi si rivolgono, cosa fanno oggi, e la roadmap AI Operations Layer che li inquadra (solo repo)
 - **02-mercato/**: dimensioni, ICP, pain, jargon dei due mercati (anche su Drive)
 - **03-competitor/**: mappa concorrenti (vuoto, da costruire — vedi il template dentro) (anche su Drive)
 - **04-clienti-e-outreach/**: liste aziende da contattare, playbook, stato dei contatti (anche su Drive)

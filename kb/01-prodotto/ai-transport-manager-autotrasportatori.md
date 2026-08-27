@@ -54,3 +54,17 @@ Mercato iniziale: PMI italiane a gestione familiare, 10-50 camion. Vendita found
 ## Domanda aperta
 
 Questo è un mercato diverso da quello del modulo Porti (proprietari di flotta vs spedizionieri senza flotta propria). Prima di investire oltre la demo tecnica, va deciso se: (a) è un secondo prodotto parallelo, (b) sostituisce il modulo Porti, o (c) resta solo un esperimento. Va anche fatta la ricerca competitor descritta in `03-competitor/`.
+
+## Pivot: "Documenti trasporto" come nuovo ingresso (document-to-cash)
+
+Arrivato come secondo brief esterno, valutato e costruito. Tesi aggiornata: **non partire dal planner AI, partire dall'intelligenza documentale** — la pianificazione ottimale richiede dati strutturati e affidabili, che oggi restano intrappolati in email, PDF, foto WhatsApp. Stessa lezione già imparata con Customs Brain sul lato Porti, applicata qui.
+
+**Costruito** (`/flotta/documenti`, `lib/flotta/documenti/`): documenti disordinati (ordine cliente, DDT, POD) diventano un "lavoro di trasporto" strutturato, agganciato quando possibile a un `Ordine` reale già pianificato (`ordineId`). Stato di fatturazione (`non_completo` / `documenti_mancanti` / `tariffa_da_verificare` / `pronto_fatturazione` / `fatturato`) sempre calcolato dai documenti presenti, mai scritto a mano. Wow feature: dashboard del **fatturato bloccato**, con breakdown per motivo ("DDT mancante", "POD ricevuto ma non validato", ecc.) — la stessa idea di "hai già fatto il lavoro, ecco cosa ti impedisce di essere pagato" indicata nel brief come feature primaria. Intake simulato (inoltro email con PDF → lavoro creato), sollecito documenti con bozza di testo generata (non invia nulla), copilot contestuale.
+
+**Non toccato**: il centro comando pianificazione esistente (`/flotta`, `lib/flotta/pianificatore.ts`) resta com'era — il brief lo classificava come fase successiva (7 di 9), ma esiste già da una sessione precedente. Le fasi realmente nuove costruite sono le prime tre del nuovo brief (AI Transport Inbox, Transport Job Graph in forma minima, Invoice Readiness / fatturato bloccato); il resto (chaser automatico via WhatsApp/email reali, command center dedicato, predizioni) richiede canali/integrazioni che non esistono in questo ambiente — stesso motivo per cui restano ferme le fasi 4-6 della roadmap Porti, vedi `roadmap-ai-operations-layer.md`.
+
+Nella sidebar, "Documenti trasporto" è ora la prima voce del modulo Flotte (prima di "Centro comando flotta"), per riflettere il nuovo ingresso — l'URL `/flotta` non è cambiato per non rompere link esistenti.
+
+## Exception Center di Flotte
+
+Pannello "Attenzione oggi" in cima al centro comando (`/flotta`), stesso principio di quello già costruito per Porti: correla i problemi del planner (ordini non assegnati, autisti vicini al limite ore, rischio ritardo, rientri a vuoto) con i lavori a fatturato bloccato di Documenti trasporto, in un'unica lista prioritizzata per severità. Ha richiesto di sollevare lo stato del piano fuori da `FlottaClient` (prima locale, quindi invisibile a qualunque altro pannello) in un `PianoProvider` condiviso — vedi `05-stato-tecnico/`.
