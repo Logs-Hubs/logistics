@@ -58,7 +58,9 @@ Terzo modulo Movr, a differenza di Flotte **agganciato** al modulo Porti invece 
 
 ## App driver iOS
 
-Codice Swift/SwiftUI in `ios-driver-app/MovrDriver/` (modelli, client HTTP verso `/api/driver/*`, schermata principale). **Compilata e pubblicata su TestFlight** (Internal Testing) dall'utente su Xcode, con il mio supporto passo-passo da questa sessione — build 1 caricata e installata su dispositivo reale. Guida completa in `ios-driver-app/README.md`. Setup di Xcode Cloud proposto (non ancora confermato fatto) per automatizzare build/upload futuri ad ogni push, invece del giro manuale Archive → Distribute.
+Codice Swift/SwiftUI di riferimento in `ios-driver-app/MovrDriver/` di **questo** repo (modelli, client HTTP verso `/api/driver/*`, schermata principale) — ma il progetto Xcode vero e proprio vive nel repo dedicato **`lasagnealpesto/movr-driver-ios`** (necessario perché Xcode Cloud osserva un solo repo Git contenente il `.xcodeproj` reale). **Compilata e pubblicata su TestFlight** (Internal Testing), build 1 installata e testata su dispositivo reale.
+
+**Xcode Cloud attivo**: ogni push su `main` di `movr-driver-ios` builda e carica da solo una nuova build su TestFlight (gruppo "Movr - Internal Testing"), senza Archive/Distribute manuale. Ho accesso push diretto a `movr-driver-ios` — per modifiche all'app iOS lavoro lì, non in `ios-driver-app/` di questo repo (che resta solo sorgente di riferimento/documentazione). Guida completa, incluse le due trappole reali del setup (scheme non condiviso, "Distribution Preparation" non impostata sull'azione Archive), in `ios-driver-app/README.md`.
 
 ## Cosa NON è ancora vero (limiti noti)
 

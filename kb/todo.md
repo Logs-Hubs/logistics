@@ -16,7 +16,6 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 - [ ] Sostituire l'email placeholder `ciao@movr.app` con una vera
 - [ ] Verificare disponibilità del dominio `movr.app` (o altro TLD)
 - [ ] Aggiungere `DRIVER_API_KEY` su Vercel (progetto piattaforma) per abilitare le route `/api/driver/*`
-- [ ] Setup Xcode Cloud sul progetto MovrDriver (repo GitHub dedicato + workflow con post-action TestFlight) per automatizzare build/upload futuri
 - [ ] Invitare più tester al gruppo TestFlight oltre al primo
 
 ## Prodotto / decisioni
@@ -34,6 +33,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Fatto di recente
 
+- [x] Xcode Cloud attivo su MovrDriver: repo dedicato `lasagnealpesto/movr-driver-ios`, build e upload TestFlight automatici ad ogni push su `main`
 - [x] Exception Center di Flotte: "Attenzione oggi" nel centro comando, correla problemi planner + fatturato bloccato
 - [x] Documenti trasporto (modulo Flotte): pivot da "solo pianificatore" a "document-to-cash", dashboard fatturato bloccato, lavori agganciati agli ordini reali
 - [x] Modulo Dogana (Customs Brain): terzo modulo Movr, intake documenti simulato, casi doganali agganciati alle spedizioni reali, readiness score, classificazione HS con approvazione umana
