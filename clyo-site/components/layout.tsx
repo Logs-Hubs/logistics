@@ -24,6 +24,9 @@ export function Nav({ genovaLink = true }: { genovaLink?: boolean }) {
           <Link href="/#prodotto" className="hover:text-navy">
             Prodotto
           </Link>
+          <Link href="/#piattaforma" className="hover:text-navy">
+            Piattaforma
+          </Link>
           {genovaLink && (
             <Link href="/genova" className="hover:text-navy">
               Genova
