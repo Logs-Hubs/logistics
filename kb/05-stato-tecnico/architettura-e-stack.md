@@ -34,7 +34,13 @@ Account Vercel che deploya davvero: `lormilano99@gmail.com`, team "lormilano-pro
 
 ## Modulo AI Transport Manager (`/flotta`)
 
-Self-contained in `lib/flotta/` e `app/flotta/`. Non collegato a Supabase: stato locale React, dati demo generati deterministicamente in `lib/flotta/datiDemo.ts`. Switch Porti/Flotte nella sidebar (`components/Sidebar.tsx`).
+Self-contained in `lib/flotta/` e `app/flotta/`. Non collegato a Supabase: stato locale React, dati demo generati deterministicamente in `lib/flotta/datiDemo.ts`. Switch Porti/Flotte/Dogana nella sidebar (`components/Sidebar.tsx`).
+
+## Modulo Dogana / Customs Brain (`/customs`)
+
+Terzo modulo Movr, a differenza di Flotte **agganciato** al modulo Porti invece che isolato: `lib/customs/tipi.ts` (`CasoDoganale`) ha un `spedizioneId` opzionale verso `lib/data.ts` (`Spedizione`). Nessun Supabase: stato in `lib/customs/store.tsx` (`CustomsProvider`/`useCustoms`), montato nel root `app/layout.tsx` (non più in un layout annidato sotto `/customs` — deve restare così, altrimenti la dashboard Porti e `/customs` finiscono su due copie separate dello stesso stato). Dati demo deterministici in `lib/customs/datiDemo.ts`, motore (readiness, validazione, copilot a template) in `lib/customs/motore.ts`.
+
+`lib/exceptions/` (Exception Center): pure funzioni che leggono sia `Spedizione` che `CasoDoganale` e producono la lista "Attenzione oggi" mostrata in cima a `app/DashboardClient.tsx` — nessuno stato proprio, nessuna scrittura. Vedi `01-prodotto/roadmap-ai-operations-layer.md` per la visione completa (fasi 1-6) e cosa resta deliberatamente non costruito.
 
 ## App driver iOS
 
