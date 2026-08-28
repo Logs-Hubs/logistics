@@ -18,6 +18,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 - [ ] Verificare disponibilità del dominio `movr.app` (o altro TLD)
 - [ ] Aggiungere `DRIVER_API_KEY` su Vercel (progetto piattaforma) per abilitare le route `/api/driver/*`
 - [ ] Invitare più tester al gruppo TestFlight oltre al primo
+- [ ] Verificare su TestFlight la nuova schermata driver a tutto schermo (stepper animato + pulsante grande): confermare che l'animazione e il layout siano quelli voluti
 
 ## Prodotto / decisioni
 
@@ -34,6 +35,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Fatto di recente
 
+- [x] App driver iOS: build di test standalone (demo mode, senza login né rete) e nuova schermata driver a tutto schermo con stepper animato, pulsante d'azione grande e centrale con anelli pulsanti, effetto particelle alla conferma di ogni step
 - [x] Salvata in KB la guida alle interview di discovery spedizionieri (`guida-interview-design-partner.md`), condensata dal PDF caricato dall'utente; prodotta lista ordinata delle prime aziende genovesi da intervistare
 - [x] Xcode Cloud attivo su MovrDriver: repo dedicato `lasagnealpesto/movr-driver-ios`, build e upload TestFlight automatici ad ogni push su `main`
 - [x] Exception Center di Flotte: "Attenzione oggi" nel centro comando, correla problemi planner + fatturato bloccato

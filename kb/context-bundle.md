@@ -698,6 +698,8 @@ Codice Swift/SwiftUI di riferimento in `ios-driver-app/MovrDriver/` di **questo*
 
 **Xcode Cloud attivo**: ogni push su `main` di `movr-driver-ios` builda e carica da solo su TestFlight (gruppo "Movr - Internal Testing"), niente più Archive/Distribute manuale. Accesso push diretto a `movr-driver-ios` per modifiche future. Guida completa, incluse le trappole reali del setup (scheme non condiviso, "Distribution Preparation" non impostata sull'azione Archive), in `ios-driver-app/README.md`.
 
+**Build di test (demo mode, `AppConfig.swift` → `AppMode.demo = true`)**: nessuna chiamata di rete, dati locali (spedizione seed coerente con `supabase/schema.sql`, SP-2461), salta il login e va dritto alla vista driver. Schermata driver (`SpedizioneFlowView.swift`) a tutto schermo: barra di avanzamento animata, timeline verticale dei 3 step operativi (arrivo, ritiro, rientro vuoto) con stato per step, pulsante d'azione grande e centrale con anelli pulsanti in continuo ed effetto particelle alla conferma. Rimettere `AppMode.demo = false` per il comportamento reale.
+
 ## Cosa NON è ancora vero (limiti noti)
 
 - Nessuna integrazione reale con PCS/terminal/sistemi terzi (deliberato, fuori scope MVP)
@@ -710,7 +712,7 @@ Codice Swift/SwiftUI di riferimento in `ios-driver-app/MovrDriver/` di **questo*
 ## Limiti dell'ambiente di sviluppo (per chi riprende il progetto, incluso un altro LLM)
 
 - Le sessioni Claude in questo ambiente non hanno accesso diretto al database Supabase live: build e lint si possono verificare, il comportamento runtime va confermato dall'utente dopo il deploy
-- Nessun accesso a Xcode/macOS: il codice per l'app iOS viene scritto qui ma compilato/archiviato/caricato sempre dall'utente sul proprio Mac, guidato passo-passo via screenshot
+- Nessun accesso a Xcode/macOS: il codice per l'app iOS viene scritto e pushato qui, ma non posso compilare né vedere l'interfaccia — build/archive/upload sono automatici via Xcode Cloud dopo il push, la verifica visiva resta sempre da fare sul dispositivo reale via TestFlight
 - L'account Vercel raggiungibile dagli strumenti MCP di Claude in questa sessione può differire da quello che deploya davvero (`lormilano99@gmail.com`): verificare sempre quale account è collegato prima di agire
 - L'egress di rete verso domini generici (es. `*.vercel.app`, siti aziendali per ricerca competitor/clienti) è bloccato per fetch diretto: solo la ricerca web (query, non URL specifici) funziona
 
