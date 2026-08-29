@@ -14,6 +14,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Clienti / outreach
 
+- [ ] Creare account Attio (piano Free) e impostare i campi custom + import da `04-clienti-e-outreach/attio-import-aziende-genovesi.csv`, seguendo `attio-setup.md`
 - [ ] Chiarire le anomalie emerse dalla ricerca contatti prima di chiamare (omonimia Mastarmar/Mastermar, acquisizione Parodi Forwarding, sede attuale Ambra Mar, referente attuale Oliaro — vedi `tracker-outreach.md`)
 - [ ] Fissare le prime interview telefoniche di discovery (vedi `piano-outreach-telefonico.md` + `guida-interview-design-partner.md`): partire da Spediservices, poi le 4 aziende a priorità alta
 - [ ] Contattare le 4 aziende a priorità alta: Lena Spedizioni, Ambra Mar, GDT Logistic, Spedimar
@@ -44,6 +45,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Fatto di recente
 
+- [x] Scelto Attio come gestionale outreach (non HubSpot, che è il CRM del lavoro dell'utente): schema campi/pipeline e CSV di import pronti in `04-clienti-e-outreach/attio-setup.md` e `attio-import-aziende-genovesi.csv`. Nessuna sincronizzazione live possibile da questo ambiente (nessun connector Attio, egress di rete bloccato) — setup e uso quotidiano restano manuali
 - [x] Ricerca web mirata: telefono + referente (dove trovato) per le 12 aziende genovesi, compilato in `tracker-outreach.md` — con anomalie da chiarire a mano prima di chiamare
 - [x] Piano di outreach telefonico (`04-clienti-e-outreach/piano-outreach-telefonico.md`) e tracker (`tracker-outreach.md`): script apertura, gestione obiezioni/centralino, timing, adattamento dell'interview al canale telefonico — su richiesta esplicita dell'utente ("tutto in call")
 - [x] Exception Center di Flotte: "Attenzione oggi" nel centro comando, correla problemi planner + fatturato bloccato
@@ -682,17 +684,27 @@ Tabella di stato per il piano in `piano-outreach-telefonico.md`, da aggiornare d
 
 ---
 
+<!-- fonte: kb/04-clienti-e-outreach/attio-setup.md -->
+
+# Attio come gestionale outreach (separato da HubSpot)
+
+Scelta dell'utente (29/08/2026): Attio per l'outreach di questo progetto, non HubSpot (CRM del lavoro dell'utente, da tenere separato). Piano Free di Attio sufficiente (0$, 3 seat, 50.000 record, 3 oggetti custom). Limite importante: nessun connector Attio disponibile in questo account/ambiente e l'egress di rete di questa sessione è ristretto a un allowlist (npm/PyPI/GitHub/Anthropic) — un test diretto a `api.attio.com` è stato rifiutato dal proxy per policy dell'organizzazione, quindi nessuna sessione Claude in questo ambiente può leggere/scrivere in Attio via API: setup e aggiornamento restano manuali, fatti dall'utente. Il repo (`kb/`) resta la fonte di verità durevole tra sessioni; Attio è lo strumento operativo quotidiano.
+
+Schema consigliato: oggetto standard **Companies** con campi custom Priorità (select: P0/Alta/Secondo giro), Stato outreach (select con gli stessi valori di `tracker-outreach.md`), Telefono, Tentativi, Prossimo step (data), Interview fatta e Pain score compilato (checkbox), Note. Oggetto **People** per i referenti, collegato via relazione standard. Una **Lista** "Outreach Porti Genova" con vista Kanban su "Stato outreach". Ogni chiamata va loggata come Nota sul record (timestamp automatico), non sovrascrivendo un campo. Import iniziale: creare i campi, poi importare `attio-import-aziende-genovesi.csv` (in questa stessa cartella) mappando le colonne.
+
+---
+
 <!-- fonte: kb/04-clienti-e-outreach/handoff-gtm.md -->
 
 # Handoff GTM — riprendere da qui in una nuova chat
 
-Scritto il 29/08/2026, aggiornato lo stesso giorno dopo aver definito il piano di outreach telefonico (l'utente ha chiesto esplicitamente: "tutto in call"). Obiettivo immediato: contattare le spedizioniere genovesi **per telefono** per interview di discovery, con l'obiettivo finale di reclutare 3-4 design partner gratuiti per il modulo Porti.
+Scritto il 29/08/2026, aggiornato lo stesso giorno due volte: prima per il piano di outreach telefonico ("tutto in call"), poi per la scelta di Attio come gestionale. Obiettivo immediato: contattare le spedizioniere genovesi **per telefono** per interview di discovery, con l'obiettivo finale di reclutare 3-4 design partner gratuiti per il modulo Porti.
 
-Stato ad oggi: lista aziende pronta (`aziende-genovesi-da-contattare.md`), metodologia interview pronta (`guida-interview-design-partner.md`), piano di outreach telefonico pronto (`piano-outreach-telefonico.md`), tracker compilato con telefono/referente per tutte e 12 le aziende (`tracker-outreach.md`, ricerca web del 29/08/2026). Nessun contatto ancora avviato al 29/08/2026. Gap aperto: alcune anomalie emerse dalla ricerca (nome societario, sede attuale, referente attuale) vanno chiarite a mano prima di chiamare — vedi le note nel tracker.
+Stato ad oggi: lista aziende pronta (`aziende-genovesi-da-contattare.md`), metodologia interview pronta (`guida-interview-design-partner.md`), piano di outreach telefonico pronto (`piano-outreach-telefonico.md`), tracker compilato con telefono/referente per tutte e 12 le aziende (`tracker-outreach.md`, ricerca web del 29/08/2026, snapshot dei dati di partenza). Gestionale scelto: Attio, non ancora impostato su Attio stesso (schema e CSV pronti in `attio-setup.md`, import e uso restano manuali — vedi sopra). Nessuna chiamata ancora avviata al 29/08/2026. Gap aperto: alcune anomalie emerse dalla ricerca (nome societario, sede attuale, referente attuale) vanno chiarite a mano prima di chiamare — vedi le note nel tracker.
 
-Prossimo passo concreto: chiarire le anomalie del tracker (in particolare Mastarmar/Mastermar e Parodi Forwarding), poi iniziare le chiamate seguendo il piano, partendo da Spediservices.
+Prossimo passo concreto: l'utente crea l'account Attio e importa il CSV seguendo `attio-setup.md`; in parallelo chiarire le anomalie del tracker (in particolare Mastarmar/Mastermar e Parodi Forwarding), poi iniziare le chiamate seguendo il piano, partendo da Spediservices.
 
-File da leggere in ordine: `piano-outreach-telefonico.md` → `aziende-genovesi-da-contattare.md` → `guida-interview-design-partner.md` → `tracker-outreach.md` → `playbook-outreach.md`.
+File da leggere in ordine: `piano-outreach-telefonico.md` → `aziende-genovesi-da-contattare.md` → `guida-interview-design-partner.md` → `attio-setup.md` → `tracker-outreach.md` → `playbook-outreach.md`.
 
 Standing instruction dell'utente: dopo modifiche in questo repo, commit + push sul branch di lavoro, poi PR e merge diretto su `main`, senza chiedere conferma ogni volta.
 
@@ -786,4 +798,4 @@ Codice Swift/SwiftUI di riferimento in `ios-driver-app/MovrDriver/` di **questo*
 
 ---
 
-_Bundle generato il 27 agosto 2026, aggiornato il 29 agosto 2026, dalla sessione Claude Code collegata al repo._
+_Bundle generato il 27 agosto 2026, aggiornato più volte il 29 agosto 2026, dalla sessione Claude Code collegata al repo._
