@@ -14,6 +14,8 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Clienti / outreach
 
+- [ ] Trovare numeri di telefono e referente giusto per le 12 aziende genovesi (ricerca web, blocco prima di poter chiamare — vedi `04-clienti-e-outreach/piano-outreach-telefonico.md`)
+- [ ] Fissare le prime interview telefoniche di discovery (vedi `piano-outreach-telefonico.md` + `guida-interview-design-partner.md`): partire da Spediservices, poi le 4 aziende a priorità alta
 - [ ] Contattare le 4 aziende a priorità alta: Lena Spedizioni, Ambra Mar, GDT Logistic, Spedimar
 - [ ] Primo contatto Spediservices (apre la rete verso Spediporto)
 - [ ] Verificare su LinkedIn le aziende "da confermare" del secondo giro (dimensione, attività recente)
@@ -43,6 +45,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Fatto di recente
 
+- [x] Piano di outreach telefonico (`04-clienti-e-outreach/piano-outreach-telefonico.md`) e tracker (`tracker-outreach.md`): script apertura, gestione obiezioni/centralino, timing, adattamento dell'interview al canale telefonico — su richiesta esplicita dell'utente ("tutto in call")
 - [x] Exception Center di Flotte: "Attenzione oggi" nel centro comando, correla problemi planner + fatturato bloccato
 - [x] Documenti trasporto (modulo Flotte): pivot da "solo pianificatore" a "document-to-cash", dashboard fatturato bloccato, lavori agganciati agli ordini reali
 - [x] Modulo Dogana (Customs Brain): terzo modulo Movr, intake documenti simulato, casi doganali agganciati alle spedizioni reali, readiness score, classificazione HS con approvazione umana
@@ -632,6 +635,69 @@ Non chiedere mai come apertura. Sequenza:
 
 ---
 
+<!-- fonte: kb/04-clienti-e-outreach/piano-outreach-telefonico.md -->
+
+# Piano outreach telefonico — interview discovery spedizionieri genovesi
+
+Risposta alla richiesta esplicita dell'utente (29/08/2026): "sentire potenziali clienti e fare interview, tutto in call". Sostituisce l'ipotesi email-first di `playbook-outreach.md` con un piano centrato sulla chiamata telefonica, dal primo contatto fino all'interview. Non cambia la metodologia dell'interview in sé (`guida-interview-design-partner.md`), solo il canale e cosa serve prima di poterlo usare.
+
+## Perché telefono, non email fredda
+
+- Spedizionieri genovesi (5-30 dipendenti) sono operativi, spesso al telefono tutto il giorno: una chiamata breve ha più probabilità di risposta reale di una mail fredda ignorata.
+- L'interview per sua natura richiede un dialogo a voce (vedi guida), quindi la call è comunque il formato naturale in cui farla, non solo il modo di aprire il contatto.
+- L'email resta un fallback per chi la chiede esplicitamente o per confermare per iscritto uno slot già fissato per telefono — mai il canale primario in questo piano.
+
+## Il blocco da sbloccare prima di chiamare
+
+La lista in `aziende-genovesi-da-contattare.md` ha nomi/dimensioni/anno di fondazione ma nessun numero di telefono verificato. Prima di qualunque chiamata: ricerca web mirata per numero di centralino + referente giusto (titolare/responsabile spedizioni-operations) per ciascuna delle 12 aziende; LinkedIn per confermare dimensione e nome della persona giusta, in particolare per le 8 "da confermare" del secondo giro; popolare `tracker-outreach.md` con quanto trovato prima di iniziare a chiamare.
+
+## Le due chiamate (mai un'interview improvvisata al primo squillo)
+
+- **Chiamata 1 — apertura** (2-3 minuti): obiettivo unico, fissare uno slot dedicato per l'interview.
+- **Chiamata 2 — interview vera** (15-20 minuti, slot fissato): segue integralmente `guida-interview-design-partner.md`.
+
+Eccezione: se chi risponde è già il referente giusto ed è disponibile subito (capita spesso con titolari di piccole aziende), si passa direttamente all'interview senza forzare una seconda chiamata.
+
+Script apertura in 4 mosse: chi sei e perché chiami in una frase (framing da ricerca, non vendita) → richiesta precisa e piccola (15-20 minuti per raccontare come gestiscono oggi il coordinamento) → se disponibile subito, passa all'interview → altrimenti proponi 2 slot concreti invece di un generico "quando le fa comodo". Gestione centralino: chiedi subito il nome del referente giusto, non lasciare che la chiamata muoia lì. Obiezioni tipiche: "di cosa si tratta" (ripeti il framing) · "mi mandi una mail" (accetta ma prova comunque a chiudere un orario) · "non abbiamo tempo/interesse" (ringrazia, segna l'esito, massimo un richiamo di rinforzo dopo 1-2 settimane) · "vendete un software?" (onestà diretta ma leggera, mai vendere prima di aver ascoltato).
+
+## Timing e cadenza
+
+Fasce orarie migliori: 9:30-11:00 e 14:30-16:30, evitando lunedì mattina presto e venerdì pomeriggio. Ordine di chiamata invariato (Spediservices → 4 priorità alta → secondo giro dopo verifica LinkedIn). Ritmo consigliato: 3-4 aziende al giorno, 2-3 giorni/settimana dedicati. Follow-up su chi non risponde: massimo 2 tentativi distanziati di qualche giorno, poi passa oltre.
+
+## Adattamenti dell'interview al canale telefonico
+
+Il segnale più forte della guida ("mostra spontaneamente il workaround reale") non si vede al telefono: se lo citano, chiedi descrizione a voce nel dettaglio e proponi di farselo inviare come screenshot dopo la chiamata, senza insistere. Se la call è solo audio, avvisa che prendi appunti mentre parlano. Consenso esplicito richiesto prima di registrare qualunque chiamata.
+
+## Dopo ogni chiamata e obiettivi fase 1
+
+Compilare pain score e tracker entro la giornata; se l'ask design partner è accettato, seguire `playbook-outreach.md` e confermare per iscritto entro 24h; se il pain non è chiaro, non forzare. Obiettivo: apertura a tutte le 12 aziende entro ~2 settimane, almeno 6-8 interview complete prima di scegliere i design partner, 3-4 design partner confermati come esito di fase 1.
+
+---
+
+<!-- fonte: kb/04-clienti-e-outreach/tracker-outreach.md -->
+
+# Tracker outreach — interview telefoniche spedizionieri genovesi
+
+Tabella di stato per il piano in `piano-outreach-telefonico.md`, da aggiornare dopo ogni chiamata invece di tenerlo a mente conversazione per conversazione. Colonne per azienda: telefono, referente, tentativi, ultimo esito, prossimo step, interview fatta (sì/no), pain score compilato (sì/no). Le 12 aziende sono già inserite (Spediservices, le 4 priorità alta, le 8 del secondo giro), tutte con stato "Non chiamato" al 29/08/2026 — nessuna chiamata ancora effettuata. Legenda esiti: Non chiamato / Non risposto / Richiamare / Centralino, referente non raggiunto / Rifiutato / Slot fissato / Interview fatta / Design partner ask fatto / Design partner confermato.
+
+---
+
+<!-- fonte: kb/04-clienti-e-outreach/handoff-gtm.md -->
+
+# Handoff GTM — riprendere da qui in una nuova chat
+
+Scritto il 29/08/2026, aggiornato lo stesso giorno dopo aver definito il piano di outreach telefonico (l'utente ha chiesto esplicitamente: "tutto in call"). Obiettivo immediato: contattare le spedizioniere genovesi **per telefono** per interview di discovery, con l'obiettivo finale di reclutare 3-4 design partner gratuiti per il modulo Porti.
+
+Stato ad oggi: lista aziende pronta (`aziende-genovesi-da-contattare.md`), metodologia interview pronta (`guida-interview-design-partner.md`), piano di outreach telefonico pronto (`piano-outreach-telefonico.md`), tracker pronto ma vuoto (`tracker-outreach.md`). Nessun contatto ancora avviato al 29/08/2026. Gap ancora aperto: nessun numero di telefono verificato per nessuna delle 12 aziende — è il primo blocco reale, richiede ricerca web mirata (centralino + nome del referente giusto), non ancora fatta.
+
+Prossimo passo concreto: trovare i numeri di telefono (ricerca web, azione a basso rischio) per popolare il tracker, poi iniziare le chiamate seguendo il piano, partendo da Spediservices.
+
+File da leggere in ordine: `piano-outreach-telefonico.md` → `aziende-genovesi-da-contattare.md` → `guida-interview-design-partner.md` → `tracker-outreach.md` → `playbook-outreach.md`.
+
+Standing instruction dell'utente: dopo modifiche in questo repo, commit + push sul branch di lavoro, poi PR e merge diretto su `main`, senza chiedere conferma ogni volta.
+
+---
+
 <!-- fonte: kb/05-stato-tecnico/architettura-e-stack.md -->
 
 # Architettura e stack tecnico
@@ -720,4 +786,4 @@ Codice Swift/SwiftUI di riferimento in `ios-driver-app/MovrDriver/` di **questo*
 
 ---
 
-_Bundle generato il 27 agosto 2026 dalla sessione Claude Code collegata al repo._
+_Bundle generato il 27 agosto 2026, aggiornato il 29 agosto 2026, dalla sessione Claude Code collegata al repo._
