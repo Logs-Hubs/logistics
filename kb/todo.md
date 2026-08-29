@@ -16,7 +16,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 - [ ] Verificare che il deploy `logistic-site` su Vercel mostri il rebrand Movr (in corso, controllare tab Deployments)
 - [ ] Sostituire l'email placeholder `ciao@movr.app` con una vera
 - [ ] Verificare disponibilità del dominio `movr.app` (o altro TLD)
-- [ ] Aggiungere `DRIVER_API_KEY` su Vercel (progetto piattaforma) per abilitare le route `/api/driver/*`
+- [ ] Aggiungere `DRIVER_API_KEY` su Vercel (progetto "logistic") con valore `movr-demo-driver-2026`, poi redeploy: sblocca la demo live app↔piattaforma (premi il pulsante sull'app, SP-2461 cambia stato anche sulla dashboard web)
 - [ ] Invitare più tester al gruppo TestFlight oltre al primo
 - [ ] Verificare su TestFlight la nuova schermata driver a tutto schermo (stepper animato + pulsante grande): confermare che l'animazione e il layout siano quelli voluti
 
@@ -35,6 +35,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Fatto di recente
 
+- [x] App driver iOS: le conferme ritiro/rientro vuoto ora mandano anche la richiesta reale in background verso `/api/driver/*` — unica interazione demo davvero connessa alla piattaforma (in attesa solo di `DRIVER_API_KEY` su Vercel, vedi sopra)
 - [x] App driver iOS: build di test standalone (demo mode, senza login né rete) e nuova schermata driver a tutto schermo con stepper animato, pulsante d'azione grande e centrale con anelli pulsanti, effetto particelle alla conferma di ogni step
 - [x] Salvata in KB la guida alle interview di discovery spedizionieri (`guida-interview-design-partner.md`), condensata dal PDF caricato dall'utente; prodotta lista ordinata delle prime aziende genovesi da intervistare
 - [x] Xcode Cloud attivo su MovrDriver: repo dedicato `lasagnealpesto/movr-driver-ios`, build e upload TestFlight automatici ad ogni push su `main`
