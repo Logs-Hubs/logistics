@@ -36,6 +36,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Fatto di recente
 
+- [x] Prompt pronto per inizializzare una sessione GTM da un altro account (`04-clienti-e-outreach/prompt-nuova-sessione.md`), collegato allo stesso handoff-gtm.md
 - [x] Scelto Attio come gestionale outreach (non HubSpot, che è il CRM del lavoro dell'utente): schema campi/pipeline e CSV di import pronti in `04-clienti-e-outreach/attio-setup.md` e `attio-import-aziende-genovesi.csv`. Verificato che nessuna sessione Claude in questo ambiente può sincronizzarsi live con Attio (nessun connector, egress di rete bloccato verso `api.attio.com`) — setup e uso quotidiano restano manuali
 - [x] Ricerca web mirata: telefono + referente (dove trovato) per le 12 aziende genovesi, compilato in `tracker-outreach.md` — con anomalie da chiarire a mano prima di chiamare (vedi sezione note nel tracker)
 - [x] Piano di outreach telefonico (`04-clienti-e-outreach/piano-outreach-telefonico.md`) e tracker (`tracker-outreach.md`): script apertura, gestione obiezioni/centralino, timing, adattamento dell'interview al canale telefonico — su richiesta esplicita dell'utente ("tutto in call")
