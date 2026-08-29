@@ -6,7 +6,7 @@ Risposta alla richiesta esplicita dell'utente (29/08/2026): "sentire potenziali 
 
 - Spedizionieri genovesi (5-30 dipendenti) sono operativi, spesso al telefono tutto il giorno: una chiamata breve ha più probabilità di risposta reale di una mail fredda ignorata.
 - L'interview per sua natura richiede un dialogo a voce (vedi guida), quindi la call è comunque il formato naturale in cui farla, non solo il modo di aprire il contatto.
-- L'email resta un fallback per chi la chiede esplicitamente o per confermare per iscritto uno slot già fissato per telefono — mai il canale primario in questo piano.
+- L'email resta un fallback per chi la chiede esplicitamente o per confermare per iscritto uno slot già fissato per telefono — mai il canale primario in questo piano. **Aggiornamento 29/08/2026**: su richiesta esplicita dell'utente, sono state preparate bozze di prima email (non inviate) per le 8 aziende di cui si è trovato un indirizzo diretto, vedi `tracker-outreach.md`. Restano un canale parallelo/di riserva, da inviare eventualmente solo dopo revisione dell'utente — la chiamata resta il primo tentativo di contatto per tutte le aziende.
 
 ## Il blocco da sbloccare prima di chiamare
 

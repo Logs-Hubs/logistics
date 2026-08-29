@@ -2,7 +2,7 @@
 
 Tabella di stato per il piano in `piano-outreach-telefonico.md`. Da aggiornare mano a mano (Edit diretto, non serve chiedere ogni volta) dopo ogni chiamata, invece di tenerlo a mente conversazione per conversazione.
 
-Ultimo aggiornamento: 29/08/2026 (seconda passata: risolte le anomalie Mastarmar/Mastermar e Parodi Forwarding, vedi note in fondo). Numeri e referenti trovati via ricerca web mirata (fonti: siti ufficiali, PagineBianche, Europages, LinkedIn) — nessuna chiamata ancora effettuata. Dati indicativi come il resto della lista: da confermare al momento del contatto, non da fonti camerali ufficiali. Vedi "Note libere per azienda" per le anomalie ancora aperte (numeri multipli, referenti incerti) da chiarire prima di chiamare.
+Ultimo aggiornamento: 29/08/2026 (terza modifica: aggiunta colonna Email, ricerca mirata per bozze di prima outreach via mail, vedi note in fondo). Numeri e referenti trovati via ricerca web mirata (fonti: siti ufficiali, PagineBianche, Europages, LinkedIn) — nessuna chiamata ancora effettuata. Dati indicativi come il resto della lista: da confermare al momento del contatto, non da fonti camerali ufficiali. Vedi "Note libere per azienda" per le anomalie ancora aperte (numeri multipli, referenti incerti) da chiarire prima di chiamare.
 
 ## Legenda "Ultimo esito"
 
@@ -10,30 +10,30 @@ Non chiamato / Non risposto / Richiamare (con data) / Centralino, referente non 
 
 ## Priorità 0 — apre la rete
 
-| Azienda | Telefono | Referente | Tentativi | Ultimo esito | Prossimo step (data) | Interview fatta | Pain score compilato |
-|---|---|---|---|---|---|---|---|
-| Spediservices Srl | 010 5451986 (anche 010 590316) | Nessuno specifico trovato (solo vertici Spediporto, forse non pertinenti — vedi note) | 0 | Non chiamato | — | No | No |
+| Azienda | Telefono | Email | Referente | Tentativi | Ultimo esito | Prossimo step (data) | Interview fatta | Pain score compilato |
+|---|---|---|---|---|---|---|---|---|
+| Spediservices Srl | 010 5451986 (anche 010 590316) | info@spediservices.it | Nessuno specifico trovato (solo vertici Spediporto, forse non pertinenti — vedi note) | 0 | Non chiamato | — | No | No |
 
 ## Priorità alta (4)
 
-| Azienda | Telefono | Referente | Tentativi | Ultimo esito | Prossimo step (data) | Interview fatta | Pain score compilato |
-|---|---|---|---|---|---|---|---|
-| Lena Spedizioni Srl | 010 261061 (anche 010 267492) | Nessuno trovato | 0 | Non chiamato | — | No | No |
-| Ambra Mar Srl | 010 2468892 (sede legale, anche 010 2468957 / 010 2476979; 010 2091118 da fonte diversa, verificare a voce quale risponde) | Michele Capodanno, CEO | 0 | Non chiamato | — | No | No |
-| GDT Logistic SpA | 010 5353711 | Nessuno attuale trovato | 0 | Non chiamato | — | No | No |
-| Spedimar Srl | 010 8607800 | Nessuno confermato | 0 | Non chiamato | — | No | No |
+| Azienda | Telefono | Email | Referente | Tentativi | Ultimo esito | Prossimo step (data) | Interview fatta | Pain score compilato |
+|---|---|---|---|---|---|---|---|---|
+| Lena Spedizioni Srl | 010 261061 (anche 010 267492) | Non trovata | Nessuno trovato | 0 | Non chiamato | — | No | No |
+| Ambra Mar Srl | 010 2468892 (sede legale, anche 010 2468957 / 010 2476979; 010 2091118 da fonte diversa, verificare a voce quale risponde) | Non trovata | Michele Capodanno, CEO | 0 | Non chiamato | — | No | No |
+| GDT Logistic SpA | 010 5353711 | info@gdtlogistic.com (anche sales@gdtlogistic.com, operativo@gdtlogistic.com) | Nessuno attuale trovato | 0 | Non chiamato | — | No | No |
+| Spedimar Srl | 010 8607800 | Non trovata (solo PEC: spedimar@spedizionieri.it) | Nessuno confermato | 0 | Non chiamato | — | No | No |
 
 ## Secondo giro (8)
 
-| Azienda | Telefono | Referente | Tentativi | Ultimo esito | Prossimo step (data) | Interview fatta | Pain score compilato |
-|---|---|---|---|---|---|---|---|
-| Lanza International Srl | 010 6444745 (anche 010 6444749) | Giorgio Ciman (fonte camerale) | 0 | Non chiamato | — | No | No |
-| Parodi Forwarding | 010 0899650 (cell. 340 3106494) | Manlio Marino, direttore — confermato ancora in carica dopo l'acquisizione (verificato 29/08/2026) | 0 | Non chiamato | — | No | No |
-| CNS Casasco & Nardi SpA | 010 27171 (anche 010 2717326) | Gian Luigi Ravera, Presidente CdA e CEO | 0 | Non chiamato | — | No | No |
-| Oliaro Casa di Spedizioni | 010 8696930 | Roberta Oliaro, Amministratore Delegato (riferimento operativo confermato; Luca Oliaro co-gestisce dal 1996) | 0 | Non chiamato | — | No | No |
-| Mastermar Spedizioni e Controlli Internazionali S.r.l. | 010 2091098 (anche 010 2543761, 010 2717401) | Nessuno trovato | 0 | Non chiamato | — | No | No |
-| Sinergy Cargo Management | 010 6438414 | Nessuno trovato | 0 | Non chiamato | — | No | No |
-| Ocean Sped | 010 2469246 (numeri multipli, vedi note) | Nessuno trovato | 0 | Non chiamato | — | No | No |
+| Azienda | Telefono | Email | Referente | Tentativi | Ultimo esito | Prossimo step (data) | Interview fatta | Pain score compilato |
+|---|---|---|---|---|---|---|---|---|
+| Lanza International Srl | 010 6444745 (anche 010 6444749) | info@lanzainternational.com | Giorgio Ciman (fonte camerale) — ATTENZIONE possibile disallineamento, vedi note | 0 | Non chiamato | — | No | No |
+| Parodi Forwarding | 010 0899650 (cell. 340 3106494) | Non trovata | Manlio Marino, direttore — confermato ancora in carica dopo l'acquisizione (verificato 29/08/2026) | 0 | Non chiamato | — | No | No |
+| CNS Casasco & Nardi SpA | 010 27171 (anche 010 2717326) | info@casasconardi.com | Gian Luigi Ravera, Presidente CdA e CEO | 0 | Non chiamato | — | No | No |
+| Oliaro Casa di Spedizioni | 010 8696930 | info@oliarospedizioni.it | Roberta Oliaro, Amministratore Delegato (riferimento operativo confermato; Luca Oliaro co-gestisce dal 1996) | 0 | Non chiamato | — | No | No |
+| Mastermar Spedizioni e Controlli Internazionali S.r.l. | 010 2091098 (anche 010 2543761, 010 2717401) | info@mastermar.it | Nessuno trovato | 0 | Non chiamato | — | No | No |
+| Sinergy Cargo Management | 010 6438414 | info@sinergycargo.com | Nessuno trovato | 0 | Non chiamato | — | No | No |
+| Ocean Sped | 010 2469246 (numeri multipli, vedi note) | info@oceansped.it | Nessuno trovato | 0 | Non chiamato | — | No | No |
 
 ## Note libere per azienda
 
@@ -51,5 +51,13 @@ Spazio per dettagli che non stanno in tabella (nome del referente trovato ma non
 
 ### Ancora da chiarire prima di chiamare
 
-- **Lanza International Srl**: stime dei dipendenti molto discordanti tra fonti (da 6 a 49) — nessun dato affidabile univoco, non decisivo per procedere al contatto ma da tenere presente.
+- **Lanza International Srl**: stime dei dipendenti molto discordanti tra fonti (da 6 a 49) — nessun dato affidabile univoco, non decisivo per procedere al contatto ma da tenere presente. **Nuovo (29/08/2026, ricerca email)**: possibile disallineamento sul referente. La fonte camerale indica Giorgio Ciman, ma il sito aziendale nomina Luca Ciman come General Manager (e Alessandro Bruni come Branch Manager) — potrebbero essere due persone diverse (es. padre/figlio) o un refuso in una delle due fonti. Verificare il nome esatto alla chiamata prima di rivolgersi a qualcuno per nome; la bozza email preparata non nomina nessuno per sicurezza.
 - **Spediservices Srl**: nessun referente specifico trovato per la società; solo i vertici dell'associazione madre Spediporto (Alessandro Pitto, Presidente; Gianpaolo Botta, Direttore Generale), che potrebbero non essere il contatto giusto per una prima interview sul modulo Porti — alla chiamata chiedere comunque "chi segue la parte digitale/consulenziale per gli spedizionieri associati".
+
+### Email di prima outreach (29/08/2026)
+
+Su richiesta esplicita dell'utente, ricerca email per ciascuna azienda e bozze di prima email preparate su Gmail (`lormilano99@gmail.com`), **non inviate** — restano da rivedere, personalizzare con il nome del mittente (placeholder `[Il tuo nome]` da sostituire) e inviare manualmente. Copy senza trattini lunghi, framing di ricerca non commerciale coerente con lo script telefonico.
+
+- **8 email trovate e bozza pronta**: Spediservices, GDT Logistic, Lanza International, CNS Casasco & Nardi, Oliaro Casa di Spedizioni, Mastermar, Sinergy Cargo Management, Ocean Sped.
+- **4 email non trovate** (nessuna bozza preparata, la ricerca web non ha restituito un indirizzo diretto affidabile): Lena Spedizioni, Ambra Mar, Spedimar (solo PEC, non adatta a una prima mail informale), Parodi Forwarding. Per queste il canale resta solo telefonico finché non si trova un'email diretta (es. chiedendola alla chiamata).
+- Stato replicato anche su Notion (`notion-setup.md`): campi "Email" e "Bozza email pronta" aggiunti al database.
