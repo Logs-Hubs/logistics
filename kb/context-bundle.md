@@ -27,7 +27,6 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 - [ ] Verificare che il deploy `logistic-site` su Vercel mostri il rebrand Movr (in corso, controllare tab Deployments)
 - [ ] Sostituire l'email placeholder `ciao@movr.app` con una vera
 - [ ] Verificare disponibilità del dominio `movr.app` (o altro TLD)
-- [ ] Aggiungere `DRIVER_API_KEY` su Vercel (progetto piattaforma) per abilitare le route `/api/driver/*`
 - [ ] Invitare più tester al gruppo TestFlight oltre al primo
 
 ## Prodotto / decisioni
@@ -766,7 +765,7 @@ Codice Swift/SwiftUI di riferimento in `ios-driver-app/MovrDriver/` di **questo*
 
 **Build di test (demo mode, `AppConfig.swift` → `AppMode.demo = true`)**: dati locali (spedizione seed coerente con `supabase/schema.sql`, SP-2461), salta il login e va dritto alla vista driver. Schermata driver (`SpedizioneFlowView.swift`) a tutto schermo: barra di avanzamento animata, timeline verticale dei 3 step operativi (arrivo, ritiro, rientro vuoto) con stato per step, pulsante d'azione grande e centrale con anelli pulsanti in continuo ed effetto particelle alla conferma. Rimettere `AppMode.demo = false` per il comportamento reale.
 
-**Unica interazione davvero connessa**: le conferme "ritiro" e "rientro vuoto" mandano anche — in background, best-effort — la stessa richiesta reale verso `/api/driver/ritiro` e `/api/driver/rientro-vuoto`: premendo il pulsante sull'app, lo stato di SP-2461 cambia davvero anche sulla dashboard web (dopo refresh). Serve `DRIVER_API_KEY` impostata su Vercel (progetto "logistic", stesso valore di `AppConfig.demoApiKey` = `movr-demo-driver-2026`, non sensibile) — da aggiungere manualmente e poi redeploy; non gestibile dagli strumenti di questa sessione. Finché manca, le chiamate falliscono silenziosamente e la demo resta comunque fluida.
+**Unica interazione davvero connessa**: le conferme "ritiro" e "rientro vuoto" mandano anche — in background, best-effort — la stessa richiesta reale verso `/api/driver/ritiro` e `/api/driver/rientro-vuoto`: premendo il pulsante sull'app, lo stato di SP-2461 cambia davvero anche sulla dashboard web (dopo refresh). `DRIVER_API_KEY` impostata su Vercel e redeploy fatto (29/08/2026): demo attiva end-to-end. Se smette di funzionare, verificare prima questa variabile (progetto "logistic", stesso valore di `AppConfig.demoApiKey` = `movr-demo-driver-2026`) — senza, le chiamate falliscono silenziosamente e il sintomo è "l'app funziona ma la dashboard non si aggiorna".
 
 ## Cosa NON è ancora vero (limiti noti)
 
