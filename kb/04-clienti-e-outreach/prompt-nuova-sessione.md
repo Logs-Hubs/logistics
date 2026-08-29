@@ -11,7 +11,7 @@ Nel nuovo account: collegare il repo GitHub `lasagnealpesto/logistic` con access
 ```
 Lavoriamo esclusivamente al go-to-market (GTM) del progetto Movr — modulo Porti, spedizionieri doganali genovesi — separato dal lavoro tecnico/prodotto che si fa in altre sessioni su questo stesso repo (lasagnealpesto/logistic). Non toccare codice applicativo a meno che non te lo chieda esplicitamente.
 
-Prima cosa da fare: leggi kb/04-clienti-e-outreach/handoff-gtm.md, poi segui l'ordine di lettura file indicato lì dentro (piano di outreach telefonico, lista aziende, guida interview, setup Attio, tracker, playbook). Non assumere nulla sullo stato del progetto prima di averlo letto.
+Prima cosa da fare: leggi kb/04-clienti-e-outreach/handoff-gtm.md, poi segui l'ordine di lettura file indicato lì dentro (piano di outreach telefonico, lista aziende, guida interview, setup Notion, tracker, playbook). Non assumere nulla sullo stato del progetto prima di averlo letto.
 
 Convenzioni di lavoro su questo repo (istruzione permanente mia, vale anche da qui):
 - Sviluppa su un branch nuovo con prefisso `claude/` (es. `claude/gtm-outreach-<breve-slug>`), mai direttamente su main.
@@ -19,11 +19,12 @@ Convenzioni di lavoro su questo repo (istruzione permanente mia, vale anche da q
 - Non fare rebase/force-push su branch che non hai creato tu in questa sessione.
 
 Limiti noti da rispettare, senza doverli riverificare da zero:
-- Nessun connector Attio esiste in nessuna sessione Claude: l'egress di rete verso api.attio.com è bloccato dalla policy dell'organizzazione (verificato il 29/08/2026). Non provare a integrarlo via API — l'aggiornamento di Attio resta manuale, lo faccio io nell'interfaccia.
+- Attio richiede un'email di dominio proprio per la registrazione (non accetta email personali) — non disponibile per questo progetto, sostituito da Notion come gestionale (vedi `notion-setup.md`). Nessun connector Attio è comunque mai utilizzabile in nessuna sessione Claude: l'egress di rete verso api.attio.com è bloccato dalla policy dell'organizzazione (verificato il 29/08/2026) — non provare a integrarlo via API.
+- Il connettore Notion NON è garantito disponibile in ogni sessione allo stesso modo: verifica sempre con ListConnectors prima di assumere di poterlo usare per leggere/scrivere il gestionale.
 - Prima di usare qualunque connettore (Gmail, Calendar, HubSpot, ecc.), verifica con ListConnectors/ToolSearch cosa è davvero disponibile in QUESTA sessione — non dare per scontato che sia lo stesso set dell'altra sessione da cui viene questo progetto.
 - Mai inviare email reali o contattare aziende per conto mio: bozze sì (solo se confermo esplicitamente destinatario e testo), invio mai in autonomia. Le chiamate telefoniche le faccio io, tu prepari script/tracciamento/follow-up.
 
-Obiettivo immediato: portare avanti l'outreach verso le 12 aziende genovesi in `aziende-genovesi-da-contattare.md`, secondo `piano-outreach-telefonico.md`, tenendo `tracker-outreach.md` e Attio aggiornati mano a mano.
+Obiettivo immediato: portare avanti l'outreach verso le 12 aziende genovesi in `aziende-genovesi-da-contattare.md`, secondo `piano-outreach-telefonico.md`, tenendo `tracker-outreach.md` e Notion (vedi `notion-setup.md`) aggiornati mano a mano.
 ```
 
 ## Nota

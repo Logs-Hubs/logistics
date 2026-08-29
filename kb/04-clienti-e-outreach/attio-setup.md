@@ -1,6 +1,8 @@
-# Attio come gestionale outreach (separato da HubSpot)
+# Attio come gestionale outreach (separato da HubSpot) — NON PIÙ LA SCELTA ATTIVA
 
-Scelta dell'utente (29/08/2026): Attio per l'outreach di questo progetto, non HubSpot, perché HubSpot è il CRM del lavoro dell'utente e questo deve restare un tool separato, usabile anche da un'altra sessione/account.
+**Aggiornamento 29/08/2026, stesso giorno**: Attio richiede un'email di dominio proprio per la registrazione (non accetta Gmail/Yahoo/email personali) e l'utente non ne ha una disponibile per questo progetto. Sostituito da **Notion**, vedi `notion-setup.md` — stesso schema, già impostato e popolato. Questo file resta come riferimento (schema, motivazioni) nel caso l'utente ottenga in futuro un'email di dominio e voglia tornare su Attio.
+
+Scelta originale dell'utente (29/08/2026): Attio per l'outreach di questo progetto, non HubSpot, perché HubSpot è il CRM del lavoro dell'utente e questo deve restare un tool separato, usabile anche da un'altra sessione/account.
 
 ## Perché Attio ha senso qui
 

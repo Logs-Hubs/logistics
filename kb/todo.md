@@ -4,7 +4,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Clienti / outreach
 
-- [ ] Creare account Attio (piano Free) e impostare i campi custom + import da `04-clienti-e-outreach/attio-import-aziende-genovesi.csv`, seguendo `attio-setup.md`
+- [x] Gestionale outreach impostato su Notion (Attio scartato: richiede email di dominio proprio, non disponibile) — pagina + database + vista Kanban creati e popolati con le 12 aziende, vedi `04-clienti-e-outreach/notion-setup.md`
 - [x] Chiarire le anomalie emerse dalla ricerca contatti (nome Mastermar, referente Parodi Forwarding, sede Ambra Mar, referente Oliaro) — tutte risolte 29/08/2026, vedi `04-clienti-e-outreach/tracker-outreach.md`
 - [ ] Fissare le prime interview telefoniche di discovery (vedi `piano-outreach-telefonico.md` + `guida-interview-design-partner.md`): partire da Spediservices, poi le 4 aziende a priorità alta
 - [ ] Contattare le 4 aziende a priorità alta: Lena Spedizioni, Ambra Mar, GDT Logistic, Spedimar
@@ -37,7 +37,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 ## Fatto di recente
 
 - [x] Prompt pronto per inizializzare una sessione GTM da un altro account (`04-clienti-e-outreach/prompt-nuova-sessione.md`), collegato allo stesso handoff-gtm.md
-- [x] Scelto Attio come gestionale outreach (non HubSpot, che è il CRM del lavoro dell'utente): schema campi/pipeline e CSV di import pronti in `04-clienti-e-outreach/attio-setup.md` e `attio-import-aziende-genovesi.csv`. Verificato che nessuna sessione Claude in questo ambiente può sincronizzarsi live con Attio (nessun connector, egress di rete bloccato verso `api.attio.com`) — setup e uso quotidiano restano manuali
+- [x] Scelto poi sostituito Attio come gestionale outreach (non HubSpot, che è il CRM del lavoro dell'utente): Attio richiede un'email di dominio proprio, non disponibile — schema/CSV restano in `04-clienti-e-outreach/attio-setup.md` come riferimento storico. Sostituito con Notion (connettore attivo in questa sessione): pagina + database + vista Kanban creati e popolati direttamente, vedi `notion-setup.md`
 - [x] Ricerca web mirata: telefono + referente (dove trovato) per le 12 aziende genovesi, compilato in `tracker-outreach.md` — con anomalie da chiarire a mano prima di chiamare (vedi sezione note nel tracker)
 - [x] Piano di outreach telefonico (`04-clienti-e-outreach/piano-outreach-telefonico.md`) e tracker (`tracker-outreach.md`): script apertura, gestione obiezioni/centralino, timing, adattamento dell'interview al canale telefonico — su richiesta esplicita dell'utente ("tutto in call")
 - [x] `DRIVER_API_KEY` impostata su Vercel (progetto "logistic") e redeploy fatto: la demo app↔piattaforma è ora attiva, premere ritiro/rientro vuoto sull'app aggiorna davvero SP-2461 anche sulla dashboard web
