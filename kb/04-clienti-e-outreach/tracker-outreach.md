@@ -56,7 +56,7 @@ Spazio per dettagli che non stanno in tabella (nome del referente trovato ma non
 
 ### Email di prima outreach (29/08/2026)
 
-Su richiesta esplicita dell'utente, ricerca email per ciascuna azienda e bozze di prima email preparate su Gmail (`lormilano99@gmail.com`), **non inviate** — restano da rivedere, personalizzare con il nome del mittente (placeholder `[Il tuo nome]` da sostituire) e inviare manualmente. Copy senza trattini lunghi, framing di ricerca non commerciale coerente con lo script telefonico.
+Su richiesta esplicita dell'utente (Lorenzo), ricerca email per ciascuna azienda e bozze di prima email preparate su Gmail (`lormilano99@gmail.com`), **non inviate** — restano da rivedere e inviare manualmente. Copy senza trattini lunghi, riscritto una volta su feedback esplicito ("non è convincente"): ora apre con due righe su chi scrive e perché (Lorenzo sta costruendo Movr, uno strumento per gli appuntamenti con i terminal portuali di Genova, e vuole confrontarsi con chi fa questo lavoro davvero prima di costruire), poi entra nel merito. Framing resta di ricerca non commerciale, coerente con lo script telefonico ("non è una demo, non vi sto vendendo nulla").
 
 - **8 email trovate e bozza pronta**: Spediservices, GDT Logistic, Lanza International, CNS Casasco & Nardi, Oliaro Casa di Spedizioni, Mastermar, Sinergy Cargo Management, Ocean Sped.
 - **4 email non trovate** (nessuna bozza preparata, la ricerca web non ha restituito un indirizzo diretto affidabile): Lena Spedizioni, Ambra Mar, Spedimar (solo PEC, non adatta a una prima mail informale), Parodi Forwarding. Per queste il canale resta solo telefonico finché non si trova un'email diretta (es. chiedendola alla chiamata).
