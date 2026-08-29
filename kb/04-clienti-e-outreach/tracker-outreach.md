@@ -61,3 +61,4 @@ Su richiesta esplicita dell'utente (Lorenzo), ricerca email per ciascuna azienda
 - **8 email trovate e bozza pronta**: Spediservices, GDT Logistic, Lanza International, CNS Casasco & Nardi, Oliaro Casa di Spedizioni, Mastermar, Sinergy Cargo Management, Ocean Sped.
 - **4 email non trovate** (nessuna bozza preparata, la ricerca web non ha restituito un indirizzo diretto affidabile): Lena Spedizioni, Ambra Mar, Spedimar (solo PEC, non adatta a una prima mail informale), Parodi Forwarding. Per queste il canale resta solo telefonico finché non si trova un'email diretta (es. chiedendola alla chiamata).
 - Stato replicato anche su Notion (`notion-setup.md`): campi "Email" e "Bozza email pronta" aggiunti al database.
+- Oggetto delle 8 bozze standardizzato su richiesta dell'utente: "Intro Lorenzo <> [nome azienda]" (es. "Intro Lorenzo <> Spediservices").
