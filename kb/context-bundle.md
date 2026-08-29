@@ -14,7 +14,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Clienti / outreach
 
-- [ ] Trovare numeri di telefono e referente giusto per le 12 aziende genovesi (ricerca web, blocco prima di poter chiamare — vedi `04-clienti-e-outreach/piano-outreach-telefonico.md`)
+- [ ] Chiarire le anomalie emerse dalla ricerca contatti prima di chiamare (omonimia Mastarmar/Mastermar, acquisizione Parodi Forwarding, sede attuale Ambra Mar, referente attuale Oliaro — vedi `tracker-outreach.md`)
 - [ ] Fissare le prime interview telefoniche di discovery (vedi `piano-outreach-telefonico.md` + `guida-interview-design-partner.md`): partire da Spediservices, poi le 4 aziende a priorità alta
 - [ ] Contattare le 4 aziende a priorità alta: Lena Spedizioni, Ambra Mar, GDT Logistic, Spedimar
 - [ ] Primo contatto Spediservices (apre la rete verso Spediporto)
@@ -44,6 +44,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Fatto di recente
 
+- [x] Ricerca web mirata: telefono + referente (dove trovato) per le 12 aziende genovesi, compilato in `tracker-outreach.md` — con anomalie da chiarire a mano prima di chiamare
 - [x] Piano di outreach telefonico (`04-clienti-e-outreach/piano-outreach-telefonico.md`) e tracker (`tracker-outreach.md`): script apertura, gestione obiezioni/centralino, timing, adattamento dell'interview al canale telefonico — su richiesta esplicita dell'utente ("tutto in call")
 - [x] Exception Center di Flotte: "Attenzione oggi" nel centro comando, correla problemi planner + fatturato bloccato
 - [x] Documenti trasporto (modulo Flotte): pivot da "solo pianificatore" a "document-to-cash", dashboard fatturato bloccato, lavori agganciati agli ordini reali
@@ -677,7 +678,7 @@ Compilare pain score e tracker entro la giornata; se l'ask design partner è acc
 
 # Tracker outreach — interview telefoniche spedizionieri genovesi
 
-Tabella di stato per il piano in `piano-outreach-telefonico.md`, da aggiornare dopo ogni chiamata invece di tenerlo a mente conversazione per conversazione. Colonne per azienda: telefono, referente, tentativi, ultimo esito, prossimo step, interview fatta (sì/no), pain score compilato (sì/no). Le 12 aziende sono già inserite (Spediservices, le 4 priorità alta, le 8 del secondo giro), tutte con stato "Non chiamato" al 29/08/2026 — nessuna chiamata ancora effettuata. Legenda esiti: Non chiamato / Non risposto / Richiamare / Centralino, referente non raggiunto / Rifiutato / Slot fissato / Interview fatta / Design partner ask fatto / Design partner confermato.
+Tabella di stato per il piano in `piano-outreach-telefonico.md`, da aggiornare dopo ogni chiamata invece di tenerlo a mente conversazione per conversazione. Colonne per azienda: telefono, referente, tentativi, ultimo esito, prossimo step, interview fatta (sì/no), pain score compilato (sì/no). Le 12 aziende sono già inserite (Spediservices, le 4 priorità alta, le 8 del secondo giro). Telefono e (dove trovato) referente popolati il 29/08/2026 via ricerca web mirata (siti ufficiali, PagineBianche, Europages, LinkedIn) — dati indicativi, da confermare al momento del contatto. Tutte ancora con stato "Non chiamato": nessuna chiamata ancora effettuata. Anomalie da chiarire prima di chiamare, dettagliate nella sezione note del file: omonimia Mastarmar/Mastermar (probabile refuso, l'azienda reale sembra chiamarsi "Mastermar Spedizioni e Controlli Internazionali"), Parodi Forwarding acquisita dal gruppo olandese Gaston Schul (referente storico forse non più attuale), Ambra Mar con più sedi/numeri su fonti diverse, Oliaro con due possibili titolari (Roberta e Luca Oliaro) da chiarire chi sia oggi il riferimento operativo. Legenda esiti: Non chiamato / Non risposto / Richiamare / Centralino, referente non raggiunto / Rifiutato / Slot fissato / Interview fatta / Design partner ask fatto / Design partner confermato.
 
 ---
 
@@ -687,9 +688,9 @@ Tabella di stato per il piano in `piano-outreach-telefonico.md`, da aggiornare d
 
 Scritto il 29/08/2026, aggiornato lo stesso giorno dopo aver definito il piano di outreach telefonico (l'utente ha chiesto esplicitamente: "tutto in call"). Obiettivo immediato: contattare le spedizioniere genovesi **per telefono** per interview di discovery, con l'obiettivo finale di reclutare 3-4 design partner gratuiti per il modulo Porti.
 
-Stato ad oggi: lista aziende pronta (`aziende-genovesi-da-contattare.md`), metodologia interview pronta (`guida-interview-design-partner.md`), piano di outreach telefonico pronto (`piano-outreach-telefonico.md`), tracker pronto ma vuoto (`tracker-outreach.md`). Nessun contatto ancora avviato al 29/08/2026. Gap ancora aperto: nessun numero di telefono verificato per nessuna delle 12 aziende — è il primo blocco reale, richiede ricerca web mirata (centralino + nome del referente giusto), non ancora fatta.
+Stato ad oggi: lista aziende pronta (`aziende-genovesi-da-contattare.md`), metodologia interview pronta (`guida-interview-design-partner.md`), piano di outreach telefonico pronto (`piano-outreach-telefonico.md`), tracker compilato con telefono/referente per tutte e 12 le aziende (`tracker-outreach.md`, ricerca web del 29/08/2026). Nessun contatto ancora avviato al 29/08/2026. Gap aperto: alcune anomalie emerse dalla ricerca (nome societario, sede attuale, referente attuale) vanno chiarite a mano prima di chiamare — vedi le note nel tracker.
 
-Prossimo passo concreto: trovare i numeri di telefono (ricerca web, azione a basso rischio) per popolare il tracker, poi iniziare le chiamate seguendo il piano, partendo da Spediservices.
+Prossimo passo concreto: chiarire le anomalie del tracker (in particolare Mastarmar/Mastermar e Parodi Forwarding), poi iniziare le chiamate seguendo il piano, partendo da Spediservices.
 
 File da leggere in ordine: `piano-outreach-telefonico.md` → `aziende-genovesi-da-contattare.md` → `guida-interview-design-partner.md` → `tracker-outreach.md` → `playbook-outreach.md`.
 
