@@ -4,7 +4,8 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Clienti / outreach
 
-- [ ] Fissare le prime interview di discovery (vedi `guida-interview-design-partner.md`): partire da Spediservices, poi le 4 aziende a priorità alta
+- [ ] Trovare numeri di telefono e referente giusto per le 12 aziende genovesi (ricerca web, blocco prima di poter chiamare — vedi `04-clienti-e-outreach/piano-outreach-telefonico.md`)
+- [ ] Fissare le prime interview telefoniche di discovery (vedi `piano-outreach-telefonico.md` + `guida-interview-design-partner.md`): partire da Spediservices, poi le 4 aziende a priorità alta
 - [ ] Contattare le 4 aziende a priorità alta: Lena Spedizioni, Ambra Mar, GDT Logistic, Spedimar
 - [ ] Primo contatto Spediservices (apre la rete verso Spediporto)
 - [ ] Verificare su LinkedIn le aziende "da confermare" del secondo giro (dimensione, attività recente)
@@ -34,6 +35,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Fatto di recente
 
+- [x] Piano di outreach telefonico (`04-clienti-e-outreach/piano-outreach-telefonico.md`) e tracker (`tracker-outreach.md`): script apertura, gestione obiezioni/centralino, timing, adattamento dell'interview al canale telefonico — su richiesta esplicita dell'utente ("tutto in call")
 - [x] `DRIVER_API_KEY` impostata su Vercel (progetto "logistic") e redeploy fatto: la demo app↔piattaforma è ora attiva, premere ritiro/rientro vuoto sull'app aggiorna davvero SP-2461 anche sulla dashboard web
 - [x] App driver iOS: le conferme ritiro/rientro vuoto ora mandano anche la richiesta reale in background verso `/api/driver/*` — unica interazione demo davvero connessa alla piattaforma
 - [x] App driver iOS: build di test standalone (demo mode, senza login né rete) e nuova schermata driver a tutto schermo con stepper animato, pulsante d'azione grande e centrale con anelli pulsanti, effetto particelle alla conferma di ogni step
