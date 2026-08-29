@@ -42,6 +42,10 @@ Non ancora implementate, solo da proporre e validare con l'utente prima di agire
 5. `tracker-outreach.md` — snapshot dei dati di partenza (telefono/referente al 29/08/2026); dopo l'adozione di Attio, lo stato vivo dell'outreach vive lì, non più qui
 6. `playbook-outreach.md` — cosa offrire/chiedere una volta che un'azienda accetta di diventare design partner (fase successiva all'interview)
 
+## Sessione GTM da un altro account
+
+L'utente gestisce il GTM da un account diverso da quello tecnico/prodotto. `prompt-nuova-sessione.md` (in questa stessa cartella) contiene il prompt pronto da incollare per inizializzare quella sessione: convenzioni di lavoro sul repo, limiti noti (Attio, connettori), obiettivo immediato. Tenerlo aggiornato se cambia sostanzialmente lo stato del progetto.
+
 ## Promemoria di processo
 
 Standing instruction dell'utente: dopo modifiche in questo repo, commit + push sul branch di lavoro, poi PR e merge diretto su `main`, senza chiedere conferma ogni volta.

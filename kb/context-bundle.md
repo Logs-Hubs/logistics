@@ -45,6 +45,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Fatto di recente
 
+- [x] Prompt pronto per inizializzare una sessione GTM da un altro account (`04-clienti-e-outreach/prompt-nuova-sessione.md`), collegato a `handoff-gtm.md`
 - [x] Scelto Attio come gestionale outreach (non HubSpot, che è il CRM del lavoro dell'utente): schema campi/pipeline e CSV di import pronti in `04-clienti-e-outreach/attio-setup.md` e `attio-import-aziende-genovesi.csv`. Nessuna sincronizzazione live possibile da questo ambiente (nessun connector Attio, egress di rete bloccato) — setup e uso quotidiano restano manuali
 - [x] Ricerca web mirata: telefono + referente (dove trovato) per le 12 aziende genovesi, compilato in `tracker-outreach.md` — con anomalie da chiarire a mano prima di chiamare
 - [x] Piano di outreach telefonico (`04-clienti-e-outreach/piano-outreach-telefonico.md`) e tracker (`tracker-outreach.md`): script apertura, gestione obiezioni/centralino, timing, adattamento dell'interview al canale telefonico — su richiesta esplicita dell'utente ("tutto in call")
@@ -704,7 +705,7 @@ Stato ad oggi: lista aziende pronta (`aziende-genovesi-da-contattare.md`), metod
 
 Prossimo passo concreto: l'utente crea l'account Attio e importa il CSV seguendo `attio-setup.md`; in parallelo chiarire le anomalie del tracker (in particolare Mastarmar/Mastermar e Parodi Forwarding), poi iniziare le chiamate seguendo il piano, partendo da Spediservices.
 
-File da leggere in ordine: `piano-outreach-telefonico.md` → `aziende-genovesi-da-contattare.md` → `guida-interview-design-partner.md` → `attio-setup.md` → `tracker-outreach.md` → `playbook-outreach.md`.
+File da leggere in ordine: `piano-outreach-telefonico.md` → `aziende-genovesi-da-contattare.md` → `guida-interview-design-partner.md` → `attio-setup.md` → `tracker-outreach.md` → `playbook-outreach.md`. L'utente gestisce il GTM da un account diverso da quello tecnico/prodotto: `prompt-nuova-sessione.md` (stessa cartella) contiene il prompt pronto da incollare per inizializzare quella sessione (convenzioni di lavoro sul repo, limiti noti, obiettivo immediato).
 
 Standing instruction dell'utente: dopo modifiche in questo repo, commit + push sul branch di lavoro, poi PR e merge diretto su `main`, senza chiedere conferma ogni volta.
 
