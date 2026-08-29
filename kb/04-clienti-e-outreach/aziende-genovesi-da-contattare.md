@@ -19,10 +19,10 @@ ICP: spedizioniere doganale genovese, 5-30 dipendenti, import/export container s
 |---|---|---|---|---|---|
 | Spediservices Srl | Genova | — | 2005 | Braccio consulenziale/digitale di Spediporto, miglior primo contatto per aprire la rete verso l'associazione | Da confermare |
 | Lanza International Srl | Genova | 20-49 | 1996 | Groupage e logistica, focus più su groupage stradale che container | Verificato |
-| Parodi Forwarding | Genova | — | — | Comunicazione online curata | Da confermare |
+| Parodi Forwarding | Genova | — | — | Comunicazione online curata. Acquisita al 100% da Gaston Schul (giugno 2026), nome/sede/organico invariati, Manlio Marino ancora direttore | Da confermare |
 | CNS Casasco & Nardi SpA | Genova, consorzio Goas | 50-99 | 1956 | Leggermente sopra target dimensionale ma storica e strutturata | Verificato |
 | Oliaro Casa di Spedizioni | Genova, consorzio Goas | — | — | Storica, dimensione da verificare | Da confermare |
-| Mastarmar Spedizioni | Genova, consorzio Goas | — | — | Taglia media presunta | Da confermare |
+| Mastermar Spedizioni e Controlli Internazionali S.r.l. | Genova, consorzio Goas | — | — | Nome corretto (era "Mastarmar", refuso); dal 1995, stato AEO | Verificato |
 | Sinergy Cargo Management | Genova, consorzio Goas | — | — | Nome suggerisce focus operativo/gestionale | Da confermare |
 | Ocean Sped | Genova | — | anni '90 | Comunicazione orientata a flessibilità/soluzioni su misura | Da confermare |
 

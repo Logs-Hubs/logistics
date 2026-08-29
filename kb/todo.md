@@ -5,7 +5,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 ## Clienti / outreach
 
 - [ ] Creare account Attio (piano Free) e impostare i campi custom + import da `04-clienti-e-outreach/attio-import-aziende-genovesi.csv`, seguendo `attio-setup.md`
-- [ ] Chiarire le anomalie emerse dalla ricerca contatti prima di chiamare (omonimia Mastarmar/Mastermar, acquisizione Parodi Forwarding, sede attuale Ambra Mar, referente attuale Oliaro — vedi `tracker-outreach.md`)
+- [x] Chiarire le anomalie emerse dalla ricerca contatti (nome Mastermar, referente Parodi Forwarding, sede Ambra Mar, referente Oliaro) — tutte risolte 29/08/2026, vedi `04-clienti-e-outreach/tracker-outreach.md`
 - [ ] Fissare le prime interview telefoniche di discovery (vedi `piano-outreach-telefonico.md` + `guida-interview-design-partner.md`): partire da Spediservices, poi le 4 aziende a priorità alta
 - [ ] Contattare le 4 aziende a priorità alta: Lena Spedizioni, Ambra Mar, GDT Logistic, Spedimar
 - [ ] Primo contatto Spediservices (apre la rete verso Spediporto)

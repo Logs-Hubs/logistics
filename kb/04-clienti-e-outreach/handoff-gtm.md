@@ -11,7 +11,7 @@ Contattare le spedizioniere genovesi **per telefono** (scelta esplicita dell'ute
 - **Lista pronta**, ordinata, in `aziende-genovesi-da-contattare.md`. Ordine: Spediservices (apre la rete verso Spediporto) → 4 aziende priorità alta (Lena Spedizioni, Ambra Mar, GDT Logistic, Spedimar) → secondo giro (8 aziende, dimensioni da confermare su LinkedIn).
 - **Metodologia interview pronta**, in `guida-interview-design-partner.md`: struttura, 5 filoni di pain, domande killer, pain score, script di chiusura per l'ask design partner.
 - **Piano di outreach telefonico pronto**, in `piano-outreach-telefonico.md`: script di apertura, gestione centralino/obiezioni, timing e cadenza delle chiamate, come adattare l'interview al canale telefonico, obiettivi quantitativi di fase 1.
-- **Telefono + referente trovati** per tutte e 12 le aziende (ricerca web del 29/08/2026), compilati in `tracker-outreach.md` — con alcune anomalie da chiarire a mano prima di chiamare (omonimia Mastarmar/Mastermar, acquisizione Parodi Forwarding, sedi multiple Ambra Mar, doppio titolare Oliaro).
+- **Telefono + referente trovati** per tutte e 12 le aziende (ricerca web del 29/08/2026), compilati in `tracker-outreach.md`. Tutte le anomalie iniziali risolte con ricerche successive lo stesso giorno: nome esatto **Mastermar Spedizioni e Controlli Internazionali S.r.l.** (era "Mastarmar", refuso), referente **Parodi Forwarding** confermato (Manlio Marino, ancora direttore dopo l'acquisizione da Gaston Schul), sede legale **Ambra Mar** confermata (Piazza Cavour 15/12, numero centralino aggiornato — ma resta un numero alternativo da un'altra fonte da verificare a voce), riferimento operativo **Oliaro** confermato (Roberta Oliaro, Amministratore Delegato).
 - **Gestionale scelto: Attio**, non HubSpot (HubSpot è il CRM del lavoro dell'utente, va tenuto separato). Schema e istruzioni di setup in `attio-setup.md`, dati di partenza pronti per l'import in `attio-import-aziende-genovesi.csv`. **Non ancora impostato su Attio stesso** — nessuna sessione Claude in questo ambiente può leggere/scrivere in Attio via API (nessun connector disponibile, egress di rete bloccato dalla policy verso `api.attio.com`, verificato il 29/08/2026): l'import e l'uso quotidiano restano manuali, fatti dall'utente nell'interfaccia Attio.
 - **Nessuna chiamata ancora avviata** al 29/08/2026.
 
@@ -23,7 +23,7 @@ Contattare le spedizioniere genovesi **per telefono** (scelta esplicita dell'ute
 
 ## Prossimo passo concreto
 
-L'utente crea l'account Attio (piano Free) e importa `attio-import-aziende-genovesi.csv` seguendo `attio-setup.md`; in parallelo, chiarire le anomalie nel tracker (in particolare nome esatto di Mastarmar/Mastermar e referente attuale di Parodi Forwarding dopo l'acquisizione) prima di iniziare le chiamate seguendo `piano-outreach-telefonico.md`, partendo da Spediservices.
+L'utente crea l'account Attio (piano Free) e importa `attio-import-aziende-genovesi.csv` (già aggiornato con tutte le correzioni) seguendo `attio-setup.md`. Le anomalie del tracker sono tutte chiarite: si può iniziare le chiamate seguendo `piano-outreach-telefonico.md`, partendo da Spediservices.
 
 ## Piste di automazione ancora da valutare
 

@@ -71,10 +71,10 @@ Per il modulo Flotte (autotrasportatori PMI, ambito nazionale) la lista equivale
 |---|---|---|---|---|---|
 | Spediservices Srl | Genova | — | 2005 | Non è uno spedizioniere ma il braccio consulenziale/digitale di Spediporto — miglior primo contatto per aprire la rete verso l'intera associazione. | Da confermare |
 | Lanza International Srl | Genova | 20–49 | 1996 | Groupage e logistica, rete di distribuzione nazionale — dimensione confermata ma focus più su groupage stradale che container. | Verificato |
-| Parodi Forwarding | Genova | — | — | Comunicazione online curata, segno di attenzione al digitale. Taglia media presunta. | Da confermare |
+| Parodi Forwarding | Genova | — | — | Comunicazione online curata, segno di attenzione al digitale. Taglia media presunta. Acquisita al 100% dal gruppo olandese Gaston Schul (1° giugno 2026), ma ha mantenuto nome, sede e organico — Manlio Marino confermato ancora direttore. | Da confermare |
 | CNS Casasco & Nardi SpA | Genova · membro storico consorzio Goas | 50–99 | 1956 | Leggermente sopra il target dimensionale ma storica e strutturata — verificare se corrisponde a "S.T.S. Casasco & Nardi" del consorzio Goas. | Verificato |
 | Oliaro Casa di Spedizioni | Genova · membro consorzio Goas | — | — | Storica, membro del consorzio Goas (2019) — dimensione attuale da verificare su LinkedIn. | Da confermare |
-| Mastarmar Spedizioni | Genova · membro consorzio Goas | — | — | Membro consorzio Goas, taglia media presunta. | Da confermare |
+| Mastermar Spedizioni e Controlli Internazionali S.r.l. | Genova · membro consorzio Goas | — | — | Nome corretto (era riportato come "Mastarmar", refuso). Membro consorzio Goas, dal 1995, sede Piazza Fossatello 3/5/B, stato AEO. | Verificato |
 | Sinergy Cargo Management | Genova · membro consorzio Goas | — | — | Nome suggerisce focus operativo/gestionale — potenzialmente più ricettivi a un tool software. | Da confermare |
 | Ocean Sped | Genova | — | anni '90 | Comunicazione online orientata a flessibilità/soluzioni su misura — segnale positivo di apertura. | Da confermare |
 
