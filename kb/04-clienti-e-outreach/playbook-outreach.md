@@ -24,7 +24,7 @@ Vedi `aziende-genovesi-da-contattare.md` in questa stessa cartella. Ordine consi
 
 ## Oltre Genova
 
-La fase 2 (referral via Spediporto/Federlogistica Liguria) e la fase 3 (replica su La Spezia, Livorno, Trieste, poi un porto estero) presuppongono che la fase 1 funzioni. Non c'è ancora una lista di aziende per queste fasi successive: da costruire quando ci si arriva, con lo stesso criterio ICP adattato al porto specifico.
+La fase 2 (referral via Spediporto/Federlogistica Liguria) presuppone che la fase 1 funzioni. La fase 3 (replica su altri porti) è stata anticipata su richiesta esplicita dell'utente (29/08/2026), prima ancora che la fase 1 desse risultati: lista di 43 aziende su La Spezia, Livorno, Trieste, Venezia, Napoli, Salerno pronta in `aziende-altri-porti-da-contattare.md`, stesso ICP, ricerca ancora meno verificata di quella genovese (niente telefono/referente/email, da fare come prossimo passo). Genova resta il primo giro in corso; il secondo giro su altri porti parte in parallelo o dopo, a scelta dell'utente.
 
 ## Interview di discovery (prima del design partner ask)
 
