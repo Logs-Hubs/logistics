@@ -11,7 +11,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 - [ ] Primo contatto Spediservices (apre la rete verso Spediporto)
 - [ ] Verificare su LinkedIn le aziende "da confermare" del secondo giro (dimensione, attività recente)
 - [x] Lista aziende altri porti italiani (La Spezia, Livorno, Trieste, Venezia, Napoli, Salerno), 43 aziende, stesso ICP di Genova — `04-clienti-e-outreach/aziende-altri-porti-da-contattare.md`, su richiesta esplicita dell'utente
-- [ ] Ricerca telefono/referente/email per le 43 aziende altri porti (stesso lavoro già fatto per le 12 genovesi in `tracker-outreach.md`)
+- [x] Ricerca telefono/referente/email per le 43 aziende altri porti — `04-clienti-e-outreach/tracker-altri-porti.md`, 22/43 con email trovata; 22 bozze email di prima outreach preparate su Gmail e su Notion (non inviate)
 - [ ] Modulo Flotte: verificare le 9 aziende "da confermare" in `aziende-autotrasporto-nazionale.md` (regione, dipendenti, LinkedIn/sito)
 - [ ] Modulo Flotte: espandere la ricerca aziende a Nord-Ovest (Piemonte, Liguria) e Nord-Est (Trentino, Friuli), oggi coperti solo da operatori multi-regione
 
