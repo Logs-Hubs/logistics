@@ -8,6 +8,14 @@ This is the **living source of truth for Movr's product/market thesis**. It is m
 
 ---
 
+## 0. DECISION update (2026-09-28, later the same day)
+
+Two Claude sessions worked on this pivot in parallel today and each independently wrote a `MOVR_HANDOFF.md`. This file (the one already wired into `CLAUDE.md`) was kept as the canonical version; the other session's research was folded in as linked files rather than duplicated here — see §18 below.
+
+**DECISION, confirmed directly by Lorenzo**: container trucking is not one hypothesis among three anymore. **Movr commits to a single vertical — container trucking / autotrasporto container — full stop.** Do not run the parallel ICP A (general cargo) / ICP C (freight forwarder) tracks described in §8-9 below as originally written. Those sections are kept for institutional memory (they explain real alternatives that were considered), but §8's ICP A and ICP C and the 10/10/10 split in §9 are **superseded**: discovery effort goes entirely into container trucking carriers (ICP B). Update the working claim in §1 accordingly when read: treat "AI Transport Manager for SMEs in road haulage" as the long-term brand umbrella, not today's targeting — today's targeting is container trucking only.
+
+---
+
 ## 1. Current thesis
 
 ### Working claim
@@ -18,7 +26,7 @@ This is the **living source of truth for Movr's product/market thesis**. It is m
 
 > **Movr receives the order and makes the administrative work disappear until the invoice.**
 
-### Strongest vertical hypothesis right now
+### Vertical — decided, not a hypothesis under test (see §0)
 
 > **Container trucking / port drayage**, starting from Genoa + Savona/Vado + La Spezia.
 
@@ -26,7 +34,7 @@ Long-term ambition if the wedge works:
 
 > **The operating system for container trucking.**
 
-This is still a hypothesis, not a final positioning decision.
+The wedge itself (which capability ships first, which ICP fleet-size band, which pricing) is still open and must be resolved by discovery — but the vertical choice itself is a decision, not one of several hypotheses being tested in parallel.
 
 ---
 
@@ -616,6 +624,22 @@ These must be answered by discovery, not assumed:
 - What is the real number of container-haulage companies in the first three port clusters?
 - What ACV can be closed without enterprise procurement?
 - How much of the product generalizes cleanly from container trucking to conventional FTL?
+
+---
+
+## 18. Linked research/product/GTM files (added by the parallel Claude Code session, 2026-09-28)
+
+Rather than duplicate content here, the parallel session's output lives in dedicated files, cross-referenced from this handoff per the maintenance rule below. Read these instead of re-deriving them:
+
+- `research/container-trucking-workflow.md` — same import/export lifecycle as §2 here, plus an explicit pain matrix (manual / phone-email-WhatsApp / multi-portal / error-prone / costs money / slows billing) per process step.
+- `research/container-trucking-terminal-integrations.md` — **answers the open question above** ("which terminal systems expose usable integrations"): only **Vado Gateway (APM Terminals) has a confirmed public, free API** (TERMPoint, `developer.apmterminals.com`). Genova (PSA Prà/SECH) and La Spezia (LSCT/Terminal del Golfo) have no publicly documented API — direct contact required. Also documents the national PLN/PCS interoperability push (PNRR, ~€250M, Genova already connected) as a 1-2 year horizon, not something to build against today.
+- `research/container-trucking-competitors.md` — deeper competitor pass than §14 here: adds Rose Rocket and Raft, with sourced G2/Capterra findings. Important correction to keep in mind: **Qargo is not drayage-specific** (Belgian generalist TMS, UK/BE/NL/IE/FR market, €28M Series B Dec 2025) and **Raft is not a trucking competitor** (AI platform for freight forwarders/customs brokers, not drayage). **PortPro has already expanded to Rotterdam** — treat it as a live European entrant, not just a US reference.
+- `product/container-trucking-v1.md` and `product/container-trucking-roadmap.md` — capability-by-capability spec (mirrors §4 here) explicitly tied to which existing Movr code is reusable: the Exception Center (`lib/exceptions/motore.ts`) and the "Documenti trasporto" document-to-cash flow (`app/flotta/documenti/`) are the two most reusable pieces for this pivot; the current Porti module (built for freight forwarders/customs brokers, not truckers) is flagged as misaligned with the new persona — decision on what to do with it is deliberately deferred to after discovery, not made now.
+- `gtm/container-trucking-prospects.csv` — first tranche of the 100-company database (34 companies researched so far: the 11 seeds from the brief + 23 more, each field sourced or marked UNKNOWN, classified A/B/C). Two names from this file's own §7 examples (Parrinello, CMI) are already covered here; the others (Gandini Trasporti) still need adding to the next tranche.
+- `gtm/top-20-design-partners.md` — shortlist built from the current A/B tier of the prospects file (16 companies; 100-company database still in progress, so this is not yet a clean top-20 and says so explicitly).
+- `gtm/discovery-playbook.md` — ready-to-send LinkedIn/email/WhatsApp opening scripts and a 30-minute call script, adapted from the spedizionieri-segment interview guide already in `kb/04-clienti-e-outreach/guida-interview-design-partner.md`.
+
+**Data discrepancy to resolve before using either number externally** (e.g. in a deck): this file's §5 states "Active Italian road-haulage businesses at the end of 2025: 99,321 (Albo Autotrasportatori)". The parallel session's `research/container-trucking-market.md` independently found, for the same Albo Nazionale Autotrasportatori at the same point in time, **76,083** ("in calo da ~99.321 nel periodo recente, -20.000 circa dal 2015" — suggesting 99,321 may be an older figure, not end-of-2025). Neither session could reach alboautotrasporto.it directly (network proxy blocked WebFetch to it in both sessions) — both numbers are secondary citations. **Verify directly on alboautotrasporto.it before either number goes in an external document.**
 
 ---
 
