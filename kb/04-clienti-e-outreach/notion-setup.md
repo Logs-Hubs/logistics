@@ -16,30 +16,45 @@ Decisione del 29/08/2026: Attio richiede un'email di dominio proprio per la regi
 ## Dove si trova
 
 - Pagina principale: **Movr - Outreach Porti** (rinominata il 28/09/2026, prima "Movr — Outreach Porti Genova") — https://app.notion.com/p/3cb790abc4b281ee8cd3c75fc6306db7
-- Database **Aziende - Outreach Porti** (rinominato allo stesso modo, dentro la pagina sopra) — https://app.notion.com/p/949243a620bc427c93c06ec35249b891 — viste **Pipeline (Kanban)** raggruppata per "Stato outreach" e **Per porto** raggruppata per "Porto".
+- Database **Aziende - Outreach Porti** (rinominato allo stesso modo, dentro la pagina sopra) — https://app.notion.com/p/949243a620bc427c93c06ec35249b891. **Database unificato dal 28/09/2026**: contiene sia le aziende spedizionieri sia quelle del verticale autotrasporto container (vedi sotto), distinte dal campo **Settore**.
 - **Guida operativa Day 1** (sottopagina della pagina principale) — https://app.notion.com/p/3e9790abc4b2813ebf00e5daa1bb66b1 — script di chiamata, struttura interview, pain score, script design partner ask, tutto inline: pensata per un nuovo entrato che gestisce sales/outreach/interview e non ha accesso al repo tecnico. Creata il 28/09/2026, riscritta lo stesso giorno in forma più schematica (titoli, elenchi puntati, tabelle) su richiesta esplicita dell'utente.
 
-## Schema (identico nello spirito allo schema Attio già pensato)
+## Viste
 
-| Campo | Tipo Notion | Valori |
-|---|---|---|
-| Azienda | Title | nome azienda |
-| Priorità | Select | P0 - apre la rete / Alta / Secondo giro |
-| Stato outreach | Select | Non chiamato · Non risposto · Richiamare · Centralino - referente non raggiunto · Rifiutato · Slot fissato · Interview fatta · Design partner ask fatto · Design partner confermato |
-| Porto | Select | Genova / La Spezia / Livorno / Trieste / Venezia / Napoli / Salerno, un unico database consolidato per tutte le liste di outreach, non uno per porto |
-| Telefono | Testo | numero principale, alternativi nelle Note |
-| Email | Email | |
-| Referente | Testo | nome e ruolo |
-| Tentativi | Numero | contatore chiamate |
-| Prossimo step | Data | quando richiamare o slot fissato |
-| Interview fatta | Checkbox | |
-| Pain score compilato | Checkbox | |
-| Bozza email pronta | Checkbox | |
-| Note | Testo lungo | anomalie, dettagli chiamata, impressioni |
+- **Table** (default) — tutte le colonne, incluso Settore.
+- **Pipeline (Kanban)** — raggruppata per "Stato outreach".
+- **Per porto** — raggruppata per "Porto" (solo per le righe Spedizionieri: le righe Autotrasporto Container usano "Porti serviti", un campo diverso, quindi finiscono nel gruppo vuoto).
+- **Per settore** (nuova, 28/09/2026) — Kanban raggruppato per "Settore": il modo più rapido per vedere solo uno dei due verticali.
+- **Da chiamare (in ordine)** (nuova, 28/09/2026) — tabella filtrata su "Ordine di chiamata" non vuoto, ordinata ascendente: le 26 aziende A/B del verticale container trucking da lavorare per prime (il verticale spedizionieri non usa questo campo).
+- **KPI - stato outreach** (nuova, 28/09/2026) — grafico a barre, conta le aziende per stato.
 
-**Popolato per intero**: tutte e 55 le aziende sono nel database (12 Genova + 43 altri porti: 7 La Spezia, 8 Livorno, 8 Trieste, 8 Venezia, 8 Napoli, 4 Salerno, verificato via query il 28/09/2026), non solo le 12 genovesi come indicava una versione precedente di questo file. Dati aggiornati dopo la risoluzione delle anomalie (Mastermar, Parodi Forwarding, Ambra Mar, Oliaro) e la ricerca email per la prima outreach.
+## Schema (identico nello spirito allo schema Attio già pensato, esteso il 28/09/2026 per unificare i due verticali)
 
-**Tabella Pain Score su ogni pagina azienda**: dal 28/09/2026, ciascuna delle 55 pagine azienda ha in fondo una tabella pronta da compilare (Filone / Frequenza / Tempo perso / Costo / Criticità / Workaround attuale / Owner, i 5 filoni già come righe), aggiunta su richiesta esplicita dell'utente per far sì che chi conduce l'interview non debba ricostruirla ogni volta. Stessa struttura descritta in `guida-interview-design-partner.md`, senza la colonna "Budget implicito" per restare più snella.
+| Campo | Tipo Notion | Valori | Usato da |
+|---|---|---|---|
+| Azienda | Title | nome azienda | entrambi |
+| Settore | Select | Spedizionieri / Autotrasporto Container | entrambi (nuovo 28/09/2026) |
+| Priorità | Select | P0 - apre la rete / Alta / Secondo giro | Spedizionieri |
+| Classificazione | Select | A / B / C | Autotrasporto Container (nuovo 28/09/2026) |
+| Stato outreach | Select | Non chiamato · Non risposto · Richiamare · Centralino - referente non raggiunto · Rifiutato · Slot fissato · Demo fissata · Interview fatta · Design partner ask fatto · Design partner confermato | entrambi ("Demo fissata" aggiunta 28/09/2026 per il container trucking) |
+| Porto | Select | Genova / La Spezia / Livorno / Trieste / Venezia / Napoli / Salerno | Spedizionieri |
+| Porti serviti | Multi-select | Genova / Savona-Vado / La Spezia / Altro-hinterland | Autotrasporto Container (nuovo 28/09/2026, un'azienda può servire più porti) |
+| Telefono | Testo | numero principale, alternativi nelle Note | entrambi |
+| Email | Email | | entrambi |
+| Referente | Testo | nome e ruolo (per il container trucking: ex campo "Decision maker") | entrambi |
+| Tentativi | Numero | contatore chiamate | entrambi |
+| Prossimo step | Data | quando richiamare o slot fissato | entrambi |
+| Interview fatta | Checkbox | | entrambi |
+| Pain score compilato | Checkbox | | entrambi |
+| Bozza email pronta | Checkbox | | Spedizionieri |
+| Ordine di chiamata | Numero | ordine consigliato di contatto, solo per le 26 aziende A/B | Autotrasporto Container (nuovo 28/09/2026) |
+| Perché interessante | Testo lungo | motivazione dalla ricerca | Autotrasporto Container (nuovo 28/09/2026) |
+| Fonti | Testo lungo | citazioni delle fonti usate in ricerca | Autotrasporto Container (nuovo 28/09/2026) |
+| Note | Testo lungo | anomalie, dettagli chiamata, impressioni | entrambi |
+
+**Popolato per intero**: 117 aziende totali nel database (verificato via query il 28/09/2026) — 55 Spedizionieri (12 Genova + 43 altri porti: 7 La Spezia, 8 Livorno, 8 Trieste, 8 Venezia, 8 Napoli, 4 Salerno) + 62 Autotrasporto Container (migrate lo stesso giorno dal database separato "Aziende - Container Trucking", ora cestinato — vedi `gtm/notion-setup.md`). Dati Spedizionieri aggiornati dopo la risoluzione delle anomalie (Mastermar, Parodi Forwarding, Ambra Mar, Oliaro) e la ricerca email per la prima outreach.
+
+**Tabella Pain Score su ogni pagina azienda**: solo per le 55 pagine Spedizionieri (dal 28/09/2026, prima della fusione), ciascuna ha in fondo una tabella pronta da compilare (Filone / Frequenza / Tempo perso / Costo / Criticità / Workaround attuale / Owner, i 5 filoni già come righe). Non presente sulle 62 pagine Autotrasporto Container — da aggiungere se si inizia a condurre interview sul serio su quel verticale.
 
 ## Uso quotidiano
 
@@ -49,4 +64,4 @@ Una sessione Claude con il connettore Notion attivo **e agganciato al workspace 
 
 ## Continuità tra sessioni
 
-Il repo (`kb/04-clienti-e-outreach/tracker-outreach.md` per Genova, `tracker-altri-porti.md` per gli altri 6 porti) resta la **fonte di verità durevole**, leggibile da qualunque sessione anche senza connettore Notion attivo, ma può disallinearsi da Notion nel tempo (è già successo: Notion aveva tutte e 55 le aziende mentre questo file per settimane ha detto "solo 12", perché nessuno lo aveva aggiornato dopo l'aggiunta degli altri porti). Notion è lo strumento operativo per il lavoro quotidiano quando il connettore è disponibile **e punta al workspace corretto**. Se una sessione futura non ha il connettore Notion, o non è sicura che punti al posto giusto, deve trattare i file del repo come riferimento ma **verificare con l'utente lo stato reale** prima di assumere che siano sincronizzati.
+Il repo resta la **fonte di verità durevole**, leggibile da qualunque sessione anche senza connettore Notion attivo, ma può disallinearsi da Notion nel tempo (è già successo più volte: vedi cronologia sopra). Per lo Spedizionieri: `kb/04-clienti-e-outreach/tracker-outreach.md` (Genova) e `tracker-altri-porti.md` (altri 6 porti). Per l'Autotrasporto Container: `gtm/container-trucking-prospects.csv`. Notion è lo strumento operativo per il lavoro quotidiano quando il connettore è disponibile **e punta al workspace corretto**. Se una sessione futura non ha il connettore Notion, o non è sicura che punti al posto giusto, deve trattare i file del repo come riferimento ma **verificare con l'utente lo stato reale** prima di assumere che siano sincronizzati.

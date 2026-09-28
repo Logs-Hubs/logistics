@@ -1,49 +1,38 @@
 # Notion — Container Trucking Liguria (outreach)
 
-Gestionale operativo per il nuovo verticale (container trucking), **separato** dal gestionale spedizionieri esistente (`kb/04-clienti-e-outreach/notion-setup.md`, pagina "Movr - Outreach Porti") perché sono due ICP diversi (trasportatori con flotta propria, non spedizionieri/freight forwarder) per due wedge di prodotto diversi. Stesso workspace Notion personale dell'utente.
+**Aggiornamento 28/09/2026: unificato nel database spedizionieri.** Su richiesta esplicita dell'utente ("unire tutto nello stesso db con una variabile nuova per settore"), il database separato "Aziende - Container Trucking" è stato migrato dentro `kb/04-clienti-e-outreach/notion-setup.md` (pagina "Movr - Outreach Porti", database "Aziende - Outreach Porti") e poi cestinato. Non esiste più un database Notion separato per questo verticale: tutto vive in un unico database, distinto da un campo **Settore** (Spedizionieri / Autotrasporto Container). Questo file resta come riferimento storico su come sono stati ricercati e classificati i dati, e sulla pagina/guida dedicate che restano attive.
 
-## Dove si trova
+## Dove si trova ora
 
-- Pagina principale: **Movr - Container Trucking Liguria** — https://app.notion.com/p/3e9790abc4b28118806ac32c795e988c
-- **Guida operativa Day 1** (sottopagina, creata 28/09/2026) — https://app.notion.com/p/3e9790abc4b2818a9b8de1a3c2e65905 — contesto Movr, script di chiamata, struttura discovery, quando proporre il design partner, come aggiornare Notion, KPI settimanali attesi. Autosufficiente: pensata per chi non ha accesso al repo tecnico (il sales/outreach da ingaggiare, per esempio).
-- Database **Aziende - Container Trucking** (dentro la pagina sopra) — https://app.notion.com/p/b662ccc390e7464aac209f21577c7841 — viste **Pipeline (Kanban)** per "Stato outreach", **Per classificazione** per A/B/C, **Da chiamare (in ordine)** (tabella filtrata e ordinata per "Ordine di chiamata", le 26 aziende A/B da lavorare per prime), **KPI - stato outreach** (grafico a barre, conta aziende per stato — misura il lavoro fatto senza bisogno di altro).
+- Database unico: **Aziende - Outreach Porti** — https://app.notion.com/p/949243a620bc427c93c06ec35249b891 (vedi `kb/04-clienti-e-outreach/notion-setup.md` per lo schema completo).
+- Viste utili per questo verticale: **Da chiamare (in ordine)** (le 26 aziende A/B ordinate), **Per settore** (Kanban raggruppato per Settore, filtra su "Autotrasporto Container"), **KPI - stato outreach** (grafico a barre).
+- Pagina di contesto: **Movr - Container Trucking Liguria** — https://app.notion.com/p/3e9790abc4b28118806ac32c795e988c — aggiornata per rimandare al database unico.
+- **Guida operativa Day 1** (specifica per questo verticale) — https://app.notion.com/p/3e9790abc4b2818a9b8de1a3c2e65905 — script di chiamata, struttura discovery, KPI settimanali attesi, aggiornata per puntare al database unico.
 
-## Popolato il 28/09/2026
+## Popolato il 28/09/2026, migrato lo stesso giorno
 
-Le **34 aziende** della prima tranche, popolate il 28/09/2026. Aggiornato lo stesso giorno con le **28 aziende della seconda tranche** (id 35-62), stesso schema. **Totale: 62 aziende** in `gtm/container-trucking-prospects.csv` e in Notion, tutte con: Classificazione (A/B/C), Porti serviti, Telefono/Email dove noti, Decision maker dove noto, Perché interessante, Fonti, Note. Stato outreach di default "Non chiamato" per tutte (nessuna chiamata ancora avviata).
+Le **62 aziende** (34 prima tranche + 28 seconda tranche) sono nel database unico con **Settore = Autotrasporto Container**, mappate sui campi condivisi: Referente (era "Decision maker"), Note, Fonti, Perché interessante, Ordine di chiamata, Porti serviti, Classificazione (A/B/C), Telefono, Email, Stato outreach. Fonte di verità durevole nel repo invariata: `gtm/container-trucking-prospects.csv`.
 
-**Segnalazione da verificare prima di contattare**: la pagina "Mainoldi Autotrasporti S.r.l." nota un possibile collegamento (non confermato) tra il decision maker e il presidente regionale CNA FITA Liguria — se confermato, contatto ad alto valore per accesso alla rete associativa, non solo alla singola azienda. La pagina "NSH / Overservice / Overlogistics / Triton" ha dati che sembrano risalire a prima del 2019 (apertura Vado Gateway) — verificare che l'azienda esista ancora con lo stesso assetto prima di chiamare.
+**Mainoldi Autotrasporti confermato come priorità assoluta** (28/09/2026): Pier Luca Mainoldi è presidente CNA Fita La Spezia dal maggio 2025 — promosso a Classificazione A, primo nell'ordine di chiamata. Vedi `gtm/top-20-design-partners.md` per il dettaglio. La segnalazione su NSH (dati forse antecedenti al 2019) resta da verificare prima di contattare.
 
-## Schema
+## Mappatura campi (verticale → database unico)
 
-| Campo | Tipo Notion | Note |
-|---|---|---|
-| Azienda | Title | |
-| Classificazione | Select | A = vogliamo parlarci subito · B = interessante · C = fit debole |
-| Stato outreach | Select | Stessi 9 stati del database spedizionieri, per coerenza: Non chiamato · Non risposto · Richiamare · Centralino - referente non raggiunto · Rifiutato · Slot fissato · Interview fatta · Design partner ask fatto · Design partner confermato |
-| Porti serviti | Multi-select | Genova / Savona-Vado / La Spezia / Altro-hinterland (un'azienda può servire più porti, a differenza del vecchio database che aveva un solo "Porto" per riga) |
-| Telefono | Testo | |
-| Email | Email | |
-| Decision maker | Testo | fondatore/CEO/ops manager se noto |
-| Tentativi | Numero | contatore chiamate |
-| Prossimo step | Data | |
-| Interview fatta | Checkbox | |
-| Pain score compilato | Checkbox | |
-| Ordine di chiamata | Numero | popolato solo per le 26 aziende A/B (da `gtm/top-20-design-partners.md`), definisce l'ordine di lavoro consigliato |
-| Perché interessante | Testo | dalla ricerca, per chi chiama senza aver letto il CSV |
-| Fonti | Testo | citazioni delle fonti usate in ricerca |
-| Note | Testo | motivazione classificazione, anomalie, aggiornamenti post-chiamata |
+| Campo verticale (vecchio) | Campo nel database unico |
+|---|---|
+| Decision maker | Referente |
+| Classificazione | Classificazione (nuovo campo, condiviso) |
+| Porti serviti | Porti serviti (nuovo campo multi-select, condiviso) |
+| Ordine di chiamata | Ordine di chiamata (nuovo campo, condiviso) |
+| Perché interessante | Perché interessante (nuovo campo, condiviso) |
+| Fonti | Fonti (nuovo campo, condiviso) |
+| Stato outreach "Demo fissata" | Aggiunta come opzione in più al select "Stato outreach" esistente (che aveva già "Slot fissato" per gli spedizionieri) |
 
-Nota: "Stato outreach" ha l'opzione "Demo fissata" al posto di "Slot fissato" (rinominata il 28/09/2026: qui il significato è fissare una call/demo con l'azienda, non prenotare uno slot al terminal come nel gestionale spedizionieri da cui lo schema era stato copiato).
-
-## Cosa manca ancora rispetto al gestionale spedizionieri
-
-- **Nessuna tabella Pain Score già inserita in ogni pagina azienda** — nel database spedizionieri ogni pagina ne ha una pronta da compilare; qui andrebbe replicato lo stesso pattern (struttura in `research/container-trucking-workflow.md` §5, la matrice pain, e in `gtm/discovery-playbook.md` le metriche da raccogliere) se si inizia a condurre interview sul serio. Non fatto per tutte le 62 pagine per limitare il numero di chiamate API in questa sessione — da aggiungere se serve, almeno per le 26 A/B.
+Non migrato: nessuna tabella Pain Score nelle pagine azienda di questo verticale (esiste solo per le 55 pagine spedizionieri) — da aggiungere se si inizia a condurre interview sul serio, replicando il pattern descritto in `research/container-trucking-workflow.md` §5.
 
 ## Uso quotidiano
 
-Vedi **Guida operativa Day 1** per il processo completo (pensata per chi non ha letto questo file). In sintesi: partire dalla vista "Da chiamare (in ordine)", in ordine. Dopo ogni chiamata aggiornare Stato outreach, Tentativi, Prossimo step, Note. A interview completata: spuntare Interview fatta, compilare pain score (vedi nota sopra: la tabella pronta va ancora aggiunta, per ora si scrive in Note).
+Vedi **Guida operativa Day 1** per il processo completo. In sintesi: partire dalla vista "Da chiamare (in ordine)" nel database unico, in ordine (Mainoldi prima di tutti). Dopo ogni chiamata aggiornare Stato outreach, Tentativi, Prossimo step, Note.
 
 ## Continuità tra sessioni
 
-Fonte di verità durevole: `gtm/container-trucking-prospects.csv` nel repo, leggibile anche senza connettore Notion attivo. Notion è lo strumento operativo quando il connettore è disponibile **e punta al workspace giusto** — verificare sempre con una ricerca mirata prima di assumere che sia collegato correttamente (è già successo che puntasse al workspace di lavoro invece che personale, vedi nota in `kb/04-clienti-e-outreach/notion-setup.md`).
+Fonte di verità durevole invariata: `gtm/container-trucking-prospects.csv` nel repo. Il database Notion vivo è ora quello unico descritto in `kb/04-clienti-e-outreach/notion-setup.md` — verificare sempre con una ricerca mirata che il connettore Notion punti al workspace giusto prima di assumere che sia collegato correttamente.
