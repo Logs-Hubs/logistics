@@ -9,7 +9,9 @@ Gestionale operativo per il nuovo verticale (container trucking), **separato** d
 
 ## Popolato il 28/09/2026
 
-Le **34 aziende** della prima tranche (`gtm/container-trucking-prospects.csv`), tutte inserite con: Classificazione (A/B/C), Porti serviti, Telefono/Email dove noti, Decision maker dove noto, Perché interessante, Fonti, Note. Stato outreach di default "Non chiamato" per tutte (nessuna chiamata ancora avviata).
+Le **34 aziende** della prima tranche, popolate il 28/09/2026. Aggiornato lo stesso giorno con le **28 aziende della seconda tranche** (id 35-62), stesso schema. **Totale: 62 aziende** in `gtm/container-trucking-prospects.csv` e in Notion, tutte con: Classificazione (A/B/C), Porti serviti, Telefono/Email dove noti, Decision maker dove noto, Perché interessante, Fonti, Note. Stato outreach di default "Non chiamato" per tutte (nessuna chiamata ancora avviata).
+
+**Segnalazione da verificare prima di contattare**: la pagina "Mainoldi Autotrasporti S.r.l." nota un possibile collegamento (non confermato) tra il decision maker e il presidente regionale CNA FITA Liguria — se confermato, contatto ad alto valore per accesso alla rete associativa, non solo alla singola azienda. La pagina "NSH / Overservice / Overlogistics / Triton" ha dati che sembrano risalire a prima del 2019 (apertura Vado Gateway) — verificare che l'azienda esista ancora con lo stesso assetto prima di chiamare.
 
 ## Schema
 

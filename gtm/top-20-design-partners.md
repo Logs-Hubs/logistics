@@ -1,6 +1,6 @@
-# Top prospect — design partner discovery (prima tranche)
+# Top prospect — design partner discovery
 
-**Nota onesta**: la richiesta originale era una "top 20" tratta da un database di 100 aziende. Il database ha per ora **34 aziende ricercate** (`gtm/container-trucking-prospects.csv`), di cui **16 in tier A o B** (fit credibile). Questa lista è quindi le **16 migliori della prima tranche**, non una top 20 piena — arriva a 20+ quando il database si estende (prossimo passo: continuare oltre i 34, includendo anche i nomi già emersi in `MOVR_HANDOFF.md` §7 come Gandini Trasporti, non ancora verificato qui).
+**Aggiornato dopo la seconda tranche di ricerca**: il database ha ora **62 aziende ricercate** (`gtm/container-trucking-prospects.csv`), di cui **8 in tier A** e **18 in tier B**. La sezione "Prima tranche" sotto resta quella originale (16 aziende dalle prime 34); la sezione "Seconda tranche" aggiunge i migliori nuovi nomi (3 A + 2 B più rilevanti) dalle 28 aziende trovate dopo. Non ancora una top 20 piena selezionata a mano su tutte le 26 A/B disponibili — se serve una lista finale più stretta, va fatta una seconda passata di prioritizzazione su tutto l'insieme.
 
 Ordinate per **accesso × pain probabile × volume × velocità decisionale × disponibilità a sperimentare** (criterio esplicito richiesto), non per fatturato o notorietà. Aziende enterprise/gruppo con management centralizzato (Spinelli, CarBox/Tarros, Gavio & Torti) sono escluse deliberatamente da questa lista per lo stesso motivo, anche se hanno core business container fortissimo — restano utili solo come reference/case study futuri, vedi `gtm/container-trucking-prospects.csv` classificazione C.
 
@@ -122,6 +122,40 @@ Per ciascuna: perché interessante, cosa pensiamo possa soffrire (ipotesi, non c
 
 ---
 
+---
+
+## Seconda tranche — nuovi nomi migliori (dopo le 28 aziende aggiuntive, id 35-62)
+
+### 17. Aircontainer S.r.l. (Gruppo Airlogistica)
+**Perché interessante**: fascia dimensionale ideale (21 dipendenti, 4,2M€ fatturato 2024), core business esplicito logistica portuale/container a Genova, trovata in un elenco dedicato (reteimprese.it, categoria "Trasporti con Containers Genova").
+**Pain ipotizzato**: essendo parte del Gruppo Airlogistica ma di dimensione contenuta, probabilmente ha più autonomia operativa delle altre aziende di gruppo in questa lista (SILT, MTO) — da verificare in call.
+**Chi contattare**: UNKNOWN — nessun nominativo trovato, serve chiamata diretta al centralino.
+**Intro**: tel 010 6130430 / 010 9998645.
+**Cosa imparare**: quanto margine decisionale ha rispetto alla holding Airlogistica — utile termine di paragone con SILT/MTO (stesso pattern di gruppo, gruppo diverso).
+
+### 18. N.D. Logistica S.r.l.
+**Perché interessante**: probabilmente il fit più preciso di tutto il database — 14 trattori + 9 semirimorchi, fascia 20-49 dipendenti, dati di flotta insolitamente specifici e verificabili, ADR, sede a Tortona proprio nel perimetro hinterland target, azienda giovane (2013).
+**Pain ipotizzato**: sede in hinterland (non sul porto) — probabile pain aggiuntivo sul coordinamento della tratta porto-hinterland oltre ai pain standard di readiness/dispatch.
+**Chi contattare**: UNKNOWN diretto — i fondatori storici risultano "Popica Dan" e "Iagar Nicolae" da una ragione sociale precedente, da verificare se sono ancora i titolari attuali.
+**Intro**: nessuna nota, contatto diretto via sito.
+**Cosa imparare**: come coordinano oggi la tratta porto-Tortona con una flotta così piccola e specifica — probabilmente il caso più "misurabile" del database per validare i KPI (moves/dispatcher/giorno, minuti/ordine).
+
+### 19. NSH / Overservice / Overlogistics / Triton
+**Perché interessante**: unica azienda del database trovata come startup creata *specificamente* per il container in vista dell'apertura di Vado Gateway, con management nominato e ruoli chiari (Salvatore Napolitano CEO, Salvatore Cannizzaro direttore commerciale).
+**Attenzione — verificare prima di contattare**: la fonte che la descrive sembra precedente all'apertura effettiva di Vado Gateway (operativo dal 2019) — possono essere passati diversi anni, l'azienda potrebbe essere cresciuta, cambiata, o confluita in un altro gruppo. **Non trattare questa scheda come dato attuale finché non verificata.**
+**Chi contattare**: Salvatore Napolitano, se l'azienda risulta ancora attiva con questo assetto.
+**Intro**: nessuna nota.
+**Cosa imparare**: prima di tutto, se esiste ancora così com'era. Se sì, è un caso interessante di azienda nata apposta per il container in un momento di espansione del porto — utile parallelo con la situazione attuale di Movr.
+
+### 20. Mainoldi Autotrasporti S.r.l. — verificare prima di contattare
+**Perché potenzialmente interessante**: decision maker probabile Pier Luca Mainoldi, che **potrebbe** essere la stessa persona di "Pierluca Mainoldi", presidente regionale CNA FITA Liguria (associazione di categoria autotrasporto merci) — se confermato, è il contatto a più alta leva di tutto il database: un presidente associativo regionale può aprire la rete verso molte altre aziende, non solo la propria.
+**Da fare prima di qualunque contatto**: verificare con certezza se sono la stessa persona (ricerca aggiuntiva o domanda diretta).
+**Pain ipotizzato**: non confermato — il fit "container core" dell'azienda stessa non è confermato da fonte primaria, il valore qui è potenzialmente più nell'accesso alla rete associativa che nell'azienda in sé.
+**Chi contattare**: Pier Luca Mainoldi, dopo la verifica.
+**Cosa imparare**: se confermata la doppia identità, questa sarebbe la prima chiamata da fare in assoluto — non per il pain della singola azienda, ma per l'accesso che può aprire.
+
+**Nota**: `gtm/notion-setup.md` per lo stato completo — tutte le 62 aziende (comprese queste 4 e le altre 24 della seconda tranche, classificate A/B/C) sono già in Notion.
+
 ## Prossimo passo
 
-Continuare la ricerca oltre le 34 aziende di questa tranche (obiettivo utente: 100), poi ri-prioritizzare questa lista includendo i nuovi nomi. Nel frattempo, questi 16 sono sufficienti per avviare le prime chiamate (vedi `gtm/discovery-playbook.md` per gli script).
+Continuare la ricerca oltre le 62 aziende attuali (obiettivo utente: 100). Verificare con priorità il collegamento Mainoldi/CNA FITA (alto potenziale, basso costo di verifica) e lo stato attuale di NSH prima di qualunque contatto. Nel frattempo, i 20 nomi di questo file sono sufficienti per avviare le prime chiamate (vedi `gtm/discovery-playbook.md` per gli script) — **Zi-Ma**, **S&L Genova** e **N.D. Logistica** restano i tre migliori punti di partenza per accesso + fit.
