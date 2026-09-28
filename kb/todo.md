@@ -4,6 +4,8 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Clienti / outreach
 
+- [x] Tabella Pain Score aggiunta in fondo a tutte e 55 le pagine azienda su Notion (28/09/2026), pronta da compilare durante l'interview
+- [x] Guida operativa "Day 1" su Notion riscritta in forma schematica (titoli, elenchi, tabelle) su richiesta esplicita dell'utente; eliminati gli em dash da titoli/pagine/campi Note su Notion, convenzione da mantenere andando avanti
 - [x] Guida operativa "Day 1" creata su Notion (28/09/2026), per far gestire outreach/interview/design partner a un nuovo entrato senza accesso al repo: script chiamata, struttura interview, pain score, ask design partner tutto inline. Risolto anche un disallineamento del connettore Notion (era agganciato al workspace di lavoro dell'utente, non al personale) — vedi `04-clienti-e-outreach/notion-setup.md`
 - [ ] Far partire davvero il primo batch di chiamate/email (Genova) — un mese dopo la preparazione, zero contatti reali avviati
 - [x] Gestionale outreach impostato su Notion (Attio scartato: richiede email di dominio proprio, non disponibile) — pagina + database consolidato (55 aziende, Genova + altri 6 porti) + viste Kanban, vedi `04-clienti-e-outreach/notion-setup.md`
