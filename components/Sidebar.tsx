@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, CalendarClock, Ship, Smartphone, Anchor, Truck, Stamp, FileStack, Route } from "lucide-react";
+import { LayoutDashboard, CalendarClock, Ship, Smartphone, Anchor, Truck, Stamp, FileStack, Route, Box } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type ModuloKey = "porti" | "flotta" | "dogana";
+type ModuloKey = "porti" | "flotta" | "dogana" | "container";
 
 const NAV: Record<ModuloKey, { href: string; label: string; icon: React.ElementType }[]> = {
   porti: [
@@ -19,29 +19,34 @@ const NAV: Record<ModuloKey, { href: string; label: string; icon: React.ElementT
     { href: "/flotta", label: "Centro comando flotta", icon: Route },
   ],
   dogana: [{ href: "/customs", label: "Casi doganali", icon: FileStack }],
+  container: [{ href: "/container", label: "Centro comando container", icon: Route }],
 };
 
-const ICONA_MODULO: Record<ModuloKey, React.ElementType> = { porti: Anchor, flotta: Truck, dogana: Stamp };
+const ICONA_MODULO: Record<ModuloKey, React.ElementType> = { porti: Anchor, flotta: Truck, dogana: Stamp, container: Box };
 const SOTTOTITOLO_MODULO: Record<ModuloKey, string> = {
   porti: "Genova · Savona-Vado",
   flotta: "Autotrasportatori PMI",
   dogana: "Customs Brain",
+  container: "Autotrasporto container",
 };
 const FOOTER_MODULO: Record<ModuloKey, { titolo: string; sub: string }> = {
   porti: { titolo: "Spediservices Genova", sub: "Account demo · design partner" },
   flotta: { titolo: "Verticale in valutazione", sub: "Dati demo, non collegato a Supabase" },
   dogana: { titolo: "Estrazione documenti mock", sub: "Non collegato a Supabase, agganciato alle spedizioni Porti" },
+  container: { titolo: "Verticale scelto", sub: "Dati demo, non collegato a Supabase" },
 };
 
 const SWITCHER: { modulo: ModuloKey; href: string; label: string }[] = [
   { modulo: "porti", href: "/", label: "Porti" },
   { modulo: "flotta", href: "/flotta", label: "Flotte" },
   { modulo: "dogana", href: "/customs", label: "Dogana" },
+  { modulo: "container", href: "/container", label: "Container" },
 ];
 
 function moduloAttivo(pathname: string): ModuloKey {
   if (pathname.startsWith("/flotta")) return "flotta";
   if (pathname.startsWith("/customs")) return "dogana";
+  if (pathname.startsWith("/container")) return "container";
   return "porti";
 }
 
