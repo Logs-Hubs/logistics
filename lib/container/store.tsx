@@ -5,8 +5,8 @@
 // sempre dagli ordini correnti, mai da un elenco di eccezioni "congelato".
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import { AUTISTI_DEMO, MEZZI_DEMO, ORDINI_DEMO } from "./datiDemo";
-import { rilevaEccezioniContainer, type EccezioneContainer } from "./motore";
-import { readinessCompleta, type Autista, type Mezzo, type OrdineContainer } from "./tipi";
+import { prontoPerFatturazione, rilevaEccezioniContainer, type EccezioneContainer } from "./motore";
+import { compatibile, readinessCompleta, type Autista, type Mezzo, type NuovoOrdineInput, type OrdineContainer } from "./tipi";
 
 type ContainerContextValue = {
   ordini: OrdineContainer[];
@@ -14,6 +14,7 @@ type ContainerContextValue = {
   mezzi: Mezzo[];
   eccezioni: EccezioneContainer[];
   trovaOrdine: (id: string) => OrdineContainer | undefined;
+  creaOrdine: (input: NuovoOrdineInput) => string;
   segnalaCarrierRelease: (id: string) => void;
   segnalaCustomsRelease: (id: string) => void;
   segnalaTerminalDisponibile: (id: string) => void;
@@ -22,6 +23,8 @@ type ContainerContextValue = {
   segnalaRitiro: (id: string) => void;
   segnalaConsegna: (id: string, attesaMinuti?: number) => void;
   segnalaRientroVuoto: (id: string) => void;
+  segnalaEirRaccolto: (id: string) => void;
+  segnalaPodRaccolto: (id: string) => void;
   segnalaFatturato: (id: string) => void;
 };
 
@@ -66,8 +69,17 @@ export function ContainerProvider({ children }: { children: ReactNode }) {
   );
 
   const assegnaAutista = useCallback(
-    (id: string, autistaId: string, mezzoId: string) => aggiorna(id, { autistaId, mezzoId }),
-    [aggiorna]
+    (id: string, autistaId: string, mezzoId: string) => {
+      const mezzo = MEZZI_DEMO.find((m) => m.id === mezzoId);
+      setOrdini((prev) =>
+        prev.map((o) => {
+          if (o.id !== id) return o;
+          if (mezzo && !compatibile(o, mezzo)) return o; // la UI non dovrebbe offrire mezzi incompatibili come scelta
+          return { ...o, autistaId, mezzoId, aggiornatoIl: adesso() };
+        })
+      );
+    },
+    []
   );
 
   const segnalaRitiro = useCallback(
@@ -86,11 +98,68 @@ export function ContainerProvider({ children }: { children: ReactNode }) {
     [aggiorna]
   );
 
-  const segnalaFatturato = useCallback((id: string) => aggiorna(id, { faseOperativa: "fatturato", accessorialDaFatturare: 0 }), [aggiorna]);
+  const segnalaEirRaccolto = useCallback((id: string) => aggiorna(id, { eirRaccolto: true }), [aggiorna]);
+  const segnalaPodRaccolto = useCallback((id: string) => aggiorna(id, { podRaccolto: true }), [aggiorna]);
+
+  const segnalaFatturato = useCallback(
+    (id: string) => {
+      setOrdini((prev) =>
+        prev.map((o) => {
+          if (o.id !== id || !prontoPerFatturazione(o)) return o; // il bottone in UI è comunque disabilitato finché mancano EIR/POD
+          return { ...o, faseOperativa: "fatturato", accessorialDaFatturare: 0, aggiornatoIl: adesso() };
+        })
+      );
+    },
+    []
+  );
+
+  const creaOrdine = useCallback(
+    (input: NuovoOrdineInput): string => {
+      const numeriEsistenti = ordini.map((o) => Number(o.id.replace("ORD-", ""))).filter((n) => !Number.isNaN(n));
+      const prossimoNumero = (numeriEsistenti.length > 0 ? Math.max(...numeriEsistenti) : 1000) + 1;
+      const nuovoId = `ORD-${prossimoNumero}`;
+      const adessoIso = adesso();
+      const nuovoOrdine: OrdineContainer = {
+        id: nuovoId,
+        cliente: input.cliente,
+        containerId: input.containerId,
+        tipoContainer: input.tipoContainer,
+        porto: input.porto,
+        terminal: input.terminal,
+        tipo: input.tipo,
+        richiedeReefer: input.richiedeReefer,
+        richiedeAdr: input.richiedeAdr,
+        readiness: {
+          carrierRelease: false,
+          customsRelease: false,
+          terminalDisponibile: false,
+          slotPrenotato: false,
+          slotDataOra: null,
+        },
+        ultimoFreeDay: input.ultimoFreeDay,
+        faseOperativa: "attesa_readiness",
+        autistaId: null,
+        mezzoId: null,
+        oraRitiro: null,
+        oraConsegna: null,
+        oraRientroVuoto: null,
+        attesaMinuti: null,
+        accessorialDaFatturare: null,
+        tariffaConcordata: input.tariffaConcordata,
+        eirRaccolto: false,
+        podRaccolto: false,
+        creatoIl: adessoIso,
+        aggiornatoIl: adessoIso,
+      };
+      setOrdini((prev) => [nuovoOrdine, ...prev]);
+      return nuovoId;
+    },
+    [ordini]
+  );
 
   const trovaOrdine = useCallback((id: string) => ordini.find((o) => o.id === id), [ordini]);
 
-  const eccezioni = useMemo(() => rilevaEccezioniContainer(ordini), [ordini]);
+  const eccezioni = useMemo(() => rilevaEccezioniContainer(ordini, MEZZI_DEMO), [ordini]);
 
   const value = useMemo(
     () => ({
@@ -99,6 +168,7 @@ export function ContainerProvider({ children }: { children: ReactNode }) {
       mezzi: MEZZI_DEMO,
       eccezioni,
       trovaOrdine,
+      creaOrdine,
       segnalaCarrierRelease,
       segnalaCustomsRelease,
       segnalaTerminalDisponibile,
@@ -107,12 +177,15 @@ export function ContainerProvider({ children }: { children: ReactNode }) {
       segnalaRitiro,
       segnalaConsegna,
       segnalaRientroVuoto,
+      segnalaEirRaccolto,
+      segnalaPodRaccolto,
       segnalaFatturato,
     }),
     [
       ordini,
       eccezioni,
       trovaOrdine,
+      creaOrdine,
       segnalaCarrierRelease,
       segnalaCustomsRelease,
       segnalaTerminalDisponibile,
@@ -121,6 +194,8 @@ export function ContainerProvider({ children }: { children: ReactNode }) {
       segnalaRitiro,
       segnalaConsegna,
       segnalaRientroVuoto,
+      segnalaEirRaccolto,
+      segnalaPodRaccolto,
       segnalaFatturato,
     ]
   );

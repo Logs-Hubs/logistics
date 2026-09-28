@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2, Circle, MapPin, Truck, User } from "lucide-react";
+import { AlertOctagon, AlertTriangle, ArrowLeft, CheckCircle2, Circle, FileText, MapPin, Snowflake, Truck, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useContainer } from "@/lib/container/store";
-import { LABEL_FASE_ORDINE, NOME_PORTO, readinessCompleta } from "@/lib/container/tipi";
+import { motiviBloccoFatturazione } from "@/lib/container/motore";
+import { compatibile, LABEL_FASE_ORDINE, NOME_PORTO, readinessCompleta, type OrdineContainer } from "@/lib/container/tipi";
 
 function euro(n: number) {
   return n.toLocaleString("it-IT", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
@@ -25,6 +26,8 @@ export function OrdineDetailClient({ id }: { id: string }) {
     segnalaRitiro,
     segnalaConsegna,
     segnalaRientroVuoto,
+    segnalaEirRaccolto,
+    segnalaPodRaccolto,
     segnalaFatturato,
   } = useContainer();
 
@@ -62,6 +65,18 @@ export function OrdineDetailClient({ id }: { id: string }) {
         <span className="inline-flex items-center rounded-full bg-navy/10 px-2.5 py-1 text-xs font-medium text-navy">
           {LABEL_FASE_ORDINE[ordine.faseOperativa]}
         </span>
+        {ordine.richiedeReefer && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-sky-50 px-2.5 py-1 text-xs font-medium text-sky-700">
+            <Snowflake className="h-3 w-3" />
+            Reefer
+          </span>
+        )}
+        {ordine.richiedeAdr && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700">
+            <AlertOctagon className="h-3 w-3" />
+            ADR
+          </span>
+        )}
       </div>
       <p className="mt-1 text-sm text-muted">
         {ordine.cliente} · {ordine.containerId} ({ordine.tipoContainer}) · {NOME_PORTO[ordine.porto]} — {ordine.terminal}
@@ -125,12 +140,23 @@ export function OrdineDetailClient({ id }: { id: string }) {
                   className="w-full rounded-lg border border-border px-2.5 py-1.5 text-xs"
                 >
                   <option value="">Mezzo...</option>
-                  {mezzi.map((m) => (
-                    <option key={m.id} value={m.id}>
-                      {m.targa}
-                    </option>
-                  ))}
+                  {mezzi.map((m) => {
+                    const ok = compatibile(ordine, m);
+                    return (
+                      <option key={m.id} value={m.id} disabled={!ok}>
+                        {m.targa}
+                        {!ok ? " — non compatibile" : ""}
+                      </option>
+                    );
+                  })}
                 </select>
+                {(ordine.richiedeReefer || ordine.richiedeAdr) && (
+                  <p className="flex items-start gap-1.5 text-[11px] text-amber-700">
+                    <AlertTriangle className="mt-0.5 h-3 w-3 flex-shrink-0" />
+                    {ordine.richiedeReefer && "Richiede mezzo con presa reefer. "}
+                    {ordine.richiedeAdr && "Richiede mezzo abilitato ADR."}
+                  </p>
+                )}
                 <button
                   onClick={() => autistaScelto && mezzoScelto && assegnaAutista(ordine.id, autistaScelto, mezzoScelto)}
                   disabled={!autistaScelto || !mezzoScelto}
@@ -220,6 +246,19 @@ export function OrdineDetailClient({ id }: { id: string }) {
               </dl>
             </div>
           )}
+
+          {ordine.faseOperativa !== "attesa_readiness" && ordine.faseOperativa !== "pronto_dispatch" && (
+            <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+              <p className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-accent">
+                <FileText className="h-3.5 w-3.5" />
+                Documenti — condizione per fatturare
+              </p>
+              <div className="space-y-2">
+                <RigaReadiness label="EIR raccolto (verbale di stato al ritiro)" attivo={ordine.eirRaccolto} onSegnala={!ordine.eirRaccolto ? () => segnalaEirRaccolto(ordine.id) : undefined} />
+                <RigaReadiness label="POD raccolto (prova di consegna)" attivo={ordine.podRaccolto} onSegnala={!ordine.podRaccolto ? () => segnalaPodRaccolto(ordine.id) : undefined} />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -278,7 +317,7 @@ function AzioneFase({
   onRientroVuoto,
   onFatturato,
 }: {
-  ordine: { faseOperativa: string; autistaId: string | null; accessorialDaFatturare: number | null };
+  ordine: OrdineContainer;
   onRitiro: () => void;
   onConsegna: () => void;
   onRientroVuoto: () => void;
@@ -307,10 +346,28 @@ function AzioneFase({
     );
   }
   if (ordine.faseOperativa === "vuoto_rientrato") {
+    const motivi = motiviBloccoFatturazione(ordine);
+    const pronto = motivi.length === 0;
     return (
-      <button onClick={onFatturato} className="w-full rounded-lg bg-navy px-4 py-2.5 text-sm font-semibold text-white hover:bg-navy-dark">
-        Segna come fatturato
-      </button>
+      <div className="space-y-2">
+        <button
+          onClick={onFatturato}
+          disabled={!pronto}
+          className="w-full rounded-lg bg-navy px-4 py-2.5 text-sm font-semibold text-white hover:bg-navy-dark disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Segna come fatturato
+        </button>
+        {!pronto && (
+          <ul className="space-y-1 rounded-lg bg-amber-50/60 p-3 text-[11px] text-amber-800">
+            {motivi.map((m) => (
+              <li key={m} className="flex items-start gap-1.5">
+                <AlertTriangle className="mt-0.5 h-3 w-3 flex-shrink-0" />
+                {m}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     );
   }
   return null;

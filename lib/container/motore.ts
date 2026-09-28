@@ -2,7 +2,7 @@
 // principio di lib/exceptions/motore.ts (Porti) e lib/flotta/attenzione/motore.ts (Flotte) — non
 // una dashboard piena di grafici, una lista prioritizzata di "queste sono le cose che richiedono
 // attenzione oggi" (vedi product/container-trucking-v1.md, capability C).
-import { readinessCompleta, type OrdineContainer } from "./tipi";
+import { compatibile, readinessCompleta, type Mezzo, type OrdineContainer } from "./tipi";
 
 export type SeveritaEccezioneContainer = "critica" | "alta" | "media";
 
@@ -31,7 +31,7 @@ const SOGLIA_ATTESA_MINUTI = 60;
 
 const OGGI_DEMO = new Date("2026-09-28T00:00:00");
 
-function giorniA(dataIso: string): number {
+export function giorniA(dataIso: string): number {
   const target = new Date(`${dataIso}T00:00:00`);
   return Math.round((target.getTime() - OGGI_DEMO.getTime()) / (1000 * 60 * 60 * 24));
 }
@@ -40,7 +40,24 @@ function chiuso(o: OrdineContainer): boolean {
   return o.faseOperativa === "vuoto_rientrato" || o.faseOperativa === "fatturato";
 }
 
-export function rilevaEccezioniContainer(ordini: OrdineContainer[]): EccezioneContainer[] {
+/** Cosa manca prima che questo ordine possa essere segnato come fatturato — vedi
+ * product/container-trucking-v1.md §10 punto 3: senza EIR e POD raccolti non si fattura davvero,
+ * non solo formalmente. Stesso principio già in produzione in lib/flotta/documenti/motore.ts. */
+export function motiviBloccoFatturazione(o: OrdineContainer): string[] {
+  const motivi: string[] = [];
+  if (o.faseOperativa !== "vuoto_rientrato" && o.faseOperativa !== "fatturato") {
+    motivi.push("Il rientro vuoto non è ancora stato registrato");
+  }
+  if (!o.eirRaccolto) motivi.push("EIR (verbale di stato al ritiro) non ancora raccolto");
+  if (!o.podRaccolto) motivi.push("POD (prova di consegna) non ancora raccolto");
+  return motivi;
+}
+
+export function prontoPerFatturazione(o: OrdineContainer): boolean {
+  return motiviBloccoFatturazione(o).length === 0;
+}
+
+export function rilevaEccezioniContainer(ordini: OrdineContainer[], mezzi: Mezzo[]): EccezioneContainer[] {
   const eccezioni: EccezioneContainer[] = [];
 
   for (const o of ordini) {
@@ -67,6 +84,22 @@ export function rilevaEccezioniContainer(ordini: OrdineContainer[]): EccezioneCo
           titolo: `${rif}: pronto ma senza autista assegnato`,
           ragioni: ["Readiness completa, nessun autista/mezzo ancora assegnato"],
           azioneConsigliata: "Assegna un autista dal dispatch",
+          href,
+          esposizioneEuro: null,
+        });
+      }
+
+      const mezzoAssegnato = o.mezzoId ? mezzi.find((m) => m.id === o.mezzoId) : undefined;
+      if (mezzoAssegnato && !compatibile(o, mezzoAssegnato)) {
+        eccezioni.push({
+          id: `ECC-COMPAT-${o.id}`,
+          severita: "critica",
+          titolo: `${rif}: mezzo non compatibile`,
+          ragioni: [
+            o.richiedeReefer && !mezzoAssegnato.reefer ? "Container reefer assegnato a un mezzo senza presa elettrica" : null,
+            o.richiedeAdr && !mezzoAssegnato.adr ? "Merce ADR assegnata a un mezzo non abilitato" : null,
+          ].filter((r): r is string => r !== null),
+          azioneConsigliata: "Riassegna un mezzo compatibile prima del ritiro",
           href,
           esposizioneEuro: null,
         });
@@ -124,6 +157,18 @@ export function rilevaEccezioniContainer(ordini: OrdineContainer[]): EccezioneCo
         azioneConsigliata: "Aggiungi gli accessorial prima di emettere la fattura",
         href,
         esposizioneEuro: o.accessorialDaFatturare,
+      });
+    }
+
+    if (o.faseOperativa === "vuoto_rientrato" && !prontoPerFatturazione(o)) {
+      eccezioni.push({
+        id: `ECC-DOCUMENTI-${o.id}`,
+        severita: "alta",
+        titolo: `${rif}: documenti mancanti per fatturare`,
+        ragioni: motiviBloccoFatturazione(o),
+        azioneConsigliata: "Raccogli EIR/POD dall'autista prima di emettere fattura",
+        href,
+        esposizioneEuro: null,
       });
     }
   }

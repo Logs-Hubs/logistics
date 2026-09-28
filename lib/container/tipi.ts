@@ -65,6 +65,10 @@ export type OrdineContainer = {
   porto: PortoContainer;
   terminal: string;
   tipo: "import" | "export";
+  /** Requisiti del mezzo, non del container: determinano quali mezzi sono assegnabili in dispatch
+   * (vedi compatibile()) — product/container-trucking-v1.md §10 punto 2. */
+  richiedeReefer: boolean;
+  richiedeAdr: boolean;
   readiness: StatoReadiness;
   /** Ultimo giorno senza penale demurrage/detention — ISO date. */
   ultimoFreeDay: string;
@@ -79,6 +83,32 @@ export type OrdineContainer = {
   /** EUR di accessorial (attese, pesature, riconsegne) non ancora fatturati al cliente. */
   accessorialDaFatturare: number | null;
   tariffaConcordata: number | null;
+  /** EIR (verbale di stato al ritiro) e POD (prova di consegna) raccolti — senza entrambi non si
+   * può fatturare, vedi prontoPerFatturazione() in motore.ts e product/container-trucking-v1.md §10. */
+  eirRaccolto: boolean;
+  podRaccolto: boolean;
   creatoIl: string;
   aggiornatoIl: string;
+};
+
+export function compatibile(ordine: OrdineContainer, mezzo: Mezzo): boolean {
+  if (ordine.richiedeReefer && !mezzo.reefer) return false;
+  if (ordine.richiedeAdr && !mezzo.adr) return false;
+  return true;
+}
+
+/** Campi che un dispatcher compila per registrare un ordine appena arrivato — intake strutturato
+ * manuale, non capability A (parsing AI di email/PDF, resta HYPOTHESIS non costruita). Vedi
+ * product/container-trucking-v1.md §10 punto 1. */
+export type NuovoOrdineInput = {
+  cliente: string;
+  containerId: string;
+  tipoContainer: string;
+  porto: PortoContainer;
+  terminal: string;
+  tipo: "import" | "export";
+  richiedeReefer: boolean;
+  richiedeAdr: boolean;
+  ultimoFreeDay: string;
+  tariffaConcordata: number | null;
 };
