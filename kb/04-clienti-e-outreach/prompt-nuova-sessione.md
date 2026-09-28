@@ -20,11 +20,11 @@ Convenzioni di lavoro su questo repo (istruzione permanente mia, vale anche da q
 
 Limiti noti da rispettare, senza doverli riverificare da zero:
 - Attio richiede un'email di dominio proprio per la registrazione (non accetta email personali) — non disponibile per questo progetto, sostituito da Notion come gestionale (vedi `notion-setup.md`). Nessun connector Attio è comunque mai utilizzabile in nessuna sessione Claude: l'egress di rete verso api.attio.com è bloccato dalla policy dell'organizzazione (verificato il 29/08/2026) — non provare a integrarlo via API.
-- Il connettore Notion NON è garantito disponibile in ogni sessione allo stesso modo: verifica sempre con ListConnectors prima di assumere di poterlo usare per leggere/scrivere il gestionale.
+- Il connettore Notion NON è garantito disponibile in ogni sessione allo stesso modo, e anche quando è "disponibile" può risultare agganciato al workspace di lavoro dell'utente invece che al suo Notion personale (è già successo il 28/09/2026: pagina irraggiungibile, la ricerca restituiva solo contenuti aziendali estranei a questo progetto). Prima di assumere che il connettore funzioni per questo progetto, verifica con `notion-search` che trovi davvero "Movr — Outreach Porti Genova" — non fermarti a `ListConnectors` che dice solo "connesso", non a quale workspace.
 - Prima di usare qualunque connettore (Gmail, Calendar, HubSpot, ecc.), verifica con ListConnectors/ToolSearch cosa è davvero disponibile in QUESTA sessione — non dare per scontato che sia lo stesso set dell'altra sessione da cui viene questo progetto.
-- Mai inviare email reali o contattare aziende per conto mio: bozze sì (solo se confermo esplicitamente destinatario e testo), invio mai in autonomia. Le chiamate telefoniche le faccio io, tu prepari script/tracciamento/follow-up.
+- Mai inviare email reali o contattare aziende per conto mio: bozze sì (solo se confermo esplicitamente destinatario e testo), invio mai in autonomia. Le chiamate telefoniche le faccio io (o un nuovo entrato che sto facendo gestire questa parte — in quel caso la "Guida operativa — Day 1" dentro lo spazio Notion, non questo repo, è il suo punto di ingresso), tu prepari script/tracciamento/follow-up.
 
-Obiettivo immediato: portare avanti l'outreach verso le 12 aziende genovesi in `aziende-genovesi-da-contattare.md`, secondo `piano-outreach-telefonico.md`, tenendo `tracker-outreach.md` e Notion (vedi `notion-setup.md`) aggiornati mano a mano.
+Obiettivo immediato: portare avanti l'outreach verso le 55 aziende (12 Genova + 43 altri porti italiani) in `aziende-genovesi-da-contattare.md` e `aziende-altri-porti-da-contattare.md`, secondo `piano-outreach-telefonico.md`, tenendo il database Notion (vedi `notion-setup.md`) e/o i tracker del repo aggiornati mano a mano.
 ```
 
 ## Nota
