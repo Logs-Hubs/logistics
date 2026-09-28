@@ -147,15 +147,27 @@ Per ciascuna: perché interessante, cosa pensiamo possa soffrire (ipotesi, non c
 **Intro**: nessuna nota.
 **Cosa imparare**: prima di tutto, se esiste ancora così com'era. Se sì, è un caso interessante di azienda nata apposta per il container in un momento di espansione del porto — utile parallelo con la situazione attuale di Movr.
 
-### 20. Mainoldi Autotrasporti S.r.l. — verificare prima di contattare
-**Perché potenzialmente interessante**: decision maker probabile Pier Luca Mainoldi, che **potrebbe** essere la stessa persona di "Pierluca Mainoldi", presidente regionale CNA FITA Liguria (associazione di categoria autotrasporto merci) — se confermato, è il contatto a più alta leva di tutto il database: un presidente associativo regionale può aprire la rete verso molte altre aziende, non solo la propria.
-**Da fare prima di qualunque contatto**: verificare con certezza se sono la stessa persona (ricerca aggiuntiva o domanda diretta).
-**Pain ipotizzato**: non confermato — il fit "container core" dell'azienda stessa non è confermato da fonte primaria, il valore qui è potenzialmente più nell'accesso alla rete associativa che nell'azienda in sé.
-**Chi contattare**: Pier Luca Mainoldi, dopo la verifica.
-**Cosa imparare**: se confermata la doppia identità, questa sarebbe la prima chiamata da fare in assoluto — non per il pain della singola azienda, ma per l'accesso che può aprire.
+### 20. Mainoldi Autotrasporti S.r.l. — CONFERMATO, priorità massima
+**Aggiornamento 28/09/2026**: confermato. Pier Luca Mainoldi è presidente CNA Fita La Spezia dal maggio 2025 (fonte: liguria.bizjournal.it/2025/05/14/pier-luca-mainoldi-e-il-nuovo-presidente-di-cna-fita-la-spezia, cna.it/tag/pier-luca-mainoldi) e vicepresidente CNA Fita Liguria a livello regionale. Stesso nome e stessa area geografica (La Spezia) di Mainoldi Autotrasporti: identità quasi certa, anche se non confermata da lui direttamente.
+**Perché è il contatto più importante della lista**: un presidente di categoria territoriale può aprire la rete verso molte imprese associate, non solo la propria — è l'unico contatto della lista 62 che vale come canale, non solo come singola azienda.
+**Pain ipotizzato**: non confermato per l'azienda stessa (fit "container core" non verificato da fonte primaria) — il valore è nell'accesso alla rete associativa.
+**Chi contattare**: Pier Luca Mainoldi. Non ancora trovato un profilo LinkedIn diretto: cercare "Pier Luca Mainoldi" o "Pierluca Mainoldi" su LinkedIn, o contattare CNA Fita La Spezia direttamente (centralino CNA) chiedendo di lui per nome e ruolo.
+**Cosa imparare**: primo obiettivo, verificare a voce l'identità doppia. Se confermata, capire se CNA Fita è disposta a introdurre Movr alle imprese associate, non limitarsi al pain della singola azienda.
 
 **Nota**: `gtm/notion-setup.md` per lo stato completo — tutte le 62 aziende (comprese queste 4 e le altre 24 della seconda tranche, classificate A/B/C) sono già in Notion.
 
+## Aggiornamento contatti LinkedIn (28/09/2026)
+
+Ricerca mirata per colmare i buchi LinkedIn del tier A, su richiesta esplicita dell'utente ("trovare gente su LinkedIn per parlare di questo mercato"). Risultati:
+
+- **Mainoldi/CNA FITA confermato** (vedi scheda #20 sopra) — diventa il primo contatto da fare in assoluto.
+- **GSR (#12)**: trovato profilo LinkedIn di Riccardo Stigliano con GSR SRL come datore di lavoro attuale (`linkedin.com/in/riccardo-stigliano-521362172`). Attenzione: un profilo trovato per "Giuseppe Stigliano" ha un altro datore di lavoro (Gruppo EcoEridania, Policoro) — quasi certamente omonimia, non usarlo.
+- **P.Line (#4)**: trovato profilo LinkedIn di Luca Pinna con P. LINE S.R.L. (`linkedin.com/in/luca-pinna-7710b864`), probabile stessa persona di "Gianni Luca Pinna" nei dati camerali. Nessun profilo trovato per Chiara Cristina Falco.
+- **N.D. Logistica (#18)**: confermato che l'azienda è ancora attiva con gli stessi titolari storici (Popica Dan & Iagar Nicolae), bilancio 2025 disponibile (3,3M€, 36 dipendenti). Nessun profilo LinkedIn individuale trovato per loro.
+- **S&L Genova (#1)**, **Zi-Ma (#2)**, **Aircontainer (#17)**: nessun profilo LinkedIn individuale trovato per i decision maker via ricerca web generica — servono cercati direttamente su LinkedIn (ricerca per nome + azienda) o per telefono.
+
+Metodo usato: ricerca web mirata `"Nome Cognome" "Azienda" LinkedIn`, non un accesso diretto a LinkedIn (nessun connector disponibile in questa sessione). Utile soprattutto per confermare nomi già noti da fonti camerali/aziendali; meno utile per scoprire nomi nuovi da zero — per quello serve la ricerca diretta su LinkedIn (People search filtrata per azienda) che solo l'utente può fare con il proprio account.
+
 ## Prossimo passo
 
-Continuare la ricerca oltre le 62 aziende attuali (obiettivo utente: 100). Verificare con priorità il collegamento Mainoldi/CNA FITA (alto potenziale, basso costo di verifica) e lo stato attuale di NSH prima di qualunque contatto. Nel frattempo, i 20 nomi di questo file sono sufficienti per avviare le prime chiamate (vedi `gtm/discovery-playbook.md` per gli script) — **Zi-Ma**, **S&L Genova** e **N.D. Logistica** restano i tre migliori punti di partenza per accesso + fit.
+Continuare la ricerca oltre le 62 aziende attuali (obiettivo utente: 100). **Priorità immediata: chiamare Pier Luca Mainoldi/CNA Fita La Spezia** (alto potenziale di rete, verifica identità a voce). Verificare anche lo stato attuale di NSH prima di qualunque contatto. Nel frattempo, i 20 nomi di questo file sono sufficienti per avviare le prime chiamate (vedi `gtm/discovery-playbook.md` per gli script) — **Mainoldi**, **Zi-Ma**, **S&L Genova** e **N.D. Logistica** restano i migliori punti di partenza per accesso + fit.
