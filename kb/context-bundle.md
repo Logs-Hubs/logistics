@@ -4,6 +4,8 @@ Questo file è la concatenazione di tutta la knowledge base del progetto Movr, g
 
 **Fonte di verità**: repo GitHub `lasagnealpesto/logistic`, cartella `kb/`. Questo file viene rigenerato (non modificato a mano) ogni volta che qualcosa di sostanziale cambia in uno dei documenti sorgente — se lo stai leggendo, verifica la data in fondo per sapere quanto è fresco.
 
+**Nota (28/09/2026): questo bundle è rimasto indietro.** Diversi commit successivi al 29/08/2026 (passaggio da Attio a Notion, lista aziende altri porti italiani con relativo tracker, bozze email, guida operativa Notion per un nuovo entrato) non sono ancora riflessi qui sotto — la sezione outreach in particolare è superata. Per lo stato reale, leggere direttamente `kb/04-clienti-e-outreach/handoff-gtm.md` invece di fidarsi di questo bundle fino a una rigenerazione completa.
+
 ---
 
 <!-- fonte: kb/todo.md -->
