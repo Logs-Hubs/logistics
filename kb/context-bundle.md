@@ -792,8 +792,9 @@ Codice Swift/SwiftUI di riferimento in `ios-driver-app/MovrDriver/` di **questo*
 
 ## Limiti dell'ambiente di sviluppo (per chi riprende il progetto, incluso un altro LLM)
 
-- Le sessioni Claude in questo ambiente non hanno accesso diretto al database Supabase live: build e lint si possono verificare, il comportamento runtime va confermato dall'utente dopo il deploy
+- Le sessioni Claude possono avere accesso diretto al progetto Supabase via connettore MCP (non garantito ogni sessione, verificare con `ListConnectors`): quando disponibile, permette di leggere stato/logs/tabelle e diagnosticare problemi (es. il progetto in pausa, vedi sotto) senza aspettare conferma dell'utente. Quando assente, il comportamento runtime va confermato dall'utente dopo il deploy
 - Nessun accesso a Xcode/macOS: il codice per l'app iOS viene scritto e pushato qui, ma non posso compilare né vedere l'interfaccia — build/archive/upload sono automatici via Xcode Cloud dopo il push, la verifica visiva resta sempre da fare sul dispositivo reale via TestFlight
+- Il progetto Supabase "logistic" (piano gratuito) si mette in pausa da solo dopo periodi di inattività prolungata: risultato, la piattaforma live smette di caricare con `TypeError: fetch failed` / `getaddrinfo ENOTFOUND <ref>.supabase.co`. Non è un bug del codice o del deploy Vercel (che resta READY): è il database in stato `INACTIVE`/`COMING_UP`. Si risveglia da solo al primo accesso (dashboard Supabase o strumenti MCP), 1-2 minuti per tornare `ACTIVE_HEALTHY`. Diagnosticato la prima volta il 28/09/2026.
 - L'account Vercel raggiungibile dagli strumenti MCP di Claude in questa sessione può differire da quello che deploya davvero (`lormilano99@gmail.com`): verificare sempre quale account è collegato prima di agire
 - L'egress di rete verso domini generici (es. `*.vercel.app`, siti aziendali per ricerca competitor/clienti) è bloccato per fetch diretto: solo la ricerca web (query, non URL specifici) funziona
 
