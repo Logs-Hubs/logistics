@@ -42,6 +42,7 @@ Fonte unica per la lista di cose da fare. La tengo aggiornata io direttamente (E
 
 ## Fatto di recente
 
+- [x] Unificati in un solo database Notion i due ICP di outreach (28/09/2026): 55 Spedizionieri + 62 Autotrasporto Container, nuovo campo Settore per distinguerli, database separato del container trucking cestinato, nuove viste Per settore / Da chiamare (in ordine) / KPI - stato outreach — su richiesta esplicita dell'utente dopo aver notato che la dashboard mostrava solo 55 aziende, vedi `04-clienti-e-outreach/notion-setup.md`, `04-clienti-e-outreach/handoff-gtm.md` e `gtm/notion-setup.md`
 - [x] Prompt pronto per inizializzare una sessione GTM da un altro account (`04-clienti-e-outreach/prompt-nuova-sessione.md`), collegato allo stesso handoff-gtm.md
 - [x] Scelto poi sostituito Attio come gestionale outreach (non HubSpot, che è il CRM del lavoro dell'utente): Attio richiede un'email di dominio proprio, non disponibile — schema/CSV restano in `04-clienti-e-outreach/attio-setup.md` come riferimento storico. Sostituito con Notion (connettore attivo in questa sessione): pagina + database + vista Kanban creati e popolati direttamente, vedi `notion-setup.md`
 - [x] Ricerca web mirata: telefono + referente (dove trovato) per le 12 aziende genovesi, compilato in `tracker-outreach.md` — con anomalie da chiarire a mano prima di chiamare (vedi sezione note nel tracker)
