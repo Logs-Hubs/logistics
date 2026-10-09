@@ -112,14 +112,15 @@ Vedi `research/container-trucking-terminal-integrations.md`. Trovata **una sola 
 
 ## 6. GTM — a che punto siamo con le vendite
 
-Tutto documentato in `gtm/` e sincronizzato su Notion (workspace personale, pagina **"Movr - Container Trucking Liguria"**, separata dal vecchio database spedizionieri).
+Tutto documentato in `gtm/` e sincronizzato su Notion (workspace personale).
 
 - **62 aziende** profilate finora (obiettivo: 100), ognuna con: sito, città, porti serviti, se è "core container" o no, flotta, dipendenti, fatturato, proprietà/subappalto mezzi, reefer/ADR, TMS attuale, decision maker, LinkedIn, contatto, fonti, classificazione A/B/C.
 - **Classificazione**: 8 aziende A (contattare subito), 18 B (interessanti), 36 C (fit debole).
-- Notion ha viste pronte: Kanban per stato outreach, vista "Da chiamare (in ordine)" con le 26 A/B in ordine di priorità, grafico KPI per misurare il lavoro fatto. C'è una **"Guida operativa Day 1"** pensata per chi non ha accesso al repo (il sales da assumere) — autosufficiente, con script di chiamata pronti.
+- **Importante: il database Notion è stato unificato (28/09/2026)**. Non esiste più un database separato per il container trucking — è stato fuso nell'unico database storico **"Aziende - Outreach Porti"** (quello degli spedizionieri), con un nuovo campo **Settore** (Spedizionieri / Autotrasporto Container) a distinguere i due verticali nello stesso posto. Dettagli di schema/mappatura campi in `kb/04-clienti-e-outreach/notion-setup.md`; `gtm/notion-setup.md` resta come riferimento storico su come sono stati ricercati i dati. Viste pronte: "Da chiamare (in ordine)" (le 26 A/B in ordine di priorità), "Per settore" (Kanban, filtrabile su Autotrasporto Container), "KPI - stato outreach".
+- C'è una **"Guida operativa Day 1"** pensata per chi non ha accesso al repo (il sales da assumere) — autosufficiente, con script di chiamata pronti, aggiornata per puntare al database unico.
 - **`gtm/discovery-playbook.md`**: script pronti LinkedIn/email/WhatsApp/chiamata da 30 minuti, con la domanda di apertura ("apri l'ultimo ordine ricevuto...") e una scala di evidenza (da "bello" a "paga/firma una LOI").
-- **Due nomi da verificare prima di chiamare**: "Mainoldi Autotrasporti" (possibile collegamento non confermato col presidente regionale CNA FITA Liguria — se confermato, contatto ad alto valore per la rete associativa) e "NSH/Overservice/Overlogistics/Triton" (dati che sembrano precedere il 2019, verificare che esista ancora con lo stesso assetto).
-- **Stato reale**: nessuna chiamata ancora fatta. Zero design partner. Il prossimo passo pratico è iniziare l'outreach manuale su questa lista.
+- **Contatto #1 confermato**: Pier Luca Mainoldi (Mainoldi Autotrasporti) è **confermato** presidente CNA Fita La Spezia da maggio 2025 — promosso a classificazione A, primo nell'ordine di chiamata. È il contatto a leva più alta di tutta la lista: un presidente di categoria può aprire la rete verso molte imprese associate. **Ancora da verificare**: "NSH/Overservice/Overlogistics/Triton" (dati che sembrano precedere il 2019, verificare che esista ancora con lo stesso assetto prima di chiamare).
+- **Stato reale**: nessuna chiamata ancora fatta. Zero design partner. Il prossimo passo pratico è iniziare l'outreach manuale su questa lista, partendo da Mainoldi.
 
 ---
 
