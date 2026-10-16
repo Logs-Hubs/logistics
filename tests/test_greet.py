@@ -36,6 +36,27 @@ class GreetCliTests(unittest.TestCase):
         self.assertEqual(result.stdout, "Hello, Alice!\n")
         self.assertEqual(result.stderr, "")
 
+    def test_greets_world_in_uppercase(self) -> None:
+        result = self.run_greet("--uppercase")
+
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout, "HELLO, WORLD!\n")
+        self.assertEqual(result.stderr, "")
+
+    def test_greets_supplied_name_in_uppercase_with_flag_after_name(self) -> None:
+        result = self.run_greet("Alice", "--uppercase")
+
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout, "HELLO, ALICE!\n")
+        self.assertEqual(result.stderr, "")
+
+    def test_greets_supplied_name_in_uppercase_with_flag_before_name(self) -> None:
+        result = self.run_greet("--uppercase", "Alice")
+
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout, "HELLO, ALICE!\n")
+        self.assertEqual(result.stderr, "")
+
 
 if __name__ == "__main__":
     unittest.main()
