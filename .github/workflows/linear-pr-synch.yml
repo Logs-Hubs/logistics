@@ -1,0 +1,270 @@
+
+name: Linear PR sync
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - ready_for_review
+      - converted_to_draft
+      - review_requested
+      - edited
+      - closed
+    branches: [main]
+
+  pull_request_review:
+    types: [submitted]
+    branches: [main]
+
+permissions:
+  pull-requests: read
+
+concurrency:
+  group: linear-status-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  update-linear:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Update Linear issue status
+        uses: actions/github-script@v7
+        env:
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const event = context.payload;
+            const pr = event.pull_request;
+
+            if (
+              !pr ||
+              pr.base.ref !== 'main' ||
+              pr.head.repo?.full_name !== `${owner}/${repo}`
+            ) {
+              core.info('Skipping PR outside main or from a fork.');
+              return;
+            }
+
+            // Require matching Linear IDs in title and body.
+            const titleID =
+              /^\s*(LOG-\d+)\s*:/i
+                .exec(pr.title || '')?.[1]?.toUpperCase();
+
+            const bodyID =
+              /^\s*Fixes\s+(LOG-\d+)\b/im
+                .exec(pr.body || '')?.[1]?.toUpperCase();
+
+            if (!titleID || titleID !== bodyID) {
+              core.info(
+                'Skipping PR: expected matching LOG-XX in title ' +
+                'and "Fixes LOG-XX" in body.'
+              );
+              return;
+            }
+
+            const action = event.action;
+            const eventName = context.eventName;
+
+            let target = null;
+            let allowBackward = false;
+
+            // GitHub Pull Request events.
+            if (eventName === 'pull_request_target') {
+              if (action === 'opened' || action === 'reopened') {
+                target = pr.draft
+                  ? 'In Progress'
+                  : 'In Review';
+
+              } else if (action === 'converted_to_draft') {
+                target = 'In Progress';
+                allowBackward = true;
+
+              } else if (action === 'ready_for_review') {
+                target = 'In Review';
+
+              } else if (
+                action === 'review_requested' &&
+                !pr.draft
+              ) {
+                target = 'Awaiting Approval';
+
+              } else if (
+                action === 'closed' &&
+                pr.merged
+              ) {
+                target = 'Done';
+
+              } else if (action === 'edited') {
+                // Allows linking a PR whose title/body was fixed.
+                target = pr.draft
+                  ? 'In Progress'
+                  : 'In Review';
+              }
+            }
+
+            // GitHub review events.
+            else if (
+              eventName === 'pull_request_review' &&
+              action === 'submitted' &&
+              !pr.draft
+            ) {
+              const reviewState =
+                (event.review?.state || '').toLowerCase();
+
+              if (reviewState === 'approved') {
+                target = 'Waiting for Merge';
+              }
+
+              if (reviewState === 'changes_requested') {
+                target = 'In Progress';
+                allowBackward = true;
+              }
+            }
+
+            if (!target) {
+              core.info('No mapped status transition.');
+              return;
+            }
+
+            const apiKey = process.env.LINEAR_API_KEY;
+
+            if (!apiKey) {
+              throw new Error('Missing LINEAR_API_KEY secret.');
+            }
+
+            async function linearRequest(query, variables) {
+              const response = await fetch(
+                'https://api.linear.app/graphql',
+                {
+                  method: 'POST',
+                  headers: {
+                    Authorization: apiKey,
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ query, variables })
+                }
+              );
+
+              const data = await response.json();
+
+              if (!response.ok || data.errors) {
+                throw new Error(
+                  'Linear request failed: ' +
+                  JSON.stringify(data.errors || data)
+                );
+              }
+
+              return data.data;
+            }
+
+            // Retrieve issue and available team statuses.
+            const info = await linearRequest(`
+              query($id: String!) {
+                issue(id: $id) {
+                  id
+                  state { name }
+                  team {
+                    key
+                    states {
+                      nodes {
+                        id
+                        name
+                      }
+                    }
+                  }
+                }
+              }
+            `, { id: titleID });
+
+            const issue = info.issue;
+
+            if (!issue || issue.team.key !== 'LOG') {
+              core.info(
+                `${titleID} not found in Linear team LOG.`
+              );
+              return;
+            }
+
+            const current = issue.state.name;
+
+            const targetState = issue.team.states.nodes.find(
+              s => s.name.toLowerCase() === target.toLowerCase()
+            );
+
+            if (!targetState) {
+              throw new Error(
+                `Linear status not found: ${target}`
+              );
+            }
+
+            // Prevent outdated events from moving issues backward.
+            const stages = [
+              'Todo',
+              'In Progress',
+              'In Review',
+              'Awaiting Approval',
+              'Waiting for Merge',
+              'Done'
+            ];
+
+            const currentIndex = stages.findIndex(
+              s => s.toLowerCase() === current.toLowerCase()
+            );
+
+            const targetIndex = stages.indexOf(target);
+
+            if (
+              current.toLowerCase() === 'canceled' ||
+              current.toLowerCase() === 'done'
+            ) {
+              core.info(
+                `Skipping terminal issue state: ${current}`
+              );
+              return;
+            }
+
+            if (
+              currentIndex >= targetIndex &&
+              !allowBackward
+            ) {
+              core.info(
+                `No forward transition needed: ${current} -> ${target}`
+              );
+              return;
+            }
+
+            if (current.toLowerCase() === target.toLowerCase()) {
+              return;
+            }
+
+            // Apply status change in Linear.
+            const result = await linearRequest(`
+              mutation($id: String!, $stateId: String!) {
+                issueUpdate(
+                  id: $id,
+                  input: { stateId: $stateId }
+                ) {
+                  success
+                  issue {
+                    state { name }
+                  }
+                }
+              }
+            `, {
+              id: issue.id,
+              stateId: targetState.id
+            });
+
+            if (!result.issueUpdate?.success) {
+              throw new Error(
+                `Linear rejected update of ${titleID}`
+              );
+            }
+
+            core.info(
+              `${titleID}: ${current} -> ` +
+              result.issueUpdate.issue.state.name
+            );
