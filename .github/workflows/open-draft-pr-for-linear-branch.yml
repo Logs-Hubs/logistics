@@ -1,0 +1,108 @@
+
+name: Open Draft PR for Linear branch
+
+on:
+  push:
+    branches:
+      - 'codex/**'
+      - 'LOG-*'
+      - 'log-*'
+      - 'ARTR-*'
+      - 'artr-*'
+      - '**/LOG-*'
+      - '**/log-*'
+      - '**/ARTR-*'
+      - '**/artr-*'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: draft-pr-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  open-draft-pr:
+    name: Open Draft Pull Request
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create Draft PR if missing
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # Extract Linear issue ID from branch or commit.
+          ISSUE_ID="$(
+            printf '%s\n%s\n' "$BRANCH" "$COMMIT_MESSAGE" |
+              grep -Eio '(LOG|ARTR)-[0-9]+' |
+              head -n 1 |
+              tr '[:lower:]' '[:upper:]' || true
+          )"
+
+          if [ -z "$ISSUE_ID" ]; then
+            echo "No Linear issue ID found. Skipping."
+            exit 0
+          fi
+
+          echo "Linear issue: $ISSUE_ID"
+          echo "Branch: $BRANCH"
+
+          # Never create a duplicate PR for this branch.
+          EXISTING_PR="$(
+            gh pr list \
+              --repo "$REPO" \
+              --head "$BRANCH" \
+              --state all \
+              --limit 100 \
+              --json url \
+              --jq '.[0].url // empty'
+          )"
+
+          if [ -n "$EXISTING_PR" ]; then
+            echo "PR already exists: $EXISTING_PR"
+            exit 0
+          fi
+
+          TITLE="$ISSUE_ID: Codex implementation"
+
+          BODY="$(cat <<EOF
+          ## Summary
+
+          Draft Pull Request for Linear issue $ISSUE_ID.
+
+          ## Linear
+
+          Fixes $ISSUE_ID
+
+          ## Validation
+
+          - [ ] Review implementation
+          - [ ] Verify automated tests
+          - [ ] Confirm acceptance criteria
+
+          ## Notes
+
+          Automatically created from branch \`$BRANCH\`.
+
+          Do not merge without human review.
+          EOF
+          )"
+
+          PR_URL="$(
+            gh pr create \
+              --repo "$REPO" \
+              --base main \
+              --head "$BRANCH" \
+              --title "$TITLE" \
+              --body "$BODY" \
+              --draft
+          )"
+
+          echo "Created Draft PR: $PR_URL"
