@@ -26,11 +26,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="it" className={`${bebas.variable} h-full antialiased`}>
-      <body className="flex h-screen overflow-hidden bg-background text-foreground">
+      <body className="flex h-screen flex-col overflow-hidden bg-background text-foreground md:flex-row">
         <OperationsProvider spedizioniIniziali={spedizioni} terminals={terminals} vettori={vettori}>
           <CustomsProvider>
             <Sidebar />
-            <main className="flex-1 overflow-y-auto">{children}</main>
+            <main className="min-w-0 flex-1 overflow-y-auto">{children}</main>
           </CustomsProvider>
         </OperationsProvider>
       </body>

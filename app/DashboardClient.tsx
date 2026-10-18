@@ -34,7 +34,7 @@ export function DashboardClient() {
   const vettoreSel = vettoreById(vettori, selezionata.vettoreId)!;
 
   return (
-    <div className="mx-auto max-w-7xl px-8 py-8">
+    <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8 xl:px-8">
       <header className="mb-8">
         <p className="text-xs font-semibold uppercase tracking-wider text-accent">Dashboard</p>
         <h1 className="mt-1 text-2xl font-bold text-navy">Buongiorno, ecco la situazione di oggi</h1>
@@ -50,7 +50,7 @@ export function DashboardClient() {
         <StatCard icon={CheckCircle2} label="Appuntamenti confermati" value={confermate} color="text-emerald-600" bg="bg-emerald-50" />
       </div>
 
-      <div className="mb-4 flex items-center gap-2">
+      <div className="mb-4 flex flex-wrap items-center gap-2">
         {terminals.map((t) => (
           <span key={t.id} className="rounded-full border border-border bg-white px-3 py-1.5 text-xs font-medium text-muted">
             {t.breve}
@@ -58,9 +58,14 @@ export function DashboardClient() {
         ))}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-        <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-          <table className="w-full text-left text-sm">
+      <div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div
+          aria-label="Spedizioni attive; scorri orizzontalmente per vedere tutte le colonne"
+          className="min-w-0 overflow-x-auto rounded-xl border border-border bg-card shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          role="region"
+          tabIndex={0}
+        >
+          <table className="w-full min-w-[920px] whitespace-nowrap text-left text-sm">
             <thead className="border-b border-border bg-[#F7F9FA] text-xs uppercase tracking-wide text-muted">
               <tr>
                 <th className="px-5 py-3 font-medium">Spedizione</th>
