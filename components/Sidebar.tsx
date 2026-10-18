@@ -72,8 +72,8 @@ export function Sidebar() {
           <Icona className="h-5 w-5 text-white" />
         </div>
         <div>
-          <div className="text-sm font-semibold leading-tight">Movr</div>
-          <div className="text-[11px] text-teal-light/80">{SOTTOTITOLO_MODULO[modulo]}</div>
+          <div className="font-display text-base leading-none">Movr</div>
+          <div className="mt-1 text-[11px] text-teal-light/80">{SOTTOTITOLO_MODULO[modulo]}</div>
         </div>
       </div>
 

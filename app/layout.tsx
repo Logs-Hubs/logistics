@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
+import { Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import { OperationsProvider } from "@/lib/store";
 import { CustomsProvider } from "@/lib/customs/store";
 import { getSpedizioni, getTerminals, getVettori } from "@/lib/queries";
+
+const bebas = Bebas_Neue({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-bebas",
+});
 
 export const metadata: Metadata = {
   title: "Movr · Demo",
@@ -18,7 +25,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const [spedizioni, terminals, vettori] = await Promise.all([getSpedizioni(), getTerminals(), getVettori()]);
 
   return (
-    <html lang="it" className="h-full antialiased">
+    <html lang="it" className={`${bebas.variable} h-full antialiased`}>
       <body className="flex h-screen overflow-hidden bg-background text-foreground">
         <OperationsProvider spedizioniIniziali={spedizioni} terminals={terminals} vettori={vettori}>
           <CustomsProvider>
