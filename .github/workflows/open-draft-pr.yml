@@ -1,5 +1,5 @@
 
-name: Open Draft PR for Linear branch
+name: Open Draft PR for Linear
 
 on:
   push:
@@ -7,16 +7,12 @@ on:
       - 'codex/**'
       - 'LOG-*'
       - 'log-*'
-      - 'ARTR-*'
-      - 'artr-*'
       - '**/LOG-*'
       - '**/log-*'
-      - '**/ARTR-*'
-      - '**/artr-*'
 
 permissions:
   contents: read
-  pull-requests: write
+  pull-requests: read
 
 concurrency:
   group: draft-pr-${{ github.ref }}
@@ -24,24 +20,29 @@ concurrency:
 
 jobs:
   open-draft-pr:
-    name: Open Draft Pull Request
+    name: Create Draft Pull Request
     runs-on: ubuntu-latest
 
     steps:
       - name: Create Draft PR if missing
+        shell: bash
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
           REPO: ${{ github.repository }}
           BRANCH: ${{ github.ref_name }}
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-        shell: bash
         run: |
           set -euo pipefail
 
-          # Extract Linear issue ID from branch or commit.
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "::error::Missing GH_PR_TOKEN secret"
+            exit 1
+          fi
+
+          # Extract Linear ID from branch or last commit.
           ISSUE_ID="$(
             printf '%s\n%s\n' "$BRANCH" "$COMMIT_MESSAGE" |
-              grep -Eio '(LOG|ARTR)-[0-9]+' |
+              grep -Eio '(LOG)-[0-9]+' |
               head -n 1 |
               tr '[:lower:]' '[:upper:]' || true
           )"
@@ -52,10 +53,9 @@ jobs:
           fi
 
           echo "Linear issue: $ISSUE_ID"
-          echo "Branch: $BRANCH"
 
-          # Never create a duplicate PR for this branch.
-          EXISTING_PR="$(
+          # Prevent duplicate PRs for the same branch.
+          EXISTING="$(
             gh pr list \
               --repo "$REPO" \
               --head "$BRANCH" \
@@ -65,8 +65,8 @@ jobs:
               --jq '.[0].url // empty'
           )"
 
-          if [ -n "$EXISTING_PR" ]; then
-            echo "PR already exists: $EXISTING_PR"
+          if [ -n "$EXISTING" ]; then
+            echo "PR already exists: $EXISTING"
             exit 0
           fi
 
@@ -75,21 +75,26 @@ jobs:
           BODY="$(cat <<EOF
           ## Summary
 
-          Draft Pull Request for Linear issue $ISSUE_ID.
+          Implementation for Linear issue $ISSUE_ID.
 
-          ## Linear
+          ## Linear issue
 
           Fixes $ISSUE_ID
 
           ## Validation
 
-          - [ ] Review implementation
+          - [ ] Check implementation
           - [ ] Verify automated tests
-          - [ ] Confirm acceptance criteria
+          - [ ] Review acceptance criteria
 
-          ## Notes
+          ## Git information
 
-          Automatically created from branch \`$BRANCH\`.
+          Source branch: \`$BRANCH\`
+          Target branch: \`main\`
+
+          ## Review
+
+          Automatically created as Draft.
 
           Do not merge without human review.
           EOF
@@ -105,4 +110,4 @@ jobs:
               --draft
           )"
 
-          echo "Created Draft PR: $PR_URL"
+          echo "Draft PR created: $PR_URL"
