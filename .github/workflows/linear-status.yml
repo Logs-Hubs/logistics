@@ -1,0 +1,220 @@
+
+name: Sync PR lifecycle to Linear
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - ready_for_review
+      - converted_to_draft
+      - review_requested
+      - closed
+  pull_request_review:
+    types:
+      - submitted
+
+permissions:
+  contents: read
+
+concurrency:
+  group: linear-status-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Update Linear Status
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Sync PR status
+        shell: bash
+        env:
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+          LINEAR_TEAM_KEY: LOG
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import re
+          import sys
+          import urllib.request
+
+          with open(os.environ["GITHUB_EVENT_PATH"]) as f:
+              event = json.load(f)
+
+          pr = event["pull_request"]
+          action = event["action"]
+          event_name = os.environ["GITHUB_EVENT_NAME"]
+
+          # Only handle PRs targeting main.
+          if pr["base"]["ref"] != "main":
+              sys.exit("Skipping: base is not main")
+
+          # Do not process PRs from external forks.
+          head_repo = pr.get("head", {}).get("repo") or {}
+          if head_repo.get("full_name") != os.environ["GITHUB_REPOSITORY"]:
+              sys.exit("Skipping external fork")
+
+          title = pr.get("title") or ""
+          body = pr.get("body") or ""
+
+          # Require correct Linear ID in title and body.
+          title_match = re.match(
+              r"^\s*((?:LOG)-\d+)\s*:",
+              title,
+              re.IGNORECASE,
+          )
+          body_match = re.search(
+              r"(?im)^\s*Fixes\s+((?:LOG)-\d+)\b",
+              body,
+          )
+
+          if not title_match or not body_match:
+              sys.exit("Skipping: missing Linear ID or Fixes reference")
+
+          issue_id = title_match.group(1).upper()
+
+          if issue_id != body_match.group(1).upper():
+              sys.exit("Skipping: conflicting Linear issue IDs")
+
+          # Determine target status.
+          target = None
+
+          if event_name == "pull_request_target":
+              if action in ("opened", "reopened"):
+                  target = "In Progress" if pr["draft"] else "In Review"
+              elif action == "converted_to_draft":
+                  target = "In Progress"
+              elif action == "ready_for_review":
+                  target = "In Review"
+              elif action == "review_requested":
+                  target = "Awaiting Approval"
+              elif action == "closed" and pr.get("merged"):
+                  target = "Done"
+
+          elif event_name == "pull_request_review":
+              review = event.get("review") or {}
+              if action == "submitted" and review.get("state", "").lower() == "approved":
+                  target = "Waiting for Merge"
+
+          if target is None:
+              sys.exit("No status change required")
+
+          key = os.environ.get("LINEAR_API_KEY")
+          if not key:
+              raise RuntimeError("LINEAR_API_KEY secret missing")
+
+          def linear_request(query, variables):
+              payload = json.dumps({
+                  "query": query,
+                  "variables": variables,
+              }).encode("utf-8")
+
+              req = urllib.request.Request(
+                  "https://api.linear.app/graphql",
+                  data=payload,
+                  headers={
+                      "Authorization": key,
+                      "Content-Type": "application/json",
+                  },
+                  method="POST",
+              )
+
+              with urllib.request.urlopen(req, timeout=30) as resp:
+                  result = json.load(resp)
+
+              if result.get("errors"):
+                  raise RuntimeError(str(result["errors"]))
+
+              return result["data"]
+
+          # Find the issue and its workflow states.
+          data = linear_request("""
+              query($id: String!) {
+                issue(id: $id) {
+                  id
+                  identifier
+                  state { name }
+                  team {
+                    key
+                    states {
+                      nodes { id name }
+                    }
+                  }
+                }
+              }
+          """, {"id": issue_id})
+
+          issue = data.get("issue")
+
+          if not issue:
+              raise RuntimeError("Linear issue not found: " + issue_id)
+
+          if issue["team"]["key"] != os.environ["LINEAR_TEAM_KEY"]:
+              sys.exit("Issue belongs to another Linear team")
+
+          current = issue["state"]["name"]
+
+          states = issue["team"]["states"]["nodes"]
+          target_state = next(
+              (s for s in states if s["name"].casefold() == target.casefold()),
+              None,
+          )
+
+          if target_state is None:
+              raise RuntimeError("Missing Linear state: " + target)
+
+          if current.casefold() == target.casefold():
+              sys.exit("Already in target state: " + current)
+
+          if current.casefold() == "canceled":
+              sys.exit("Skipping canceled issue")
+
+          # Avoid stale events moving issues backward.
+          order = [
+              "Todo",
+              "In Progress",
+              "In Review",
+              "Awaiting Approval",
+              "Waiting for Merge",
+              "Done",
+          ]
+
+          rank = {name.casefold(): i for i, name in enumerate(order)}
+
+          if (
+              action not in ("converted_to_draft", "reopened")
+              and current.casefold() in rank
+              and rank[current.casefold()] >= rank[target.casefold()]
+          ):
+              sys.exit("Skipping backward/stale transition")
+
+          updated = linear_request("""
+              mutation($id: String!, $stateId: String!) {
+                issueUpdate(
+                  id: $id,
+                  input: { stateId: $stateId }
+                ) {
+                  success
+                  issue {
+                    identifier
+                    state { name }
+                  }
+                }
+              }
+          """, {
+              "id": issue["id"],
+              "stateId": target_state["id"],
+          })
+
+          result = updated["issueUpdate"]
+
+          if not result["success"]:
+              raise RuntimeError("Linear issue update failed")
+
+          print(
+              issue_id + ": " + current +
+              " -> " + result["issue"]["state"]["name"]
+          )
+          PY
