@@ -66,8 +66,8 @@ export function Sidebar() {
   const footer = FOOTER_MODULO[modulo];
 
   return (
-    <aside className="sticky top-0 flex h-screen w-64 flex-shrink-0 flex-col bg-navy-dark text-white">
-      <div className="flex items-center gap-2.5 px-6 py-6">
+    <aside className="sticky top-0 z-20 flex w-full flex-shrink-0 flex-col bg-navy-dark text-white md:h-screen md:w-64">
+      <div className="flex items-center gap-2.5 px-4 py-3 md:px-6 md:py-6">
         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent">
           <Icona className="h-5 w-5 text-white" />
         </div>
@@ -77,7 +77,7 @@ export function Sidebar() {
         </div>
       </div>
 
-      <div className="mx-3 mb-4 flex gap-1 rounded-lg bg-white/5 p-1 text-xs font-medium">
+      <div className="mx-3 mb-2 flex gap-1 rounded-lg bg-white/5 p-1 text-xs font-medium md:mb-4">
         {SWITCHER.map((s) => (
           <Link
             key={s.modulo}
@@ -92,7 +92,7 @@ export function Sidebar() {
         ))}
       </div>
 
-      <nav className="flex-1 space-y-1 px-3">
+      <nav aria-label={`Navigazione ${modulo}`} className="flex min-w-0 flex-1 gap-1 overflow-x-auto px-3 pb-2 md:block md:space-y-1 md:overflow-x-visible md:pb-0">
         {nav.map((item) => {
           // Tra due voci che corrispondono entrambe (es. "/flotta" e "/flotta/documenti" sullo
           // stesso pathname), vince quella con l'href più specifico: evita che restino entrambe
@@ -105,7 +105,7 @@ export function Sidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                "flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors md:gap-3 md:py-2.5",
                 active ? "bg-white/10 text-white" : "text-teal-light/90 hover:bg-white/5 hover:text-white"
               )}
             >
@@ -116,7 +116,7 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="mx-3 mb-4 rounded-lg bg-white/5 px-4 py-3">
+      <div className="mx-3 mb-4 hidden rounded-lg bg-white/5 px-4 py-3 md:block">
         <div className="text-xs font-semibold text-white/90">{footer.titolo}</div>
         <div className="mt-0.5 text-[11px] text-teal-light/70">{footer.sub}</div>
       </div>
