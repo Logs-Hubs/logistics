@@ -1,0 +1,104 @@
+
+name: Open PR for Linear branch
+
+on:
+  push:
+    branches:
+      - 'codex/**'
+      - 'LOG-*'
+      - 'log-*'
+      - '**/LOG-*'
+      - '**/log-*'
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: create-pr-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  open-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout pushed branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Create draft PR if missing
+        env:
+          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          : "${GH_TOKEN:?Missing GH_PR_TOKEN repository secret}"
+
+          # Prefer the ID in the branch; otherwise use the latest commit.
+          ISSUE_ID="$(
+            printf '%s\n' "$BRANCH" |
+              grep -Eio 'LOG-[0-9]+' |
+              head -1 |
+              tr '[:lower:]' '[:upper:]' || true
+          )"
+
+          if [ -z "$ISSUE_ID" ]; then
+            ISSUE_ID="$(
+              git log -1 --pretty=%B |
+                grep -Eio 'LOG-[0-9]+' |
+                head -1 |
+                tr '[:lower:]' '[:upper:]' || true
+            )"
+          fi
+
+          if [ -z "$ISSUE_ID" ]; then
+            echo "No LOG issue ID found; skipping."
+            exit 0
+          fi
+
+          # Avoid duplicate PRs.
+          EXISTING="$(
+            gh pr list \
+              --repo "$REPO" \
+              --head "$BRANCH" \
+              --state all \
+              --limit 100 \
+              --json url \
+              --jq '.[0].url // empty'
+          )"
+
+          if [ -n "$EXISTING" ]; then
+            echo "PR already exists: $EXISTING"
+            exit 0
+          fi
+
+          TITLE="$ISSUE_ID: Codex implementation"
+
+          BODY="$(cat <<EOF
+          ## Summary
+          Implementation for Linear issue $ISSUE_ID.
+
+          ## Linear issue
+          Fixes $ISSUE_ID
+
+          ## Validation
+          - [ ] Review the diff
+          - [ ] Confirm tests pass
+          - [ ] Check acceptance criteria
+
+          Automatically created from branch \`$BRANCH\`.
+          Do not merge before human review.
+          EOF
+          )"
+
+          gh pr create \
+            --repo "$REPO" \
+            --base main \
+            --head "$BRANCH" \
+            --title "$TITLE" \
+            --body "$BODY" \
+            --draft
