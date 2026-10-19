@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
@@ -22,6 +23,20 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // /login non ha bisogno (ne' deve dipendere) dai dati Supabase o dalla Sidebar: e' l'unica
+  // pagina raggiungibile senza sessione, deve restare leggera e funzionare anche se Supabase ha
+  // un problema. Il pathname arriva dall'header che il middleware imposta sulla request.
+  const pathname = (await headers()).get("x-pathname");
+  const isLogin = pathname === "/login";
+
+  if (isLogin) {
+    return (
+      <html lang="it" className={`${bebas.variable} h-full antialiased`}>
+        <body className="h-full bg-navy-dark text-foreground">{children}</body>
+      </html>
+    );
+  }
+
   const [spedizioni, terminals, vettori] = await Promise.all([getSpedizioni(), getTerminals(), getVettori()]);
 
   return (
