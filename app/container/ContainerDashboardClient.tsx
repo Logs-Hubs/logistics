@@ -295,11 +295,52 @@ function ModaleNuovoOrdine({ onChiudi, onCrea }: { onChiudi: () => void; onCrea:
   const [ultimoFreeDay, setUltimoFreeDay] = useState("");
   const [tariffa, setTariffa] = useState("");
 
+  const [testoEmail, setTestoEmail] = useState("");
+  const [estraendo, setEstraendo] = useState(false);
+  const [erroreAI, setErroreAI] = useState<string | null>(null);
+  const [campiIncerti, setCampiIncerti] = useState<string[]>([]);
+
   const valido = cliente.trim() !== "" && containerId.trim() !== "" && ultimoFreeDay !== "";
 
   function cambiaPorto(p: PortoContainer) {
     setPorto(p);
     setTerminal(PORTI_TERMINAL[p][0]);
+  }
+
+  async function estraiConAI() {
+    if (!testoEmail.trim() || estraendo) return;
+    setEstraendo(true);
+    setErroreAI(null);
+    try {
+      const res = await fetch("/api/container/intake", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ testo: testoEmail }),
+      });
+      const dati = await res.json();
+      if (!res.ok || dati.errore) {
+        setErroreAI(dati.errore ?? "Estrazione non riuscita, compila il form a mano.");
+        return;
+      }
+      const c = dati.campi;
+      if (c.cliente) setCliente(c.cliente);
+      if (c.containerId) setContainerId(c.containerId);
+      if (c.tipoContainer) setTipoContainer(c.tipoContainer);
+      if (c.porto) {
+        setPorto(c.porto);
+        setTerminal(c.terminal && PORTI_TERMINAL[c.porto as PortoContainer]?.includes(c.terminal) ? c.terminal : PORTI_TERMINAL[c.porto as PortoContainer][0]);
+      }
+      if (c.tipo) setTipo(c.tipo);
+      setRichiedeReefer(Boolean(c.richiedeReefer));
+      setRichiedeAdr(Boolean(c.richiedeAdr));
+      if (c.ultimoFreeDay) setUltimoFreeDay(c.ultimoFreeDay);
+      if (c.tariffaConcordata != null) setTariffa(String(c.tariffaConcordata));
+      setCampiIncerti(Array.isArray(c.incerti) ? c.incerti : []);
+    } catch {
+      setErroreAI("Estrazione non riuscita, compila il form a mano.");
+    } finally {
+      setEstraendo(false);
+    }
   }
 
   function submit() {
@@ -334,17 +375,44 @@ function ModaleNuovoOrdine({ onChiudi, onCrea }: { onChiudi: () => void; onCrea:
         </div>
 
         <div className="space-y-3">
+          <div className="rounded-lg border border-dashed border-navy/30 bg-navy/5 p-3">
+            <label className="mb-1.5 flex items-center gap-1.5 text-[11px] font-medium text-navy">
+              <Sparkles className="h-3 w-3" />
+              Incolla l&apos;email o il testo dell&apos;ordine ricevuto (opzionale)
+            </label>
+            <textarea
+              value={testoEmail}
+              onChange={(e) => setTestoEmail(e.target.value)}
+              rows={3}
+              placeholder="Es. testo copiato dall'email del cliente, con container, scadenze, tariffa..."
+              className="w-full rounded-lg border border-border bg-white px-2.5 py-1.5 text-xs"
+            />
+            <div className="mt-2 flex items-center justify-between">
+              <p className="text-[10px] text-muted">L&apos;AI pre-compila i campi sotto; verifichi tu prima di creare l&apos;ordine.</p>
+              <button
+                type="button"
+                onClick={estraiConAI}
+                disabled={!testoEmail.trim() || estraendo}
+                className="inline-flex items-center gap-1.5 rounded-lg bg-navy px-3 py-1.5 text-xs font-semibold text-white hover:bg-navy-dark disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Sparkles className="h-3.5 w-3.5" />
+                {estraendo ? "Estraggo…" : "Estrai con AI"}
+              </button>
+            </div>
+            {erroreAI && <p className="mt-2 text-[11px] text-rose-600">{erroreAI}</p>}
+          </div>
+
           <div className="grid grid-cols-2 gap-3">
-            <Campo label="Cliente">
+            <Campo label="Cliente" incerto={campiIncerti.includes("cliente")}>
               <input value={cliente} onChange={(e) => setCliente(e.target.value)} className="w-full rounded-lg border border-border px-2.5 py-1.5 text-xs" placeholder="Es. Zi-Ma S.p.A." />
             </Campo>
-            <Campo label="Container ID">
+            <Campo label="Container ID" incerto={campiIncerti.includes("containerId")}>
               <input value={containerId} onChange={(e) => setContainerId(e.target.value.toUpperCase())} className="w-full rounded-lg border border-border px-2.5 py-1.5 text-xs" placeholder="MSCU1234567" />
             </Campo>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <Campo label="Tipo container">
+            <Campo label="Tipo container" incerto={campiIncerti.includes("tipoContainer")}>
               <select value={tipoContainer} onChange={(e) => setTipoContainer(e.target.value)} className="w-full rounded-lg border border-border px-2.5 py-1.5 text-xs">
                 <option>20&apos; dry</option>
                 <option>40&apos; dry</option>
@@ -353,7 +421,7 @@ function ModaleNuovoOrdine({ onChiudi, onCrea }: { onChiudi: () => void; onCrea:
                 <option>40&apos; reefer</option>
               </select>
             </Campo>
-            <Campo label="Import / export">
+            <Campo label="Import / export" incerto={campiIncerti.includes("tipo")}>
               <select value={tipo} onChange={(e) => setTipo(e.target.value as "import" | "export")} className="w-full rounded-lg border border-border px-2.5 py-1.5 text-xs">
                 <option value="import">Import</option>
                 <option value="export">Export</option>
@@ -362,14 +430,14 @@ function ModaleNuovoOrdine({ onChiudi, onCrea }: { onChiudi: () => void; onCrea:
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <Campo label="Porto">
+            <Campo label="Porto" incerto={campiIncerti.includes("porto")}>
               <select value={porto} onChange={(e) => cambiaPorto(e.target.value as PortoContainer)} className="w-full rounded-lg border border-border px-2.5 py-1.5 text-xs">
                 <option value="genova">Genova</option>
                 <option value="savona-vado">Savona-Vado</option>
                 <option value="la-spezia">La Spezia</option>
               </select>
             </Campo>
-            <Campo label="Terminal">
+            <Campo label="Terminal" incerto={campiIncerti.includes("terminal")}>
               <select value={terminal} onChange={(e) => setTerminal(e.target.value)} className="w-full rounded-lg border border-border px-2.5 py-1.5 text-xs">
                 {PORTI_TERMINAL[porto].map((t) => (
                   <option key={t}>{t}</option>
@@ -379,10 +447,10 @@ function ModaleNuovoOrdine({ onChiudi, onCrea }: { onChiudi: () => void; onCrea:
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <Campo label="Last free day">
+            <Campo label="Last free day" incerto={campiIncerti.includes("ultimoFreeDay")}>
               <input type="date" value={ultimoFreeDay} onChange={(e) => setUltimoFreeDay(e.target.value)} className="w-full rounded-lg border border-border px-2.5 py-1.5 text-xs" />
             </Campo>
-            <Campo label="Tariffa concordata (EUR)">
+            <Campo label="Tariffa concordata (EUR)" incerto={campiIncerti.includes("tariffaConcordata")}>
               <input value={tariffa} onChange={(e) => setTariffa(e.target.value)} inputMode="numeric" className="w-full rounded-lg border border-border px-2.5 py-1.5 text-xs" placeholder="Opzionale" />
             </Campo>
           </div>
@@ -416,10 +484,18 @@ function ModaleNuovoOrdine({ onChiudi, onCrea }: { onChiudi: () => void; onCrea:
   );
 }
 
-function Campo({ label, children }: { label: string; children: React.ReactNode }) {
+function Campo({ label, children, incerto }: { label: string; children: React.ReactNode; incerto?: boolean }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-[11px] font-medium text-muted">{label}</span>
+      <span className="mb-1 flex items-center gap-1.5 text-[11px] font-medium text-muted">
+        {label}
+        {incerto && (
+          <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-50 px-1.5 py-0.5 text-[9px] font-semibold text-amber-700" title="L'AI non l'ha trovato nel testo incollato — verifica prima di creare l'ordine">
+            <Sparkles className="h-2.5 w-2.5" />
+            da verificare
+          </span>
+        )}
+      </span>
       {children}
     </label>
   );

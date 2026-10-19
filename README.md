@@ -41,7 +41,7 @@ Apri http://localhost:3000. Richiede le variabili d'ambiente Supabase (vedi sott
 
 Due progetti Vercel separati sullo stesso repo, differenziati per "Root Directory":
 
-- **piattaforma** (root directory vuota): richiede `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `DRIVER_API_KEY` (quest'ultima per le route `/api/driver/*` usate dalla futura app iOS)
+- **piattaforma** (root directory vuota): richiede `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `DRIVER_API_KEY` (quest'ultima per le route `/api/driver/*` usate dalla futura app iOS), `BASIC_AUTH_USER`/`BASIC_AUTH_PASS` (login piattaforma, vedi `/login`) e `ANTHROPIC_API_KEY` (estrazione AI dell'intake ordini container, `/api/container/intake` — senza questa variabile il pulsante "Estrai con AI" risponde con un errore leggibile, il form manuale continua a funzionare)
 - **sito marketing** (root directory `clyo-site`): nessuna variabile richiesta
 
 ## Struttura dati
